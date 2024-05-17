@@ -6,7 +6,8 @@ def main():
     epublisher_manager = EPublisherManager()
     content_manager = ContentManager()
 
-    # Your script logic here
+    # Script logic
+    print(f"The current run ID is: {content_manager.get_run_number()}")
 
 if __name__ == "__main__":
     main()

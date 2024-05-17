@@ -25,4 +25,5 @@ jobs:
           FACEBOOK_API_KEY: ${{ secrets.FACEBOOK_API_KEY }}
           TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
           INSTAGRAM_API_KEY: ${{ secrets.INSTAGRAM_API_KEY }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
         run: python3 app/main.py
