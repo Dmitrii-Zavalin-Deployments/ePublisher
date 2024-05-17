@@ -1,5 +1,5 @@
-from app.epublisher import EPublisherManager
-from app.content_manager import ContentManager
+from epublisher import EPublisherManager
+from content_manager import ContentManager
 
 def main():
     # Initialize managers
