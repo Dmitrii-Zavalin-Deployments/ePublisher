@@ -12,7 +12,7 @@ def main():
     print(f"The current run ID is: {content_manager.get_run_number()}")
     # Calculate the project index for the current run
     project_index = content_manager.get_project_index()
-    print(f"Today's project index: {project_index}")
+    print(f"Current project's to post index: {project_index}")
 
 if __name__ == "__main__":
     main()

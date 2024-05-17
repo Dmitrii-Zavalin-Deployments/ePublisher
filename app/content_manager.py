@@ -9,5 +9,5 @@ class ContentManager:
         return self.run_number
 
     def get_project_index(self):
-        # Calculate the index for today's project
+        # Calculate the index for current project
         return self.run_number % self.number_of_projects
