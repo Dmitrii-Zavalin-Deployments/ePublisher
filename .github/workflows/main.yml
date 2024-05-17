@@ -1,5 +1,7 @@
 name: ePublisher Automation
 
+# It's important to update the schedule depending on the number of projects in the contents of this repository.
+# The NUMBER_OF_PROJECTS variable should be set to post daily for each project.
 on:
   schedule:
     - cron: '0 0 * * *'  # Runs at midnight every day
@@ -7,6 +9,9 @@ on:
     branches:
       - main
       - development
+
+env:
+  NUMBER_OF_PROJECTS: 2  # Set this to the number of projects you have
 
 jobs:
   deploy:
