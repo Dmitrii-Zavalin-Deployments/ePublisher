@@ -1,3 +1,4 @@
+import os
 from epublisher import EPublisherManager
 from content_manager import ContentManager
 
