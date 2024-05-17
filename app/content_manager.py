@@ -15,7 +15,8 @@ class ContentManager:
     def read_project_content(self):
         # Determine the file name based on the project index
         file_index = self.get_project_index()
-        file_path = f'ePublisher/content/text/{file_index}.txt'
+        # Corrected file path to match the repository structure
+        file_path = f'content/text/{file_index}.txt'
         try:
             with open(file_path, 'r') as file:
                 return file.read()
