@@ -36,6 +36,21 @@ class TestContentManager(unittest.TestCase):
     def test_read_project_hashtags_empty_file(self, mock_file):
         hashtags = self.content_manager.read_project_hashtags()
         self.assertEqual(hashtags, '')
+        
+    @patch('builtins.open', mock_open(read_data='https://example.com/image.jpg'))
+    def test_read_project_images_file_exists(self, mock_file):
+        image_url = self.content_manager.read_project_images()
+        self.assertEqual(image_url, 'https://example.com/image.jpg')
+
+    @patch('builtins.open', side_effect=FileNotFoundError)
+    def test_read_project_images_file_not_found(self, mock_file):
+        image_url = self.content_manager.read_project_images()
+        self.assertIsNone(image_url)
+
+    @patch('builtins.open', mock_open(read_data=''))
+    def test_read_project_images_empty_file(self, mock_file):
+        image_url = self.content_manager.read_project_images()
+        self.assertEqual(image_url, '')
 
 if __name__ == '__main__':
     unittest.main()
