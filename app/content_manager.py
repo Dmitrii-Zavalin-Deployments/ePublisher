@@ -26,7 +26,7 @@ class ContentManager:
     def read_project_hashtags(self):
         # Determine the file name based on the project index
         file_index = self.get_project_index()
-        file_path = f'hashtags/text/{file_index}.txt'
+        file_path = f'content/hashtags/{file_index}.txt'
         try:
             with open(file_path, 'r') as file:
                 # Read hashtags and create a string separated by spaces
