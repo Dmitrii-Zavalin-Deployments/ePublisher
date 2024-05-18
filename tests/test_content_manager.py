@@ -36,6 +36,10 @@ class TestContentManager(unittest.TestCase):
     def test_read_project_hashtags_empty_file(self, mock_file):
         hashtags = self.content_manager.read_project_hashtags()
         self.assertEqual(hashtags, '')
+        
+    def test_get_project_image_path(self):
+        expected_path = 'content/images/1.png'
+        self.assertEqual(self.content_manager.get_project_image_path(), expected_path)
 
 if __name__ == '__main__':
     unittest.main()
