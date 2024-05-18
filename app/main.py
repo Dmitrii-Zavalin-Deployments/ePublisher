@@ -29,6 +29,10 @@ def main():
     # Get the project image path
     project_image_path = content_manager.get_project_image_path()
     print(f"Project image path:\n{project_image_path}")
+    
+    # Prepare and print the post message
+    post_message = content_manager.prepare_post_message()
+    print(f"Post message:\n{post_message}")
 
 if __name__ == "__main__":
     main()

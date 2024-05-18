@@ -36,3 +36,19 @@ class ContentManager:
         # Updated to point to a .png file instead of .txt
         file_path = f'content/images/{file_index}.png'
         return file_path
+    
+    def prepare_post_message(self):
+        # Declare a new variable to keep text
+        post_message = ''
+        # Add the text from read_project_content to the variable
+        content = self.read_project_content()
+        if content:
+            post_message += content
+        # Add a new line
+        post_message += '\n'
+        # Add the return from the function read_project_hashtags to the variable
+        hashtags = self.read_project_hashtags()
+        if hashtags:
+            post_message += hashtags
+        # Return the variable
+        return post_message
