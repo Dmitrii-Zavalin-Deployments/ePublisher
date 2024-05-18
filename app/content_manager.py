@@ -15,11 +15,22 @@ class ContentManager:
     def read_project_content(self):
         # Determine the file name based on the project index
         file_index = self.get_project_index()
-        # Corrected file path to match the repository structure
         file_path = f'content/text/{file_index}.txt'
         try:
             with open(file_path, 'r') as file:
                 return file.read()
+        except FileNotFoundError:
+            print(f"File not found: {file_path}")
+            return None
+
+    def read_project_hashtags(self):
+        # Determine the file name based on the project index
+        file_index = self.get_project_index()
+        file_path = f'content/hashtags/{file_index}.txt'
+        try:
+            with open(file_path, 'r') as file:
+                # Read hashtags and create a string separated by spaces
+                return ' '.join([line.strip() for line in file.readlines()])
         except FileNotFoundError:
             print(f"File not found: {file_path}")
             return None
