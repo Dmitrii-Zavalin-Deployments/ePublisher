@@ -52,3 +52,6 @@ class ContentManager:
             post_message += hashtags
         # Return the variable
         return post_message
+
+    def get_run_division(self):
+        return self.run_number // self.number_of_projects
