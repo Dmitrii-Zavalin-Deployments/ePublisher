@@ -49,5 +49,12 @@ class TestContentManager(unittest.TestCase):
         expected_message = 'Project content\n#job #career #hiring'
         self.assertEqual(self.content_manager.prepare_post_message(), expected_message)
 
+    def test_get_run_division(self):
+        # Assuming run_number is 5 and number_of_projects is 2
+        self.content_manager.run_number = 5
+        self.content_manager.number_of_projects = 2
+        # The integer division of 5 by 2 is 2
+        self.assertEqual(self.content_manager.get_run_division(), 2)
+
 if __name__ == '__main__':
     unittest.main()
