@@ -20,6 +20,11 @@ def main():
     project_content = content_manager.read_project_content()
     if project_content is not None:
         print(f"Project content:\n{project_content}")
+    
+    # Read and print the project hashtags
+    project_hashtags = content_manager.read_project_hashtags()
+    if project_hashtags is not None:
+        print(f"Project hashtags:\n{project_hashtags}")
 
 if __name__ == "__main__":
     main()
