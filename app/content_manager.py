@@ -33,7 +33,7 @@ class ContentManager:
 
     def read_project_images(self):
         file_index = self.get_project_index()
-        file_path = f'content/images/{file_index}.txt'
+        file_path = f'content/images/{file_index}.png'
         try:
             with open(file_path, 'r') as file:
                 # Assuming the file contains a direct link to the image
