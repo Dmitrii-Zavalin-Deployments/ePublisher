@@ -26,10 +26,9 @@ def main():
     if project_hashtags is not None:
         print(f"Project hashtags:\n{project_hashtags}")
         
-    # Read and print the project images
-    project_images = content_manager.read_project_images()
-    if project_images is not None:
-        print(f"Project image link:\n{project_images}")
+    # Get the project image path
+    project_image_path = content_manager.get_project_image_path()
+    print(f"Project image path:\n{project_image_path}")
 
 if __name__ == "__main__":
     main()
