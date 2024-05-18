@@ -40,6 +40,14 @@ class TestContentManager(unittest.TestCase):
     def test_get_project_image_path(self):
         expected_path = 'content/images/1.png'
         self.assertEqual(self.content_manager.get_project_image_path(), expected_path)
+        
+    @patch('app.content_manager.ContentManager.read_project_content')
+    @patch('app.content_manager.ContentManager.read_project_hashtags')
+    def test_prepare_post_message(self, mock_read_hashtags, mock_read_content):
+        mock_read_content.return_value = 'Project content'
+        mock_read_hashtags.return_value = '#job #career #hiring'
+        expected_message = 'Project content\n#job #career #hiring'
+        self.assertEqual(self.content_manager.prepare_post_message(), expected_message)
 
 if __name__ == '__main__':
     unittest.main()
