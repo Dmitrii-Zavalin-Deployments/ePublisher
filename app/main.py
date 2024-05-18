@@ -34,5 +34,9 @@ def main():
     post_message = content_manager.prepare_post_message()
     print(f"Post message:\n{post_message}")
 
+    # Calculate and print the integer division of run_number by number_of_projects
+    run_division = content_manager.get_run_division()
+    print(f"Integer division of run number by number of projects: {run_division}")
+
 if __name__ == "__main__":
     main()
