@@ -47,10 +47,12 @@ def main():
         sentences = content_manager.split_into_sentences(project_content)
         print(f"List of sentences:\n{sentences}")
 
-    # New: Print the selected sentence
+    # Print the selected sentence and invormative words for additional hashtags
     selected_sentence = content_manager.select_sentence()
     if selected_sentence is not None:
         print(f"Selected sentence:\n{selected_sentence}")
+        hashtagged_words = content_manager.get_hashtagged_words(selected_sentence)
+        print(hashtagged_words)
 
 if __name__ == "__main__":
     main()
