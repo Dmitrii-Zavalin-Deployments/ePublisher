@@ -41,14 +41,6 @@ class TestContentManager(unittest.TestCase):
         expected_path = 'content/images/1.png'
         self.assertEqual(self.content_manager.get_project_image_path(), expected_path)
         
-    @patch('app.content_manager.ContentManager.read_project_content')
-    @patch('app.content_manager.ContentManager.read_project_hashtags')
-    def test_prepare_post_message(self, mock_read_hashtags, mock_read_content):
-        mock_read_content.return_value = 'Project content'
-        mock_read_hashtags.return_value = '#job #career #hiring'
-        expected_message = 'Project content\n#job #career #hiring'
-        self.assertEqual(self.content_manager.prepare_post_message(), expected_message)
-
     def test_get_run_division(self):
         # Assuming run_number is 5 and number_of_projects is 2
         self.content_manager.run_number = 5
@@ -103,6 +95,27 @@ class TestContentManager(unittest.TestCase):
         sentence = "Short and lengthy words mixed."
         expected_result = ['#Short', '#lengthy', '#words', '#mixed']
         self.assertEqual(self.content_manager.get_hashtagged_words(sentence), expected_result)
-        
+
+    def test_prepare_post_message_with_additional_hashtags(self):
+        with patch('content_manager.ContentManager.read_project_content', return_value='Content'):
+            with patch('content_manager.ContentManager.read_project_hashtags', return_value='#original #hashtags'):
+                post_message = self.content_manager.prepare_post_message(['#additional', '#hashtags'])
+                expected_message = 'Content\n#original #hashtags #additional #hashtags'
+                self.assertEqual(post_message, expected_message)
+
+    def test_prepare_post_message_with_no_additional_hashtags(self):
+        with patch('content_manager.ContentManager.read_project_content', return_value='Content'):
+            with patch('content_manager.ContentManager.read_project_hashtags', return_value='#original #hashtags'):
+                post_message = self.content_manager.prepare_post_message([])
+                expected_message = 'Content\n#original #hashtags'
+                self.assertEqual(post_message, expected_message)
+
+    def test_prepare_post_message_with_no_original_hashtags(self):
+        with patch('content_manager.ContentManager.read_project_content', return_value='Content'):
+            with patch('content_manager.ContentManager.read_project_hashtags', return_value=''):
+                post_message = self.content_manager.prepare_post_message(['#additional', '#hashtags'])
+                expected_message = 'Content\n #additional #hashtags'
+                self.assertEqual(post_message, expected_message)
+
 if __name__ == '__main__':
     unittest.main()
