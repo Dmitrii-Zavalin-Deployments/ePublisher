@@ -123,5 +123,16 @@ class TestContentManager(unittest.TestCase):
                 expected_message = 'Content\n #additional #hashtags'
                 self.assertEqual(post_message, expected_message)
 
+    def test_create_post_data(self):
+        # Test the create_post_data method with sample data
+        project_image_path = 'content/images/sample.png'
+        post_message = 'Sample post message with #hashtags'
+        expected_result = {
+            'project_image_path': project_image_path,
+            'post_message': post_message
+        }
+        result = self.content_manager.create_post_data(project_image_path, post_message)
+        self.assertEqual(result, expected_result)
+
 if __name__ == '__main__':
     unittest.main()
