@@ -27,9 +27,9 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run script
         env:
-          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
+          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}  # Ensure this secret is set in your repository settings
           FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
-          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}  # Added this line for the page ID
+          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
           TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
           INSTAGRAM_API_KEY: ${{ secrets.INSTAGRAM_API_KEY }}
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
