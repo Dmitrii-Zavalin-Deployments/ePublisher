@@ -1,11 +1,11 @@
 import os
-from epublisher import EPublisherManager
+from epublisher_facebook_manager import EPublisherFacebookManager
 from content_manager import ContentManager
 
 def main():
      # Initialize managers
     content_manager = ContentManager(number_of_projects=int(os.getenv('NUMBER_OF_PROJECTS')))
-    epublisher_manager = EPublisherManager()
+    epublisher_facebook_manager = EPublisherFacebookManager()
 
     # Get Run Number
     run_number = str(content_manager.get_run_number())
@@ -62,7 +62,7 @@ def main():
     text_content = post_data['post_message']
 
     # Post new content
-    epublisher_manager.post_new_content(image_path, text_content)
+    epublisher_facebook_manager.post_new_content(image_path, text_content)
 
 if __name__ == "__main__":
     main()
