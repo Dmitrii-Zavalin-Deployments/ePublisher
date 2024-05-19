@@ -54,5 +54,10 @@ def main():
         post_message = content_manager.prepare_post_message(hashtagged_words)
         print(f"Post message:\n{post_message}")
 
+        # Create post data and print it
+        post_data = content_manager.create_post_data(project_image_path, post_message)
+        print("Post Data:")
+        print(post_data)
+
 if __name__ == "__main__":
     main()
