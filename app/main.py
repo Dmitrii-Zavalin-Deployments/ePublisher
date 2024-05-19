@@ -10,10 +10,11 @@ def main():
     content_manager = ContentManager(number_of_projects=int(os.getenv('NUMBER_OF_PROJECTS')))
 
     # Script logic
-    print(f"The current run ID is: {content_manager.get_run_number()}")
+    run_number = str(content_manager.get_run_number())
+    print(f"The current run ID is: {run_number}")
     
     # Calculate the project index for the current run
-    project_index = content_manager.get_project_index()
+    project_index = str(content_manager.get_project_index())
     print(f"Current project's to post index: {project_index}")
     
     # Read and print the project content
@@ -35,7 +36,7 @@ def main():
     print(f"Post message:\n{post_message}")
 
     # Calculate and print the integer division of run_number by number_of_projects
-    run_division = content_manager.get_run_division()
+    run_division = str(content_manager.get_run_division())
     print(f"Integer division of run number by number of projects: {run_division}")
 
 if __name__ == "__main__":
