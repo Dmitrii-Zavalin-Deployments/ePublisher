@@ -1,6 +1,17 @@
 import requests
 from config import FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, FACEBOOK_PAGE_ID
 
+def get_app_access_token(app_id, app_secret):
+    url = "https://graph.facebook.com/oauth/access_token"
+    params = {
+        'client_id': app_id,
+        'client_secret': app_secret,
+        'grant_type': 'client_credentials'
+    }
+    response = requests.get(url, params=params)
+    data = response.json()
+    return data.get('access_token', None)
+
 class EPublisherFacebookManager:
     def __init__(self):
         self.app_id = FACEBOOK_APP_ID
@@ -8,16 +19,9 @@ class EPublisherFacebookManager:
         self.page_id = FACEBOOK_PAGE_ID
         self.page_access_token = self.get_page_access_token()
 
-    def get_app_access_token(self):
-        # Exchange your App Secret for an App Access Token
-        url = f"https://graph.facebook.com/oauth/access_token?client_id={self.app_id}&client_secret={self.app_secret}&grant_type=client_credentials"
-        response = requests.get(url)
-        data = response.json()
-        return data.get('access_token', None)  # Use .get to avoid KeyError
-
     def get_page_access_token(self):
         # Use the App Access Token to get the Page Access Token
-        app_access_token = self.get_app_access_token()
+        app_access_token = get_app_access_token(self.app_id, self.app_secret)
         if app_access_token is None:
             print("Failed to get app access token.")
             return None
