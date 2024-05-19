@@ -28,7 +28,7 @@ def main():
         print(f"Project hashtags:\n{project_hashtags}")
         
     # Get the project image path
-    project_image_path = content_manager.get_project_image_path()
+    project_image_path = str(content_manager.get_project_image_path())
     print(f"Project image path:\n{project_image_path}")
     
     # Calculate and print the integer division of run_number by number_of_projects
