@@ -47,5 +47,10 @@ def main():
         sentences = content_manager.split_into_sentences(project_content)
         print(f"List of sentences:\n{sentences}")
 
+    # New: Print the selected sentence
+    selected_sentence = content_manager.select_sentence()
+    if selected_sentence is not None:
+        print(f"Selected sentence:\n{selected_sentence}")
+
 if __name__ == "__main__":
     main()
