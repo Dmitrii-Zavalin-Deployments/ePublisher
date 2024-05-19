@@ -9,7 +9,7 @@ def main():
     # Initialize ContentManager with the number of projects
     content_manager = ContentManager(number_of_projects=int(os.getenv('NUMBER_OF_PROJECTS')))
 
-    # Script logic
+    # Get Run Number
     run_number = str(content_manager.get_run_number())
     print(f"The current run ID is: {run_number}")
     
@@ -31,10 +31,6 @@ def main():
     project_image_path = content_manager.get_project_image_path()
     print(f"Project image path:\n{project_image_path}")
     
-    # Prepare and print the post message
-    post_message = content_manager.prepare_post_message()
-    print(f"Post message:\n{post_message}")
-
     # Calculate and print the integer division of run_number by number_of_projects
     run_division = str(content_manager.get_run_division())
     print(f"Integer division of run number by number of projects: {run_division}")
@@ -47,12 +43,16 @@ def main():
         sentences = content_manager.split_into_sentences(project_content)
         print(f"List of sentences:\n{sentences}")
 
-    # Print the selected sentence and invormative words for additional hashtags
+    # Print the selected sentence and informative words for additional hashtags
     selected_sentence = content_manager.select_sentence()
     if selected_sentence is not None:
         print(f"Selected sentence:\n{selected_sentence}")
         hashtagged_words = content_manager.get_hashtagged_words(selected_sentence)
         print(hashtagged_words)
+
+        # Prepare and print the post message with additional hashtags
+        post_message = content_manager.prepare_post_message(hashtagged_words)
+        print(f"Post message:\n{post_message}")
 
 if __name__ == "__main__":
     main()
