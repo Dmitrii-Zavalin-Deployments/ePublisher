@@ -77,5 +77,17 @@ class TestContentManager(unittest.TestCase):
         content = self.content_manager.read_project_content()
         self.assertEqual(self.content_manager.split_into_sentences(content), expected_sentences)
 
+    @patch('app.content_manager.ContentManager.read_project_content')
+    def test_select_sentence(self, mock_read_content):
+        mock_read_content.return_value = "First sentence. Second sentence! \"Third sentence,\" he said?"
+        self.content_manager.run_number = 5  # This will set get_run_division() to 2
+        expected_sentence = "\"Third sentence,\" he said?"
+        self.assertEqual(self.content_manager.select_sentence(), expected_sentence)
+
+    @patch('app.content_manager.ContentManager.read_project_content')
+    def test_select_sentence_no_sentences(self, mock_read_content):
+        mock_read_content.return_value = ""
+        self.assertIsNone(self.content_manager.select_sentence())
+
 if __name__ == '__main__':
     unittest.main()
