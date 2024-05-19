@@ -23,11 +23,10 @@ class EPublisherFacebookManager:
         if self.user_access_token is None:
             print("No user access token available. Cannot post content.")
             return
-        url = f"https://graph.facebook.com/me/photos"
+        url = f"https://graph.facebook.com/me/photos?access_token={self.user_access_token}"
         payload = {
             'message': text_content,
-            'url': image_path,
-            'access_token': self.user_access_token
+            'url': image_path
         }
         response = requests.post(url, data=payload)
         if response.ok:
