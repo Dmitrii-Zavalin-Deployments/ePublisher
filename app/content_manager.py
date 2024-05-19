@@ -57,7 +57,7 @@ class ContentManager:
     def get_run_division(self):
         return self.run_number // self.number_of_projects
 
-		def split_into_sentences(self, content):
+    def split_into_sentences(self, content):
         # This regex pattern aims to split the text into sentences ending with . ! ? or "
         pattern = r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?|!|")\s'
         sentences = re.split(pattern, content)
