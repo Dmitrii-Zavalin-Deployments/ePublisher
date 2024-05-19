@@ -28,6 +28,7 @@ jobs:
       - name: Run script
         env:
           FACEBOOK_API_KEY: ${{ secrets.FACEBOOK_API_KEY }}
+          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}  # Added this line for the page ID
           TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
           INSTAGRAM_API_KEY: ${{ secrets.INSTAGRAM_API_KEY }}
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
