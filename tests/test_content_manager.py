@@ -89,23 +89,20 @@ class TestContentManager(unittest.TestCase):
         mock_read_content.return_value = ""
         self.assertIsNone(self.content_manager.select_sentence())
 
-    @patch('app.content_manager.ContentManager.select_sentence')
-    def test_get_hashtagged_words(self, mock_select_sentence):
-        mock_select_sentence.return_value = "This is a test sentence with some longwords."
+    def test_get_hashtagged_words(self):
+        sentence = "This is a test sentence with some longwords."
         expected_result = ['#This', '#test', '#sentence', '#with', '#some', '#longwords']
-        self.assertEqual(self.content_manager.get_hashtagged_words(), expected_result)
+        self.assertEqual(self.content_manager.get_hashtagged_words(sentence), expected_result)
 
-    @patch('app.content_manager.ContentManager.select_sentence')
-    def test_get_hashtagged_words_no_long_words(self, mock_select_sentence):
-        mock_select_sentence.return_value = "It is an."
+    def test_get_hashtagged_words_no_long_words(self):
+        sentence = "It is an."
         expected_result = []
-        self.assertEqual(self.content_manager.get_hashtagged_words(), expected_result)
+        self.assertEqual(self.content_manager.get_hashtagged_words(sentence), expected_result)
 
-    @patch('app.content_manager.ContentManager.select_sentence')
-    def test_get_hashtagged_words_mixed_length_words(self, mock_select_sentence):
-        mock_select_sentence.return_value = "Short and lengthy words mixed."
+    def test_get_hashtagged_words_mixed_length_words(self):
+        sentence = "Short and lengthy words mixed."
         expected_result = ['#Short', '#lengthy', '#words', '#mixed']
-        self.assertEqual(self.content_manager.get_hashtagged_words(), expected_result)
-
+        self.assertEqual(self.content_manager.get_hashtagged_words(sentence), expected_result)
+        
 if __name__ == '__main__':
     unittest.main()
