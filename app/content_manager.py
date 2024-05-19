@@ -62,3 +62,11 @@ class ContentManager:
         pattern = r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?|!|")\s'
         sentences = re.split(pattern, content)
         return [sentence.strip() for sentence in sentences if sentence]
+
+    def select_sentence(self):
+        sentences = self.split_into_sentences(self.read_project_content())
+        num_sentences = len(sentences)
+        if num_sentences == 0:
+            return None
+        selected_index = self.get_run_division() % num_sentences
+        return sentences[selected_index]
