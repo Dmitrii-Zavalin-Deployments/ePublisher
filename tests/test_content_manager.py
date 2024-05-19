@@ -56,5 +56,26 @@ class TestContentManager(unittest.TestCase):
         # The integer division of 5 by 2 is 2
         self.assertEqual(self.content_manager.get_run_division(), 2)
 
+    def test_split_into_sentences(self):
+        content = "This is a sentence. And this is another one! Is this the third sentence? \"Yes, it is,\" she said."
+        expected_sentences = [
+            "This is a sentence.",
+            "And this is another one!",
+            "Is this the third sentence?",
+            "\"Yes, it is,\" she said."
+        ]
+        self.assertEqual(self.content_manager.split_into_sentences(content), expected_sentences)
+
+    @patch('app.content_manager.ContentManager.read_project_content')
+    def test_split_into_sentences_with_read_content(self, mock_read_content):
+        mock_read_content.return_value = "First sentence. Second sentence! \"Third sentence,\" he said?"
+        expected_sentences = [
+            "First sentence.",
+            "Second sentence!",
+            "\"Third sentence,\" he said?"
+        ]
+        content = self.content_manager.read_project_content()
+        self.assertEqual(self.content_manager.split_into_sentences(content), expected_sentences)
+
 if __name__ == '__main__':
     unittest.main()
