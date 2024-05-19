@@ -70,3 +70,11 @@ class ContentManager:
             return None
         selected_index = self.get_run_division() % num_sentences
         return sentences[selected_index]
+
+    def get_hashtagged_words(self):
+        sentence = self.select_sentence()
+        if not sentence:
+            return []
+        words = sentence.split()
+        hashtagged_words = ['#' + word for word in words if len(word) >= 4]
+        return hashtagged_words
