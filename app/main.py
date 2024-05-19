@@ -39,5 +39,13 @@ def main():
     run_division = str(content_manager.get_run_division())
     print(f"Integer division of run number by number of projects: {run_division}")
 
+    # Read and print the project content
+    project_content = content_manager.read_project_content()
+    if project_content is not None:
+        print(f"Project content:\n{project_content}")
+        # New: Print the list of sentences
+        sentences = content_manager.split_into_sentences(project_content)
+        print(f"List of sentences:\n{sentences}")
+
 if __name__ == "__main__":
     main()
