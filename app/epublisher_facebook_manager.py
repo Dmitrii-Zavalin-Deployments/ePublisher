@@ -1,4 +1,5 @@
 import requests
+import json
 from config import FACEBOOK_APP_ID, FACEBOOK_APP_SECRET
 
 def get_user_access_token(app_id, app_secret):
@@ -23,12 +24,15 @@ class EPublisherFacebookManager:
         if self.user_access_token is None:
             print("No user access token available. Cannot post content.")
             return
-        url = f"https://graph.facebook.com/me/photos?access_token={self.user_access_token}"
-        payload = {
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        data = json.dumps({
             'message': text_content,
             'url': image_path
-        }
-        response = requests.post(url, data=payload)
+        })
+        url = f"https://graph.facebook.com/v19.0/me/photos?access_token={self.user_access_token}"
+        response = requests.post(url, headers=headers, data=data)
         if response.ok:
             print("Content posted successfully.")
         else:
