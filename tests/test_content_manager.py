@@ -96,6 +96,12 @@ class TestContentManager(unittest.TestCase):
         expected_result = ['#Short', '#lengthy', '#words', '#mixed']
         self.assertEqual(self.content_manager.get_hashtagged_words(sentence), expected_result)
 
+    def test_get_hashtagged_words_removes_punctuation(self):
+        content_manager = ContentManager(number_of_projects=1)
+        sentence = "Hello, world! This is a test-sentence with some longwords."
+        expected_result = ['#Hello', '#world', '#This', '#test-sentence', '#with', '#some', '#longwords']
+        self.assertEqual(content_manager.get_hashtagged_words(sentence), expected_result)
+
     def test_prepare_post_message_with_additional_hashtags(self):
         with patch('content_manager.ContentManager.read_project_content', return_value='Content'):
             with patch('content_manager.ContentManager.read_project_hashtags', return_value='#original #hashtags'):

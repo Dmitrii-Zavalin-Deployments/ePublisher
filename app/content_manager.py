@@ -1,5 +1,6 @@
 import os
 import re
+import string
 
 class ContentManager:
     def __init__(self, number_of_projects):
@@ -59,7 +60,7 @@ class ContentManager:
         if not sentence:
             return []
         words = sentence.split()
-        hashtagged_words = ['#' + word for word in words if len(word) >= 4]
+        hashtagged_words = ['#' + word.strip(string.punctuation) for word in words if len(word.strip(string.punctuation)) >= 4]
         return hashtagged_words
 
     def prepare_post_message(self, additional_hashtags):
