@@ -13,15 +13,22 @@ class EPublisherFacebookManager:
         url = f"https://graph.facebook.com/oauth/access_token?client_id={self.app_id}&client_secret={self.app_secret}&grant_type=client_credentials"
         response = requests.get(url)
         data = response.json()
-        return data['access_token']
+        return data.get('access_token', None)  # Use .get to avoid KeyError
 
     def get_page_access_token(self):
         # Use the App Access Token to get the Page Access Token
         app_access_token = self.get_app_access_token()
+        if app_access_token is None:
+            print("Failed to get app access token.")
+            return None
         url = f"https://graph.facebook.com/{self.page_id}?fields=access_token&access_token={app_access_token}"
         response = requests.get(url)
         data = response.json()
-        return data['access_token']
+        if 'access_token' in data:
+            return data['access_token']
+        else:
+            print(f"Error getting page access token: {data}")
+            return None
 
     def delete_previous_post(self):
         # Logic to delete the previous day's post
@@ -29,11 +36,14 @@ class EPublisherFacebookManager:
 
     def post_new_content(self, image_path, text_content):
         # Logic to post new content
+        if self.page_access_token is None:
+            print("No page access token available. Cannot post content.")
+            return
         url = f"https://graph.facebook.com/v19.0/{self.page_id}/photos"
         payload = {
             'message': text_content,
             'url': image_path,
-            'access_token': self.page_access_token  # This now uses the Page Access Token
+            'access_token': self.page_access_token
         }
         response = requests.post(url, data=payload)
         if response.ok:
