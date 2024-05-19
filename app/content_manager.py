@@ -81,3 +81,9 @@ class ContentManager:
             post_message += ' ' + ' '.join(additional_hashtags)
         # Return the variable
         return post_message
+
+    def create_post_data(self, project_image_path, post_message):
+        return {
+            'project_image_path': project_image_path,
+            'post_message': post_message
+        }
