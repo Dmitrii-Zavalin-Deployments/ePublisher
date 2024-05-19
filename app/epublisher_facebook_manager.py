@@ -1,7 +1,7 @@
 import requests
 from config import FACEBOOK_APP_ID, FACEBOOK_APP_SECRET
 
-def get_app_access_token(app_id, app_secret):
+def get_user_access_token(app_id, app_secret):
     url = "https://graph.facebook.com/oauth/access_token"
     params = {
         'client_id': app_id,
