@@ -34,8 +34,7 @@ class ContentManager:
             return None
 
     def get_project_image_path(self):
-        file_index = self.get_project_index()
-        # Updated to point to a .png file instead of .txt
+        file_index = str(self.get_project_index())
         file_path = f'content/images/{file_index}.png'
         return file_path
 
