@@ -69,3 +69,19 @@ class EPublisherFacebookManager:
             print(f'Failed to retrieve posts from Facebook: {response.content}')
         
         return response.json()
+
+    def print_message_before_hashtag(self, posts_json):
+        messages_before_hashtag = []
+        ids = []
+
+        for post in posts_json['data']:
+            # Split the message at the first hashtag
+            message_parts = post['message'].split('#', 1)
+            message_before_hashtag = message_parts[0].strip()
+            print('Message before Hashtag: ')
+            print(message_before_hashtag)
+            
+            # Collect the id
+            ids.append(post['id'])
+
+        return ids
