@@ -83,7 +83,7 @@ class EPublisherFacebookManager:
             # Compare and collect the id if the text matches
             if message_before_hashtag == content_before_hashtag:
                 ids.append(post['id'])
-                print('Id is added to delete')
+                print(f'Id is added to delete: {post['id']}')
     
         return ids
 
