@@ -61,5 +61,8 @@ def main():
     image_path = post_data['project_image_path']
     text_content = post_data['post_message']
 
+    # Post in Facebook
+    epublisher_facebook_manager.post_to_facebook(image_path, text_content)
+
 if __name__ == "__main__":
     main()
