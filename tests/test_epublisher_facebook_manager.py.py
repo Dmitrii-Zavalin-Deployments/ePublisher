@@ -26,5 +26,34 @@ class TestEPublisherFacebookManager(unittest.TestCase):
         response = self.epublisher_facebook_manager.get_facebook_posts()
         self.assertEqual(response.status_code, 200)
 
+    @patch('epublisher_facebook_manager.requests.get')
+    def test_print_message_before_hashtag(self, mock_get):
+        # Mock the get request to return the example JSON data
+        example_json = {
+            'data': [
+                {
+                    'created_time': '2024-05-20T09:23:33+0000',
+                    'message': 'Ready to take the hassle out of job hunting? #aiforemployment #jobhunt',
+                    'id': '1234567890'
+                },
+                {
+                    'created_time': '2024-05-20T09:22:32+0000',
+                    'message': 'Testing API Post #apitest',
+                    'id': '0987654321'
+                }
+            ]
+        }
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = example_json
+        
+        # Expected results
+        expected_ids = ['1234567890', '0987654321']
+
+        # Call the function
+        ids = self.epublisher_facebook_manager.print_message_before_hashtag(example_json)
+
+        # Check if the results match the expected results
+        self.assertEqual(ids, expected_ids)
+
 if __name__ == '__main__':
     unittest.main()
