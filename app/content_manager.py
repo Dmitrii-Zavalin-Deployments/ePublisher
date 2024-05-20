@@ -88,7 +88,7 @@ class ContentManager:
             'post_message': post_message
         }
 
-    def get_text_before_hashtag(text):
+    def get_text_before_hashtag(self, text):
         # Split the text at the first hashtag
         parts = text.split('#', 1)
         # Return the part before the hashtag, or the entire text if no hashtag is found
