@@ -1,36 +1,13 @@
 import requests
 import os
 
-# Function to refresh the token
-def refresh_token(app_id, app_secret, long_lived_token):
-    # The URL to request the long-lived access token
-    token_url = 'https://graph.facebook.com/oauth/access_token'
-    
-    # Parameters for the request
-    params = {
-        'grant_type': 'fb_exchange_token',
-        'client_id': app_id,
-        'client_secret': app_secret,
-        'fb_exchange_token': long_lived_token
-    }
-    
-    # Make the request
-    response = requests.get(token_url, params=params)
-    
-    # Extract the long-lived access token from the response
-    new_long_lived_token = response.json().get('access_token')
-    
-    # Log the new token
-    print('New long-lived Access Token is generated')
-    return new_long_lived_token
-
 class EPublisherFacebookManager:
     def __init__(self):
         self.app_id = os.environ.get('FACEBOOK_APP_ID')
         self.app_secret = os.environ.get('FACEBOOK_APP_SECRET')
         self.long_lived_token = os.environ.get('FACEBOOK_LONG_LIVED_ACCESS_TOKEN')
         self.page_id = os.environ.get('FACEBOOK_PAGE_ID')
-        self.page_access_token = refresh_token(self.app_id, self.app_secret, self.long_lived_token)
+        self.page_access_token = os.environ.get('FACEBOOK_LONG_LIVED_ACCESS_TOKEN')
 
     def post_to_facebook(self, image_path, text_content):
         # The URL to make the post request
@@ -69,3 +46,38 @@ class EPublisherFacebookManager:
             print(f'Failed to retrieve posts from Facebook: {response.content}')
         
         return response.json()
+
+    def print_message_before_hashtag(self, posts_json, content_before_hashtag):
+        ids = []
+    
+        for post in posts_json['data']:
+            # Split the message at the first hashtag
+            message_parts = post['message'].split('#', 1)
+            message_before_hashtag = message_parts[0].strip()
+            print('Message before Hashtag: ')
+            print(message_before_hashtag)
+            
+            # Compare and collect the id if the text matches
+            if message_before_hashtag == content_before_hashtag:
+                ids.append(post['id'])
+                print(f"Id is added to delete: {post['id']}")
+    
+        return ids
+
+    def delete_facebook_posts(self, post_ids):
+            deleted_ids = []
+            for post_id in post_ids:
+                # The URL to delete the post
+                delete_url = f'https://graph.facebook.com/v19.0/{post_id}?access_token={self.page_access_token}'
+                
+                # Make the delete request
+                response = requests.delete(delete_url)
+                
+                # Check if the delete was successful
+                if response.status_code == 200:
+                    print(f'Post with ID {post_id} was successfully deleted from Facebook')
+                    deleted_ids.append(post_id)
+                else:
+                    print(f'Failed to delete post with ID {post_id}: {response.content}')
+            
+            return deleted_ids

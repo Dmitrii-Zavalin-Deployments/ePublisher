@@ -134,5 +134,32 @@ class TestContentManager(unittest.TestCase):
         result = self.content_manager.create_post_data(project_image_path, post_message)
         self.assertEqual(result, expected_result)
 
+    def test_with_hashtag(self):
+        self.assertEqual(get_text_before_hashtag("Hello #World"), "Hello")
+
+    def test_without_hashtag(self):
+        self.assertEqual(get_text_before_hashtag("Hello World"), "Hello World")
+
+    def test_hashtag_at_start(self):
+        self.assertEqual(get_text_before_hashtag("#Hello World"), "")
+
+    def test_hashtag_at_end(self):
+        self.assertEqual(get_text_before_hashtag("Hello World#"), "Hello World")
+
+    def test_multiple_hashtags(self):
+        self.assertEqual(get_text_before_hashtag("Hello #World #Python"), "Hello")
+
+    def test_only_hashtag(self):
+        self.assertEqual(get_text_before_hashtag("#"), "")
+
+    def test_empty_string(self):
+        self.assertEqual(get_text_before_hashtag(""), "")
+
+    def test_hashtag_with_spaces(self):
+        self.assertEqual(get_text_before_hashtag("Hello # World"), "Hello")
+
+    def test_multiple_hashtags_with_spaces(self):
+        self.assertEqual(get_text_before_hashtag("Hello # World # Python"), "Hello")
+
 if __name__ == '__main__':
     unittest.main()

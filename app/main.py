@@ -61,9 +61,20 @@ def main():
     image_path = post_data['project_image_path']
     text_content = post_data['post_message']
 
+    # Get the part of post before hashtag
+    content_before_hashtag = content_manager.get_text_before_hashtag(text_content)
+    print(f"Content before hashtag:\n{content_before_hashtag}")
+
     # New: Get and print the Facebook posts
     facebook_posts = epublisher_facebook_manager.get_facebook_posts()
     print(f"Facebook posts:\n{facebook_posts}")
+
+    # Searching for posts to delete
+    message_ids = epublisher_facebook_manager.print_message_before_hashtag(facebook_posts, content_before_hashtag)
+
+    # Delete post with message_ids
+    deleted_post = epublisher_facebook_manager.delete_facebook_posts(message_ids)
+    print('Repeated posts are deleted')
 
     # Post in Facebook
     epublisher_facebook_manager.post_to_facebook(image_path, text_content)
