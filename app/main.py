@@ -72,6 +72,10 @@ def main():
     # Searching for posts to delete
     message_ids = epublisher_facebook_manager.print_message_before_hashtag(facebook_posts, content_before_hashtag)
 
+    # Delete post with message_ids
+    deleted_post = epublisher_facebook_manager.delete_facebook_posts(message_ids)
+    print('Repeated posts are deleted')
+
     # Post in Facebook
     epublisher_facebook_manager.post_to_facebook(image_path, text_content)
 
