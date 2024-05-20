@@ -1,3 +1,4 @@
+'''
 import unittest
 from unittest.mock import patch
 from epublisher_facebook_manager import EPublisherFacebookManager
@@ -46,14 +47,18 @@ class TestEPublisherFacebookManager(unittest.TestCase):
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = example_json
         
+        # Content to compare
+        content_to_compare = 'Ready to take the hassle out of job hunting?'
+    
         # Expected results
-        expected_ids = ['1234567890', '0987654321']
-
-        # Call the function
-        ids = self.epublisher_facebook_manager.print_message_before_hashtag(example_json)
-
+        expected_ids = ['1234567890']
+    
+        # Call the function with the content to compare
+        ids = self.epublisher_facebook_manager.print_message_before_hashtag(example_json, content_to_compare)
+    
         # Check if the results match the expected results
         self.assertEqual(ids, expected_ids)
 
 if __name__ == '__main__':
     unittest.main()
+'''

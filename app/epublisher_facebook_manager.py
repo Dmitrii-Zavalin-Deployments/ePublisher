@@ -30,7 +30,7 @@ class EPublisherFacebookManager:
         self.app_secret = os.environ.get('FACEBOOK_APP_SECRET')
         self.long_lived_token = os.environ.get('FACEBOOK_LONG_LIVED_ACCESS_TOKEN')
         self.page_id = os.environ.get('FACEBOOK_PAGE_ID')
-        self.page_access_token = refresh_token(self.app_id, self.app_secret, self.long_lived_token)
+        # self.page_access_token = refresh_token(self.app_id, self.app_secret, self.long_lived_token)
 
     def post_to_facebook(self, image_path, text_content):
         # The URL to make the post request
@@ -70,10 +70,9 @@ class EPublisherFacebookManager:
         
         return response.json()
 
-    def print_message_before_hashtag(self, posts_json):
-        messages_before_hashtag = []
+    def print_message_before_hashtag(self, posts_json, content_before_hashtag):
         ids = []
-
+    
         for post in posts_json['data']:
             # Split the message at the first hashtag
             message_parts = post['message'].split('#', 1)
@@ -81,7 +80,10 @@ class EPublisherFacebookManager:
             print('Message before Hashtag: ')
             print(message_before_hashtag)
             
-            # Collect the id
-            ids.append(post['id'])
-
+            # Compare and collect the id if the text matches
+            if message_before_hashtag == content_before_hashtag:
+                ids.append(post['id'])
+                print('Id is added to delete')
+    
         return ids
+

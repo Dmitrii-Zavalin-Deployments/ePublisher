@@ -5,7 +5,7 @@ from content_manager import ContentManager
 def main():
      # Initialize managers
     content_manager = ContentManager(number_of_projects=int(os.getenv('NUMBER_OF_PROJECTS')))
-    epublisher_facebook_manager = EPublisherFacebookManager()
+    # epublisher_facebook_manager = EPublisherFacebookManager()
 
     # Get Run Number
     run_number = str(content_manager.get_run_number())
@@ -61,15 +61,20 @@ def main():
     image_path = post_data['project_image_path']
     text_content = post_data['post_message']
 
+    # Get the part of post before hashtag
+    content_before_hashtag = content_manager.get_text_before_hashtag(text_content)
+    print(f"Content before hashtag:\n{content_before_hashtag}")
+
     # New: Get and print the Facebook posts
-    facebook_posts = epublisher_facebook_manager.get_facebook_posts()
-    print(f"Facebook posts:\n{facebook_posts}")
+    # facebook_posts = epublisher_facebook_manager.get_facebook_posts()
+    # print(f"Facebook posts:\n{facebook_posts}")
 
     # Searching for posts to delete
-    message_ids = epublisher_facebook_manager.print_message_before_hashtag(facebook_posts)
+
+    # message_ids = epublisher_facebook_manager.print_message_before_hashtag(facebook_posts, content_before_hashtag)
 
     # Post in Facebook
-    epublisher_facebook_manager.post_to_facebook(image_path, text_content)
+    # epublisher_facebook_manager.post_to_facebook(image_path, text_content)
 
 if __name__ == "__main__":
     main()
