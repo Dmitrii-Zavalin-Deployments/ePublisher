@@ -1,29 +1,6 @@
 import requests
 import os
 
-# Function to refresh the token
-def refresh_token(app_id, app_secret, long_lived_token):
-    # The URL to request the long-lived access token
-    token_url = 'https://graph.facebook.com/oauth/access_token'
-    
-    # Parameters for the request
-    params = {
-        'grant_type': 'fb_exchange_token',
-        'client_id': app_id,
-        'client_secret': app_secret,
-        'fb_exchange_token': long_lived_token
-    }
-    
-    # Make the request
-    response = requests.get(token_url, params=params)
-    
-    # Extract the long-lived access token from the response
-    new_long_lived_token = response.json().get('access_token')
-    
-    # Log the new token
-    print('New long-lived Access Token is generated')
-    return new_long_lived_token
-
 class EPublisherFacebookManager:
     def __init__(self):
         self.app_id = os.environ.get('FACEBOOK_APP_ID')
