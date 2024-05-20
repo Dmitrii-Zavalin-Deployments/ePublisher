@@ -1,39 +1,32 @@
 import requests
-import json
-from config import FACEBOOK_APP_ID, FACEBOOK_APP_SECRET
+import os
 
-def get_user_access_token(app_id, app_secret):
-    url = "https://graph.facebook.com/oauth/access_token"
+# Function to refresh the token
+def refresh_token(app_id, app_secret, long_lived_token):
+    # The URL to request the long-lived access token
+    token_url = 'https://graph.facebook.com/oauth/access_token'
+    
+    # Parameters for the request
     params = {
+        'grant_type': 'fb_exchange_token',
         'client_id': app_id,
         'client_secret': app_secret,
-        'grant_type': 'client_credentials'
+        'fb_exchange_token': long_lived_token
     }
-    response = requests.get(url, params=params)
-    data = response.json()
-    return data.get('access_token', None)
+    
+    # Make the request
+    response = requests.get(token_url, params=params)
+    
+    # Extract the long-lived access token from the response
+    new_long_lived_token = response.json().get('access_token')
+    
+    # Log the new token
+    print(f'New long-lived Access Token: {new_long_lived_token}')
+    return new_long_lived_token
 
 class EPublisherFacebookManager:
     def __init__(self):
-        self.app_id = FACEBOOK_APP_ID
-        self.app_secret = FACEBOOK_APP_SECRET
-        self.user_access_token = get_user_access_token(self.app_id, self.app_secret)
-
-    def post_new_content(self, image_path, text_content):
-        # Logic to post new content on the user's personal page
-        if self.user_access_token is None:
-            print("No user access token available. Cannot post content.")
-            return
-        headers = {
-            'Content-Type': 'application/json'
-        }
-        data = json.dumps({
-            'message': text_content,
-            'url': image_path
-        })
-        url = f"https://graph.facebook.com/v19.0/me/photos?access_token={self.user_access_token}"
-        response = requests.post(url, headers=headers, data=data)
-        if response.ok:
-            print("Content posted successfully.")
-        else:
-            print(f"Failed to post content. Error: {response.text}")
+        self.app_id = os.environ.get('FACEBOOK_APP_ID')
+        self.app_secret = os.environ.get('FACEBOOK_APP_SECRET')
+        self.long_lived_token = os.environ.get('FACEBOOK_LONG_LIVED_ACCESS_TOKEN')
+        self.page_access_token = refresh_token(self.app_id, self.app_secret, self.long_lived_token)
