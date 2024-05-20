@@ -64,3 +64,20 @@ class EPublisherFacebookManager:
     
         return ids
 
+    def delete_facebook_posts(self, post_ids):
+            deleted_ids = []
+            for post_id in post_ids:
+                # The URL to delete the post
+                delete_url = f'https://graph.facebook.com/v19.0/{post_id}?access_token={self.page_access_token}'
+                
+                # Make the delete request
+                response = requests.delete(delete_url)
+                
+                # Check if the delete was successful
+                if response.status_code == 200:
+                    print(f'Post with ID {post_id} was successfully deleted from Facebook')
+                    deleted_ids.append(post_id)
+                else:
+                    print(f'Failed to delete post with ID {post_id}: {response.content}')
+            
+            return deleted_ids
