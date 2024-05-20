@@ -66,7 +66,7 @@ def main():
     print(f"Facebook posts:\n{facebook_posts}")
 
     # Searching for posts to delete
-    message_ids = print_message_before_hashtag(facebook_posts)
+    message_ids = epublisher_facebook_manager.print_message_before_hashtag(facebook_posts)
 
     # Post in Facebook
     epublisher_facebook_manager.post_to_facebook(image_path, text_content)
