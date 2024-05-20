@@ -21,7 +21,7 @@ def refresh_token(app_id, app_secret, long_lived_token):
     new_long_lived_token = response.json().get('access_token')
     
     # Log the new token
-    print(f'New long-lived Access Token: {new_long_lived_token}')
+    print('New long-lived Access Token is generated')
     return new_long_lived_token
 
 class EPublisherFacebookManager:
