@@ -27,7 +27,10 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run script
         env:
-          FACEBOOK_API_KEY: ${{ secrets.FACEBOOK_API_KEY }}
+          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
+          FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
+          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+          FACEBOOK_LONG_LIVED_ACCESS_TOKEN: ${{ secrets.FACEBOOK_LONG_LIVED_ACCESS_TOKEN }}
           TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
           INSTAGRAM_API_KEY: ${{ secrets.INSTAGRAM_API_KEY }}
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
