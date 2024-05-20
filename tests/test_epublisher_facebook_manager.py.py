@@ -1,14 +1,16 @@
 import unittest
-from app.epublisher import EPublisherManager
+from epublisher_facebook_manager import EPublisherFacebookManager
 
-class TestEPublisherManager(unittest.TestCase):
-    def test_post_deletion(self):
-        # Test post deletion logic
+class TestEPublisherFacebookManager(unittest.TestCase):
+    def setUp(self):
+        self.epublisher_facebook_manager = EPublisherFacebookManager()
+
+    def test_post_to_facebook(self):
+        # Test the post_to_facebook function
+        # You'll need to mock the requests.post method to test this function
         pass
 
-    def test_post_creation(self):
-        # Test post creation logic
-        pass
+    # Add more tests as needed
 
 if __name__ == '__main__':
     unittest.main()

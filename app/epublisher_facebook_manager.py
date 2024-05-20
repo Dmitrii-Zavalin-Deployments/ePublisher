@@ -29,4 +29,28 @@ class EPublisherFacebookManager:
         self.app_id = os.environ.get('FACEBOOK_APP_ID')
         self.app_secret = os.environ.get('FACEBOOK_APP_SECRET')
         self.long_lived_token = os.environ.get('FACEBOOK_LONG_LIVED_ACCESS_TOKEN')
+        self.page_id = os.environ.get('FACEBOOK_PAGE_ID')
         self.page_access_token = refresh_token(self.app_id, self.app_secret, self.long_lived_token)
+
+    def post_to_facebook(self, image_path, text_content):
+        # The URL to make the post request
+        post_url = f'https://graph.facebook.com/v19.0/{self.page_id}/feed'
+        
+        # Parameters for the post request
+        data = {
+            'message': text_content,
+            'link': image_path,
+            'published': 'true',
+            'access_token': self.page_access_token
+        }
+        
+        # Make the post request
+        response = requests.post(post_url, data=data)
+        
+        # Check if the post was successful
+        if response.status_code == 200:
+            print('Post was successfully published on Facebook')
+        else:
+            print(f'Failed to publish post on Facebook: {response.content}')
+        
+        return response

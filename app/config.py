@@ -1,9 +1,9 @@
 import os
 
 # Configuration variables
-FACEBOOK_APP_ID = os.environ.get('FACEBOOK_APP_ID')  # Add this line
-FACEBOOK_API_KEY = os.environ.get('FACEBOOK_API_KEY')
+FACEBOOK_APP_ID = os.environ.get('FACEBOOK_APP_ID')
 FACEBOOK_APP_SECRET = os.environ.get('FACEBOOK_APP_SECRET')
 FACEBOOK_PAGE_ID = os.environ.get('FACEBOOK_PAGE_ID')
+FACEBOOK_LONG_LIVED_ACCESS_TOKEN = os.environ.get('FACEBOOK_LONG_LIVED_ACCESS_TOKEN')
 TWITTER_API_KEY = os.environ.get('TWITTER_API_KEY')
 INSTAGRAM_API_KEY = os.environ.get('INSTAGRAM_API_KEY')
