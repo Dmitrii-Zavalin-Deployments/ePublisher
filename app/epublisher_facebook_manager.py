@@ -1,29 +1,6 @@
 import requests
 import os
 
-# Function to refresh the token
-def refresh_token(app_id, app_secret, long_lived_token):
-    # The URL to request the long-lived access token
-    token_url = 'https://graph.facebook.com/oauth/access_token'
-    
-    # Parameters for the request
-    params = {
-        'grant_type': 'fb_exchange_token',
-        'client_id': app_id,
-        'client_secret': app_secret,
-        'fb_exchange_token': long_lived_token
-    }
-    
-    # Make the request
-    response = requests.get(token_url, params=params)
-    
-    # Extract the long-lived access token from the response
-    new_long_lived_token = response.json().get('access_token')
-    
-    # Log the new token
-    print('New long-lived Access Token is generated')
-    return new_long_lived_token
-
 class EPublisherFacebookManager:
     def __init__(self):
         self.app_id = os.environ.get('FACEBOOK_APP_ID')
@@ -87,3 +64,20 @@ class EPublisherFacebookManager:
     
         return ids
 
+    def delete_facebook_posts(self, post_ids):
+            deleted_ids = []
+            for post_id in post_ids:
+                # The URL to delete the post
+                delete_url = f'https://graph.facebook.com/v19.0/{post_id}?access_token={self.page_access_token}'
+                
+                # Make the delete request
+                response = requests.delete(delete_url)
+                
+                # Check if the delete was successful
+                if response.status_code == 200:
+                    print(f'Post with ID {post_id} was successfully deleted from Facebook')
+                    deleted_ids.append(post_id)
+                else:
+                    print(f'Failed to delete post with ID {post_id}: {response.content}')
+            
+            return deleted_ids

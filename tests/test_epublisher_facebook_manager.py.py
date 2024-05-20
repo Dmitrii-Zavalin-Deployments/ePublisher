@@ -59,6 +59,20 @@ class TestEPublisherFacebookManager(unittest.TestCase):
         # Check if the results match the expected results
         self.assertEqual(ids, expected_ids)
 
+    @patch('epublisher_facebook_manager.requests.delete')
+    def test_delete_facebook_posts(self, mock_delete):
+        # Mock the delete request to return a successful response
+        mock_delete.return_value.status_code = 200
+        
+        # Example post IDs to delete
+        post_ids_to_delete = ['1234567890', '0987654321']
+        
+        # Call the delete function
+        deleted_ids = self.epublisher_facebook_manager.delete_facebook_posts(post_ids_to_delete)
+        
+        # Check if the results match the expected results
+        self.assertEqual(deleted_ids, post_ids_to_delete
+
 if __name__ == '__main__':
     unittest.main()
 '''
