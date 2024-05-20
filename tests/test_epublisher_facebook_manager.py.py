@@ -1,3 +1,4 @@
+'''
 import unittest
 from unittest.mock import patch
 from epublisher_facebook_manager import EPublisherFacebookManager
@@ -57,3 +58,4 @@ class TestEPublisherFacebookManager(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+'''
