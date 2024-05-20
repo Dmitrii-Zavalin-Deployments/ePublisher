@@ -61,6 +61,10 @@ def main():
     image_path = post_data['project_image_path']
     text_content = post_data['post_message']
 
+    # New: Get and print the Facebook posts
+    facebook_posts = epublisher_facebook_manager.get_facebook_posts()
+    print(f"Facebook posts:\n{facebook_posts}")
+
     # Post in Facebook
     epublisher_facebook_manager.post_to_facebook(image_path, text_content)
 
