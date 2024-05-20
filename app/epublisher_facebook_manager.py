@@ -54,3 +54,18 @@ class EPublisherFacebookManager:
             print(f'Failed to publish post on Facebook: {response.content}')
         
         return response
+
+    def get_facebook_posts(self):
+        # The URL to get the posts
+        get_url = f'https://graph.facebook.com/v19.0/{self.page_id}/feed?access_token={self.page_access_token}'
+        
+        # Make the get request
+        response = requests.get(get_url)
+        
+        # Check if the request was successful
+        if response.status_code == 200:
+            print('Successfully retrieved posts from Facebook')
+        else:
+            print(f'Failed to retrieve posts from Facebook: {response.content}')
+        
+        return response.json()
