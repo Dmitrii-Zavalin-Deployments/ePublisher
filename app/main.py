@@ -63,6 +63,7 @@ def main():
 
     # Get the part of post before hashtag
     content_before_hashtag = content_manager.get_text_before_hashtag(text_content)
+    print(f"Content before hashtag:\n{content_before_hashtag}")
 
     # New: Get and print the Facebook posts
     # facebook_posts = epublisher_facebook_manager.get_facebook_posts()
