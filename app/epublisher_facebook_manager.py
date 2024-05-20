@@ -70,10 +70,9 @@ class EPublisherFacebookManager:
         
         return response.json()
 
-    def print_message_before_hashtag(self, posts_json):
-        messages_before_hashtag = []
+    def print_message_before_hashtag(self, posts_json, content_before_hashtag):
         ids = []
-
+    
         for post in posts_json['data']:
             # Split the message at the first hashtag
             message_parts = post['message'].split('#', 1)
@@ -81,7 +80,10 @@ class EPublisherFacebookManager:
             print('Message before Hashtag: ')
             print(message_before_hashtag)
             
-            # Collect the id
-            ids.append(post['id'])
-
+            # Compare and collect the id if the text matches
+            if message_before_hashtag == content_before_hashtag:
+                ids.append(post['id'])
+                print('Id is added to delete')
+    
         return ids
+
