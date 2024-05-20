@@ -38,7 +38,7 @@ class TestContentManager(unittest.TestCase):
         self.assertEqual(hashtags, '')
         
     def test_get_project_image_path(self):
-        expected_path = 'content/images/1.png'
+        expected_path = 'https://github.com/Dmitrii-Zavalin-Deployments/ePublisher/blob/main/content/images/1.png?raw=true'
         self.assertEqual(self.content_manager.get_project_image_path(), expected_path)
         
     def test_get_run_division(self):
