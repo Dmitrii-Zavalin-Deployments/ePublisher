@@ -81,7 +81,7 @@ def main():
     # epublisher_facebook_manager.post_to_facebook(image_path, text_content)
 
     # Call the Node.js script with the parameters to start Twitter
-    subprocess.run(['node', 'path/to/tweet.js', image_path, text_content, content_before_hashtag], check=True)
+    subprocess.run(['node', 'js/tweet.js', image_path, text_content, content_before_hashtag], check=True)
 
 if __name__ == "__main__":
     main()
