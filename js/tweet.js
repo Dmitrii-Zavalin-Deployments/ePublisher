@@ -29,7 +29,7 @@ async function tweetWithTextAndImage(text, imagePath) {
     const mediaId = await twitterClient.v1.uploadMedia(localImagePath);
     
     // Create a tweet with the text and the media ID
-    await twitterClient.v2.tweet(text);
+    await twitterClient.v2.tweet(mediaId);
   } catch (error) {
     console.error('Error:', error);
   }
