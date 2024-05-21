@@ -14,7 +14,7 @@ function convertUrlToLocalPath(url) {
   if (url.startsWith(githubContentUrl)) {
     // Extract the path after 'main/' and before '?raw=true'
     const imagePath = url.split('main/')[1].split('?')[0];
-    return localBasePath + imagePath; // Construct the local path
+    return imagePath; // Construct the local path
   }
   return url; // Return the original URL if it's not a GitHub URL
 }
