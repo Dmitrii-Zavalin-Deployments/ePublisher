@@ -1,0 +1,15 @@
+{
+    "name": "epublisher",
+    "version": "1.0.0",
+    "description": "Manage Tweets on Twitter",
+    "main": "index.js",
+    "dependencies": {
+      "twitter-api-v2": "^1.6.0"
+    },
+    "devDependencies": {},
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Dmitrii Zavalin",
+    "license": "ISC"
+  }
