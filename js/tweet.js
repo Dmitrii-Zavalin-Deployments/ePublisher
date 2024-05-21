@@ -1,5 +1,7 @@
-// tweet.js
 const { TwitterApi } = require('twitter-api-v2');
+const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 
 const twitterClient = new TwitterApi({
   appKey: process.env.TWITTER_API_KEY,
@@ -8,23 +10,41 @@ const twitterClient = new TwitterApi({
   accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
 });
 
-const imagePath = process.argv[2];
+const imageUrl = process.argv[2];
 const textContent = process.argv[3];
-const contentBeforeHashtag = process.argv[4];
 
-// Function to tweet with text and image
-async function tweetWithTextAndImage(text, imagePath) {
-  // Upload the image and get the media ID
-  const mediaId = await twitterClient.v1.uploadMedia(imagePath);
+async function downloadImage(imageUrl) {
+  const response = await axios({
+    url: imageUrl,
+    responseType: 'stream',
+  });
   
-  // Create a tweet with the text and the media ID
-  await twitterClient.v2.tweet({
-    text: text,
-    media: { media_ids: [mediaId] }
+  const localPath = path.resolve(__dirname, 'temp', path.basename(imageUrl));
+  const writer = fs.createWriteStream(localPath);
+
+  response.data.pipe(writer);
+
+  return new Promise((resolve, reject) => {
+    writer.on('finish', () => resolve(localPath));
+    writer.on('error', reject);
   });
 }
 
+async function tweetWithTextAndImage(text, imageUrl) {
+  try {
+    const localImagePath = await downloadImage(imageUrl);
+    const mediaId = await twitterClient.v1.uploadMedia(localImagePath);
+    await twitterClient.v2.tweet({
+      text: text,
+      media: { media_ids: [mediaId] }
+    });
+    console.log('Tweeted successfully!');
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
 // Call the function with the provided arguments
-tweetWithTextAndImage(textContent, imagePath)
+tweetWithTextAndImage(textContent, imageUrl)
   .then(() => console.log('Tweeted successfully!'))
   .catch(console.error);
