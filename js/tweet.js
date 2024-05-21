@@ -30,6 +30,13 @@ async function tweetWithTextAndImage(text, imagePath) {
     
     // Create a tweet with the text and the media ID
     await twitterClient.v2.tweet(text);
+
+    const jsTweets = await twitterClient.v2.searchAll('Land your dream job with AI! No ads, no fees, just success. Start now:');
+    // Consume fetched tweet from first page of jsTweets
+    for (const tweet of jsTweets) {
+      console.log(tweet);
+    }
+    
   } catch (error) {
     console.error('Error:', error);
   }
