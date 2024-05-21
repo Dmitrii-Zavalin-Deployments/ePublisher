@@ -18,31 +18,31 @@ async function tweetWithText(text) {
   }
 }
 
-// Function to search for tweets containing specific words
-async function searchTweetsWithWords(words) {
+// Function to get the recent tweets of a user by user ID
+async function getRecentTweetsByUserId(userId) {
   try {
-    // Replace 'words' with the actual words you want to search for
-    const searchResults = await twitterClient.v2.search(words, { max_results: 10 });
+    // Retrieve the user's recent tweets
+    const userTweets = await twitterClient.v2.userTimeline(userId, { max_results: 10 });
 
     // Log the results
-    console.log('Search results:', searchResults);
+    console.log('Recent tweets:', userTweets);
 
-    // Return the search results
-    return searchResults;
+    // Return the recent tweets
+    return userTweets;
   } catch (error) {
     console.error('Error:', error);
   }
 }
 
 // Get the text content from command line arguments
-const textContent = process.argv[2];
+const textContent = process.argv[3];
+const userId = process.env.TWITTER_USER_ID; // Read the user ID from the environment variable
 
 // Call the function with the provided arguments
 tweetWithText(textContent)
   .catch(console.error);
 
-// Example usage of searchTweetsWithWords:
-// Replace 'your-search-words' with the words you're looking for in your tweets
-searchTweetsWithWords('your-search-words')
+// Call the function to get recent tweets by user ID
+getRecentTweetsByUserId(userId)
   .then((tweets) => console.log('Found tweets:', tweets))
   .catch(console.error);
