@@ -34,6 +34,6 @@ const imageUrl = process.argv[2];
 const textContent = process.argv[3];
 
 // Call the function with the provided arguments
-tweetWithTextAndImage(textContent, imageUrl)
+tweetWithText(textContent)
   .then(() => console.log('Tweeted successfully!'))
   .catch(console.error);
