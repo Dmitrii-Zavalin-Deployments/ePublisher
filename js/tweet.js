@@ -7,39 +7,20 @@ const twitterClient = new TwitterApi({
   accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
 });
 
-// Function to convert the GitHub URL to a local path
-function convertUrlToLocalPath(url) {
-  const githubContentUrl = 'https://github.com/Dmitrii-Zavalin-Deployments/ePublisher/blob/main/';
-  const localBasePath = 'content/images/'; // Adjust this to the local path where images are stored
-  if (url.startsWith(githubContentUrl)) {
-    // Extract the path after 'main/' and before '?raw=true'
-    const imagePath = url.split('main/')[1].split('?')[0];
-    return imagePath; // Construct the local path
-  }
-  return url; // Return the original URL if it's not a GitHub URL
-}
-
-// Function to create a tweet with text and a local image path
-async function tweetWithTextAndImage(text, imagePath) {
+// Function to create a tweet with text only
+async function tweetWithText(text) {
   try {
-    // Convert the GitHub URL to a local path
-    // const localImagePath = convertUrlToLocalPath(imagePath);
-
-    // Upload the image to Twitter and get the media ID
-    // const mediaId = await twitterClient.v1.uploadMedia(localImagePath);
-    
-    // Create a tweet with the text and the media ID
+    // Create a tweet with the text
     await twitterClient.v2.tweet(text);
+    console.log('Tweeted successfully!');
   } catch (error) {
     console.error('Error:', error);
   }
 }
 
-// Get the image URL and text content from command line arguments
-const imageUrl = process.argv[2];
+// Get the text content from command line arguments
 const textContent = process.argv[3];
 
 // Call the function with the provided arguments
-tweetWithTextAndImage(textContent, imageUrl)
-  .then(() => console.log('Tweeted successfully!'))
+tweetWithText(textContent)
   .catch(console.error);
