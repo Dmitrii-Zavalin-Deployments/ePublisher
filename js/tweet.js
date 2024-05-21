@@ -23,10 +23,10 @@ function convertUrlToLocalPath(url) {
 async function tweetWithTextAndImage(text, imagePath) {
   try {
     // Convert the GitHub URL to a local path
-    const localImagePath = convertUrlToLocalPath(imagePath);
+    // const localImagePath = convertUrlToLocalPath(imagePath);
 
     // Upload the image to Twitter and get the media ID
-    const mediaId = await twitterClient.v1.uploadMedia(localImagePath);
+    // const mediaId = await twitterClient.v1.uploadMedia(localImagePath);
     
     // Create a tweet with the text and the media ID
     await twitterClient.v2.tweet(text);
