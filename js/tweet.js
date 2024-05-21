@@ -26,10 +26,11 @@ async function tweetWithTextAndImage(text, imagePath) {
     const localImagePath = convertUrlToLocalPath(imagePath);
 
     // Upload the image to Twitter and get the media ID
-    const mediaId = await twitterClient.v1.uploadMedia(localImagePath);
+    //const mediaId = await twitterClient.v1.uploadMedia(localImagePath);
     
     // Create a tweet with the text and the media ID
-    await twitterClient.v2.tweet(mediaId);
+    //await twitterClient.v2.tweet(mediaId);
+    await twitterClient.v1.uploadMedia('../content/images/0.png');
   } catch (error) {
     console.error('Error:', error);
   }
