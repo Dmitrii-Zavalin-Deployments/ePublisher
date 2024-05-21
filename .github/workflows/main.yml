@@ -33,14 +33,14 @@ jobs:
         run: npm install
       - name: Run script
         env:
-          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
-          FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
-          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
-          FACEBOOK_LONG_LIVED_ACCESS_TOKEN: ${{ secrets.FACEBOOK_LONG_LIVED_ACCESS_TOKEN }}
-          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
-          TWITTER_API_SECRET_KEY: ${{ secrets.TWITTER_API_SECRET_KEY }}
-          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
-          TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
-	  TWITTER_USER_ID: ${{ secrets.TWITTER_USER_ID }}
-          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          FACEBOOK_APP_ID: \${{ secrets.FACEBOOK_APP_ID }}
+          FACEBOOK_APP_SECRET: \${{ secrets.FACEBOOK_APP_SECRET }}
+          FACEBOOK_PAGE_ID: \${{ secrets.FACEBOOK_PAGE_ID }}
+          FACEBOOK_LONG_LIVED_ACCESS_TOKEN: \${{ secrets.FACEBOOK_LONG_LIVED_ACCESS_TOKEN }}
+          TWITTER_API_KEY: \${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET_KEY: \${{ secrets.TWITTER_API_SECRET_KEY }}
+          TWITTER_ACCESS_TOKEN: \${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_TOKEN_SECRET: \${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+          TWITTER_USER_ID: \${{ secrets.TWITTER_USER_ID }}
+          GITHUB_RUN_NUMBER: \${{ github.run_number }}
         run: python3 app/main.py
