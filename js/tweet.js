@@ -1,7 +1,4 @@
 const { TwitterApi } = require('twitter-api-v2');
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
 
 const twitterClient = new TwitterApi({
   appKey: process.env.TWITTER_API_KEY,
@@ -10,30 +7,26 @@ const twitterClient = new TwitterApi({
   accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
 });
 
-const imageUrl = process.argv[2];
-const textContent = process.argv[3];
-
-async function downloadImage(imageUrl) {
-  const response = await axios({
-    url: imageUrl,
-    responseType: 'stream',
-  });
-  
-  const localPath = path.resolve(__dirname, 'temp', path.basename(imageUrl));
-  const writer = fs.createWriteStream(localPath);
-
-  response.data.pipe(writer);
-
-  return new Promise((resolve, reject) => {
-    writer.on('finish', () => resolve(localPath));
-    writer.on('error', reject);
-  });
+// Function to convert the GitHub URL to a local path
+function convertUrlToLocalPath(url) {
+  const githubContentUrl = 'https://github.com/Dmitrii-Zavalin-Deployments/ePublisher/blob/main/';
+  const localBasePath = 'content/images/'; // Adjust this to the local path where images are stored
+  if (url.startsWith(githubContentUrl)) {
+    return url.replace(githubContentUrl, localBasePath).split('?')[0]; // Remove query parameters
+  }
+  return url; // Return the original URL if it's not a GitHub URL
 }
 
-async function tweetWithTextAndImage(text, imageUrl) {
+// Function to create a tweet with text and a local image path
+async function tweetWithTextAndImage(text, imagePath) {
   try {
-    const localImagePath = await downloadImage(imageUrl);
+    // Convert the GitHub URL to a local path
+    const localImagePath = convertUrlToLocalPath(imagePath);
+
+    // Upload the image to Twitter and get the media ID
     const mediaId = await twitterClient.v1.uploadMedia(localImagePath);
+    
+    // Create a tweet with the text and the media ID
     await twitterClient.v2.tweet({
       text: text,
       media: { media_ids: [mediaId] }
@@ -43,6 +36,10 @@ async function tweetWithTextAndImage(text, imageUrl) {
     console.error('Error:', error);
   }
 }
+
+// Get the image URL and text content from command line arguments
+const imageUrl = process.argv[2];
+const textContent = process.argv[3];
 
 // Call the function with the provided arguments
 tweetWithTextAndImage(textContent, imageUrl)
