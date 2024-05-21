@@ -18,34 +18,9 @@ async function tweetWithText(text) {
   }
 }
 
-// Function to get the recent tweets of a user by user ID
-async function getRecentTweetsByUserId(userId) {
-  try {
-    // Retrieve the user's recent tweets
-    const userTweets = await twitterClient.v2.get(`users/${userId}/tweets`, {
-      max_results: 5,
-      'tweet.fields': 'created_at', // Include additional fields if needed
-    });
-
-    // Log the results
-    console.log('Recent tweets:', userTweets);
-
-    // Return the recent tweets
-    return userTweets;
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
-
 // Get the text content from command line arguments
 const textContent = process.argv[3];
-const userId = process.env.TWITTER_USER_ID; // Read the user ID from the environment variable
 
 // Call the function with the provided arguments
 tweetWithText(textContent)
-  .catch(console.error);
-
-// Call the function to get recent tweets by user ID
-getRecentTweetsByUserId(userId)
-  .then((tweets) => console.log('Found tweets:', tweets))
   .catch(console.error);
