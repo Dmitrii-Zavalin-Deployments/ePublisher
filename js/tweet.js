@@ -22,7 +22,10 @@ async function tweetWithText(text) {
 async function getRecentTweetsByUserId(userId) {
   try {
     // Retrieve the user's recent tweets
-    const userTweets = await twitterClient.v2.userTimeline(userId, { max_results: 10 });
+    const userTweets = await twitterClient.v2.get(`users/${userId}/tweets`, {
+      max_results: 5,
+      'tweet.fields': 'created_at', // Include additional fields if needed
+    });
 
     // Log the results
     console.log('Recent tweets:', userTweets);
