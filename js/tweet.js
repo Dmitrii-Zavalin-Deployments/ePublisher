@@ -12,7 +12,9 @@ function convertUrlToLocalPath(url) {
   const githubContentUrl = 'https://github.com/Dmitrii-Zavalin-Deployments/ePublisher/blob/main/';
   const localBasePath = 'content/images/'; // Adjust this to the local path where images are stored
   if (url.startsWith(githubContentUrl)) {
-    return url.replace(githubContentUrl, localBasePath).split('?')[0]; // Remove query parameters
+    // Extract the path after 'main/' and before '?raw=true'
+    const imagePath = url.split('main/')[1].split('?')[0];
+    return localBasePath + imagePath; // Construct the local path
   }
   return url; // Return the original URL if it's not a GitHub URL
 }
