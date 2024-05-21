@@ -20,9 +20,15 @@ function convertUrlToLocalPath(url) {
 }
 
 // Function to create a tweet with text and a local image path
-async function tweetWithText(text) {
+async function tweetWithTextAndImage(text, imagePath) {
   try {
-    // Create a tweet with the text
+    // Convert the GitHub URL to a local path
+    const localImagePath = convertUrlToLocalPath(imagePath);
+
+    // Upload the image to Twitter and get the media ID
+    const mediaId = await twitterClient.v1.uploadMedia(localImagePath);
+    
+    // Create a tweet with the text and the media ID
     await twitterClient.v2.tweet(text);
   } catch (error) {
     console.error('Error:', error);
@@ -34,6 +40,6 @@ const imageUrl = process.argv[2];
 const textContent = process.argv[3];
 
 // Call the function with the provided arguments
-tweetWithText(textContent)
+tweetWithTextAndImage(textContent, imageUrl)
   .then(() => console.log('Tweeted successfully!'))
   .catch(console.error);
