@@ -8,6 +8,13 @@ const twitterClient = new TwitterApi({
   accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
 });
 
+// Function to filter out hashtags longer than 25 characters
+function filterLongHashtags(textContent) {
+  return textContent.split(' ').filter(word => {
+    return !(word.startsWith('#') && word.length > 25);
+  }).join(' ');
+}
+
 // Function to delete tweets with text matching the provided content
 async function deleteMatchingTweets(textContent) {
   let existingTweets = [];
@@ -71,6 +78,9 @@ function tweetWithText(text) {
 
 // Get the text content from command line arguments
 const textContent = process.argv[3];
+
+// Filter out long hashtags from the text content
+textContent = filterLongHashtags(textContent);
 
 // First, delete matching tweets
 deleteMatchingTweets(textContent)
