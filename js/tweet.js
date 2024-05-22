@@ -77,7 +77,7 @@ function tweetWithText(text) {
 }
 
 // Get the text content from command line arguments
-const textContent = process.argv[3];
+let textContent = process.argv[3];
 
 // Filter out long hashtags from the text content
 textContent = filterLongHashtags(textContent);
