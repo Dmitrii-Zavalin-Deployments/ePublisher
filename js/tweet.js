@@ -36,7 +36,8 @@ function tweetWithText(text) {
 }
 
 // Get the text content from command line arguments
-const textContent = process.argv[2]; // Corrected index to 2
+const textContent = process.argv[3];
 
 // Call the function with the provided arguments
-tweetWithText(textContent);
+tweetWithText(textContent)
+  .catch(console.error);
