@@ -44,3 +44,10 @@ jobs:
           TWITTER_USER_ID: ${{ secrets.TWITTER_USER_ID }}
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
         run: python3 app/main.py
+      - name: Commit tweets.json
+        run: |
+          git config --global user.name ${{ secrets.GIT_USER_NAME }}
+          git config --global user.email ${{ secrets.GIT_USER_EMAIL }}
+          git add tweets.json
+          git commit -m "Store tweet response data"
+          git push
