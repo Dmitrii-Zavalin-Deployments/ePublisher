@@ -8,6 +8,40 @@ const twitterClient = new TwitterApi({
   accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
 });
 
+// Function to delete tweets with text matching the provided content
+async function deleteMatchingTweets(textContent) {
+  let existingTweets = [];
+  if (fs.existsSync('tweets.json')) {
+    const existingData = fs.readFileSync('tweets.json', 'utf8');
+    existingTweets = JSON.parse(existingData);
+  }
+
+  // Filter out tweets with matching text content
+  const matchingTweetIds = existingTweets
+    .filter(tweet => tweet.data.text === textContent)
+    .map(tweet => tweet.data.id);
+
+  console.log('Matching tweet IDs:', matchingTweetIds);
+
+  // Delete matching tweets and update the tweets.json file
+  for (const tweetId of matchingTweetIds) {
+    try {
+      await twitterClient.v2.deleteTweet(tweetId);
+      console.log(`Deleted tweet ID: ${tweetId}`);
+    } catch (error) {
+      console.error(`Error deleting tweet ID ${tweetId}:`, error);
+    }
+  }
+
+  // Remove deleted tweets from the existingTweets array
+  const updatedTweets = existingTweets.filter(
+    tweet => !matchingTweetIds.includes(tweet.data.id)
+  );
+
+  // Write the updated list back to tweets.json
+  fs.writeFileSync('tweets.json', JSON.stringify(updatedTweets, null, 2));
+}
+
 // Function to create a tweet with text only
 function tweetWithText(text) {
   twitterClient.v2.tweet(text)
@@ -38,5 +72,10 @@ function tweetWithText(text) {
 // Get the text content from command line arguments
 const textContent = process.argv[3];
 
-// Call the function with the provided arguments
-tweetWithText(textContent)
+// First, delete matching tweets
+deleteMatchingTweets(textContent)
+  .then(() => {
+    // Then, tweet the new content
+    tweetWithText(textContent);
+  })
+  .catch(console.error);
