@@ -23,9 +23,16 @@ async function deleteMatchingTweets(textContent) {
     existingTweets = JSON.parse(existingData);
   }
 
-  // Filter out tweets with matching text content
+  // Function to compare text content excluding links
+  function compareExcludingLinks(tweetText, inputText) {
+    const tweetWords = tweetText.split(' ').filter(word => !word.startsWith('http://') && !word.startsWith('https://'));
+    const inputWords = inputText.split(' ').filter(word => !word.startsWith('http://') && !word.startsWith('https://'));
+    return tweetWords.join(' ') === inputWords.join(' ');
+  }
+
+  // Filter out tweets with matching text content excluding links
   const matchingTweetIds = existingTweets
-    .filter(tweet => tweet.data.text === textContent)
+    .filter(tweet => compareExcludingLinks(tweet.data.text, textContent))
     .map(tweet => tweet.data.id);
 
   console.log('Matching tweet IDs:', matchingTweetIds);
