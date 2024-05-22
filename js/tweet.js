@@ -9,15 +9,17 @@ const twitterClient = new TwitterApi({
 
 // Function to create a tweet with text only
 async function tweetWithText(text) {
-  try {
     // Create a tweet with the text
-    await twitterClient.v2.tweet(text);
-    console.log('Tweeted successfully!');
-    // Log the entire response object
-    console.log('Full response data:', JSON.stringify(response, null, 2));
-  } catch (error) {
-    console.error('Error:', error);
-  }
+    twitterClient.v2.tweet(text)
+      .then(response => {
+        console.log('Tweeted successfully!');
+        console.log('Tweet ID:', response.data.id);
+        // Log the entire response object
+        console.log('Full response data:', JSON.stringify(response, null, 2));
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
 }
 
 // Get the text content from command line arguments
