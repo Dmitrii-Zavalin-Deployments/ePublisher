@@ -1,4 +1,5 @@
 const { TwitterApi } = require('twitter-api-v2');
+const fs = require('fs');
 
 const twitterClient = new TwitterApi({
   appKey: process.env.TWITTER_API_KEY,
@@ -9,17 +10,15 @@ const twitterClient = new TwitterApi({
 
 // Function to create a tweet with text only
 async function tweetWithText(text) {
-    // Create a tweet with the text
-    twitterClient.v2.tweet(text)
-      .then(response => {
-        console.log('Tweeted successfully!');
-        console.log('Tweet ID:', response.data.id);
-        // Log the entire response object
-        console.log('Full response data:', JSON.stringify(response, null, 2));
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+  try {
+    const response = await twitterClient.v2.tweet(text);
+    console.log('Tweeted successfully!');
+    console.log('Tweet ID:', response.data.id);
+    // Write the entire response object to tweets.json
+    fs.writeFileSync('tweets.json', JSON.stringify(response, null, 2));
+  } catch (error) {
+    console.error('Error:', error);
+  }
 }
 
 // Get the text content from command line arguments
