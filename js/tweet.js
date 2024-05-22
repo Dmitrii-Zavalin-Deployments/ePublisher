@@ -40,4 +40,3 @@ const textContent = process.argv[3];
 
 // Call the function with the provided arguments
 tweetWithText(textContent)
-  .catch(console.error);
