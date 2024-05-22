@@ -13,6 +13,9 @@ async function tweetWithText(text) {
     // Create a tweet with the text
     await twitterClient.v2.tweet(text);
     console.log('Tweeted successfully!');
+    console.log('Tweet ID:', response.data.id);
+    // Log the entire response object
+    console.log('Full response data:', response);
   } catch (error) {
     console.error('Error:', error);
   }
