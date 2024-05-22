@@ -8,6 +8,13 @@ const twitterClient = new TwitterApi({
   accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
 });
 
+// Function to filter out hashtags longer than 25 characters
+function filterLongHashtags(textContent) {
+  return textContent.split(' ').filter(word => {
+    return !(word.startsWith('#') && word.length > 25);
+  }).join(' ');
+}
+
 // Function to delete tweets with text matching the provided content
 async function deleteMatchingTweets(textContent) {
   let existingTweets = [];
@@ -16,9 +23,16 @@ async function deleteMatchingTweets(textContent) {
     existingTweets = JSON.parse(existingData);
   }
 
-  // Filter out tweets with matching text content
+  // Function to compare text content excluding links
+  function compareExcludingLinks(tweetText, inputText) {
+    const tweetWords = tweetText.split(' ').filter(word => !word.startsWith('http://') && !word.startsWith('https://'));
+    const inputWords = inputText.split(' ').filter(word => !word.startsWith('http://') && !word.startsWith('https://'));
+    return tweetWords.join(' ') === inputWords.join(' ');
+  }
+
+  // Filter out tweets with matching text content excluding links
   const matchingTweetIds = existingTweets
-    .filter(tweet => tweet.data.text === textContent)
+    .filter(tweet => compareExcludingLinks(tweet.data.text, textContent))
     .map(tweet => tweet.data.id);
 
   console.log('Matching tweet IDs:', matchingTweetIds);
@@ -70,7 +84,10 @@ function tweetWithText(text) {
 }
 
 // Get the text content from command line arguments
-const textContent = process.argv[3];
+let textContent = process.argv[3];
+
+// Filter out long hashtags from the text content
+textContent = filterLongHashtags(textContent);
 
 // First, delete matching tweets
 deleteMatchingTweets(textContent)
