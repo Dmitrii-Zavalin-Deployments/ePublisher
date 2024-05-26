@@ -4,14 +4,14 @@ name: ePublisher Automation
 # The NUMBER_OF_PROJECTS variable is equal to the number of files in /content/hashtags.
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs at midnight every day
+    - cron: '0 */6 * * *'  # Runs 4 times every day
   push:
     branches:
       - main
       - development
 
 env:
-  NUMBER_OF_PROJECTS: 1  # Set this to the number of posts to publish or projects you have
+  NUMBER_OF_PROJECTS: 2  # Set this to the number of posts to publish or projects you have
 
 jobs:
   deploy:
