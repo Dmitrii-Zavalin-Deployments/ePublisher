@@ -6,7 +6,7 @@ from content_manager import ContentManager
 def main():
      # Initialize managers
     content_manager = ContentManager(number_of_projects=int(os.getenv('NUMBER_OF_PROJECTS')))
-    # epublisher_facebook_manager = EPublisherFacebookManager()
+    #epublisher_facebook_manager = EPublisherFacebookManager()
 
     # Get Run Number
     run_number = str(content_manager.get_run_number())
