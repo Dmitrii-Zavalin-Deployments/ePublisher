@@ -17,3 +17,4 @@ Adding content to publish:
 1. Post image should be in .png format (/content/images/<file.png>)
 2. Same file names for image, text, hashtag for each post (for example, /content/images/0.png, /content/text/0.txt, /content/hashtags/0.txt)
 3. Name files for image, text, hashtag in a number (maximum number in file names in the folder +1)
+4. 
