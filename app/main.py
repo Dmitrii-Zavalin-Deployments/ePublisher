@@ -66,19 +66,22 @@ def main():
     content_before_hashtag = content_manager.get_text_before_hashtag(text_content)
     print(f"Content before hashtag:\n{content_before_hashtag}")
 
-    # New: Get and print the Facebook posts
-    facebook_posts = epublisher_facebook_manager.get_facebook_posts()
-    print(f"Facebook posts:\n{facebook_posts}")
+    try:
+        # New: Get and print the Facebook posts
+        facebook_posts = epublisher_facebook_manager.get_facebook_posts()
+        print(f"Facebook posts:\n{facebook_posts}")
 
-    # Searching for posts to delete
-    message_ids = epublisher_facebook_manager.print_message_before_hashtag(facebook_posts, content_before_hashtag)
+        # Searching for posts to delete
+        message_ids = epublisher_facebook_manager.print_message_before_hashtag(facebook_posts, content_before_hashtag)
 
-    # Delete post with message_ids
-    deleted_post = epublisher_facebook_manager.delete_facebook_posts(message_ids)
-    print('Repeated posts are deleted')
+        # Delete post with message_ids
+        deleted_post = epublisher_facebook_manager.delete_facebook_posts(message_ids)
+        print('Repeated posts are deleted')
 
-    # Post in Facebook
-    epublisher_facebook_manager.post_to_facebook(image_path, text_content)
+        # Post in Facebook
+        epublisher_facebook_manager.post_to_facebook(image_path, text_content)
+    except Exception as e:
+        print("Failed to post on Facebook: ", e)
 
     # Call the Node.js script with the parameters to start Twitter
     subprocess.run(['node', 'js/tweet.js', image_path, text_content, content_before_hashtag], check=True)
