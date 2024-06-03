@@ -5,13 +5,13 @@ name: ePublisher Automation
 on:
   schedule:
     - cron: '30 * * * *'  # Runs at the 30th minute of every hour
-  push:
-    branches:
-      - main
-      - development
+  # push:
+  #  branches:
+  #    - main
+  #    - development
 
 env:
-  NUMBER_OF_PROJECTS: 2  # Set this to the number of posts to publish or projects you have
+  NUMBER_OF_PROJECTS: 3  # Set this to the number of posts to publish or projects you have
 
 jobs:
   deploy:
