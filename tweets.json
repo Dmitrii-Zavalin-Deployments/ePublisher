@@ -47,15 +47,6 @@
   {
     "data": {
       "edit_history_tweet_ids": [
-        "1817690753486954539"
-      ],
-      "text": "Read grants fast with GrantsScanner! Speedy search with NLP. Start now: https://t.co/5Ja7xSe1Pp\n#FindFundingFast #GrantSearch #QuickGrants #NLPTool #Grants #Start",
-      "id": "1817690753486954539"
-    }
-  },
-  {
-    "data": {
-      "edit_history_tweet_ids": [
         "1817705330987749692"
       ],
       "id": "1817705330987749692",
@@ -114,6 +105,15 @@
       "edit_history_tweet_ids": [
         "1817812461396889761"
       ]
+    }
+  },
+  {
+    "data": {
+      "text": "Read grants fast with GrantsScanner! Speedy search with NLP. Start now: https://t.co/5Ja7xSe1Pp\n#FindFundingFast #GrantSearch #QuickGrants #NLPTool #Grants #Start",
+      "edit_history_tweet_ids": [
+        "1817842095320973507"
+      ],
+      "id": "1817842095320973507"
     }
   }
 ]
