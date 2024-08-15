@@ -1,11 +1,5 @@
-#aiforemployment
-#jobhunt
-#resume
-#coverletter
-#hiring
-#jobsearch
-#jobapp
-#jobtips
-#careeradvice
-#jobseeker
-#employment
+#FindFundingFast
+#GrantSearch
+#QuickGrants
+#NLPTool
+#Grants

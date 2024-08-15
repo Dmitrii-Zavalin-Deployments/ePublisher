@@ -11,7 +11,7 @@ on:
   #    - development
 
 env:
-  NUMBER_OF_PROJECTS: 3  # Set this to the number of posts to publish or projects you have
+  NUMBER_OF_PROJECTS: 2  # Set this to the number of posts to publish or projects you have (currently 2 to run only for projects 0 and 1 from content folder)
 
 jobs:
   deploy:
