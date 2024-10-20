@@ -33,6 +33,16 @@ class ContentManager:
             print(f"File not found: {file_path}")
             return None
 
+    def read_project_links(self):
+        file_index = self.get_project_index()
+        file_path = f'content/links/{file_index}.txt'
+        try:
+            with open(file_path, 'r') as file:
+                return file.read()
+        except FileNotFoundError:
+            print(f"File not found: {file_path}")
+            return None
+
     def get_project_image_path(self):
         file_index = self.get_project_index()
         # Updated to point to a .png file instead of .txt
