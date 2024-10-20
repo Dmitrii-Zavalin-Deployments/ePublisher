@@ -16,11 +16,20 @@ def main():
     project_index = str(content_manager.get_project_index())
     print(f"Current project's to post index: {project_index}")
 
-    # Read and print the project content
-    project_content = content_manager.read_project_content()
-    if project_content is not None:
-        print(f"Project content:\n{project_content}")
+    # Read and print the project text
+    project_text = content_manager.read_project_content()
+    if project_text is not None:
+        print(f"Project text:\n{project_text}")
     
+    # Read and print the project link
+    project_link = content_manager.read_project_links()
+    if project_link is not None:
+        print(f"Project link:\n{project_link}")
+    
+    # Concatenate project_text and project_link into project_content with a space in between
+    project_content = (project_text or '') + ' ' + (project_link or '')
+    print(f"Project content:\n{project_content}")
+
     # Read and print the project hashtags
     project_hashtags = content_manager.read_project_hashtags()
     if project_hashtags is not None:
@@ -34,12 +43,7 @@ def main():
     run_division = str(content_manager.get_run_division())
     print(f"Integer division of run number by number of projects: {run_division}")
     
-    # Read and print the project content
-    project_content = content_manager.read_project_content()
-    if project_content is not None:
-        print(f"Project content:\n{project_content}")
-        
-    # New: Print the list of sentences
+    # Print the list of sentences
     sentences = content_manager.split_into_sentences(project_content)
     print(f"List of sentences:\n{sentences}")
     
