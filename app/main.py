@@ -74,7 +74,7 @@ def main():
         print(hashtagged_words)
 
         # Prepare and print the post message with additional hashtags
-        post_message = content_manager.prepare_post_message(hashtagged_words)
+        post_message = f"{project_text} {unchangeable_hashtags} {' '.join(hashtagged_words)}"
         print(f"Post message:\n{post_message}")
 
         # Create post data and print it

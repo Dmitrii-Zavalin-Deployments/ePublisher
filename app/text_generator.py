@@ -9,7 +9,7 @@ def generate_text(prompt, length):
     return response.strip()
 
 def generate_hashtags(prompt, length=5):
-    hashtag_prompt = f"Generate a single-word hashtag for this text: {prompt}\nHashtag:"
+    hashtag_prompt = f"Generate a single-word hashtag for this text without the '#' symbol and ensure it is a real word: {prompt}\nHashtag:"
     response = model.generate(hashtag_prompt, max_tokens=length)
-    hashtag = response.strip(",. ")
+    hashtag = response.strip(",. #")
     return f'{hashtag}'
