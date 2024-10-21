@@ -62,25 +62,14 @@ def main():
     run_division = str(content_manager.get_run_division())
     print(f"Integer division of run number by number of projects: {run_division}")
 
-    # Print the list of sentences
-    sentences = content_manager.split_into_sentences(project_content)
-    print(f"List of sentences:\n{sentences}")
+    # Prepare and print the post message with all hashtags
+    post_message = f"{project_content}"
+    print(f"Post message:\n{post_message}")
 
-    # Print the selected sentence and informative words for additional hashtags
-    selected_sentence = content_manager.select_sentence()
-    if selected_sentence is not None:
-        print(f"Selected sentence:\n{selected_sentence}")
-        hashtagged_words = content_manager.get_hashtagged_words(selected_sentence)
-        print(hashtagged_words)
-
-        # Prepare and print the post message with additional hashtags
-        post_message = f"{project_content} {unchangeable_hashtags} {' '.join(hashtagged_words)}"
-        print(f"Post message:\n{post_message}")
-
-        # Create post data and print it
-        post_data = content_manager.create_post_data(project_image_path, post_message)
-        print("Post Data:")
-        print(post_data)
+    # Create post data and print it
+    post_data = content_manager.create_post_data(project_image_path, post_message)
+    print("Post Data:")
+    print(post_data)
 
     # Extract image path and text content from post_data
     image_path = post_data['project_image_path']
