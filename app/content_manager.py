@@ -7,7 +7,6 @@ class ContentManager:
     def __init__(self, number_of_projects):
         self.run_number = int(os.getenv('GITHUB_RUN_NUMBER'))
         self.number_of_projects = number_of_projects
-        self.model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
 
     def get_run_number(self):
         return self.run_number
@@ -47,6 +46,7 @@ class ContentManager:
 
     def get_project_image_path(self):
         file_index = self.get_project_index()
+        # Updated to point to a .png file instead of .txt
         file_path = f'https://github.com/Dmitrii-Zavalin-Deployments/ePublisher/blob/main/content/images/{file_index}.png?raw=true'
         return file_path
 
@@ -54,6 +54,7 @@ class ContentManager:
         return self.run_number // self.number_of_projects
 
     def split_into_sentences(self, content):
+        # This regex pattern aims to split the text into sentences ending with . ! ? or "
         pattern = r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?|!|")\s'
         sentences = re.split(pattern, content)
         return [sentence.strip() for sentence in sentences if sentence]
@@ -74,16 +75,22 @@ class ContentManager:
         return hashtagged_words
 
     def prepare_post_message(self, additional_hashtags):
+        # Declare a new variable to keep text
         post_message = ''
+        # Add the text from read_project_content to the variable
         content = self.read_project_content()
         if content:
             post_message += content
+        # Add a new line
         post_message += '\n'
+        # Add the return from the function read_project_hashtags to the variable
         hashtags = self.read_project_hashtags()
         if hashtags:
             post_message += hashtags
+        # Add additional hashtags if any
         if additional_hashtags:
             post_message += ' ' + ' '.join(additional_hashtags)
+        # Return the variable
         return post_message
 
     def create_post_data(self, project_image_path, post_message):
@@ -93,15 +100,25 @@ class ContentManager:
         }
 
     def get_text_before_hashtag(self, text):
+        # Split the text at the first hashtag
         parts = text.split('#', 1)
+        # Return the part before the hashtag, or the entire text if no hashtag is found
         return parts[0].strip() if len(parts) > 1 else text.strip()
 
-    def update_project_content_with_summary(self, text_to_summarize):
+    def summarize_and_update_text(self, content_before_hashtag):
         file_index = self.get_project_index()
         file_path = f'content/text/{file_index}.txt'
-        current_content = self.read_project_content() or ""
-        summary_prompt = f"Summarize this text and append to current content: {current_content}\n{text_to_summarize}\nSummary:"
-        summary = self.model.generate(summary_prompt).strip()
-        updated_content = f"{current_content}\n{summary}"
-        with open(file_path, 'w') as file:
-            file.write(updated_content)
+        
+        # Initialize the GPT-4All model
+        model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
+        
+        # Generate summary
+        summary_prompt = f"Summarize this text while retaining its main idea and details: {content_before_hashtag}"
+        summary = model.generate(summary_prompt, max_tokens=50).strip()
+        
+        # Update the file with the new summary
+        try:
+            with open(file_path, 'a') as file:
+                file.write("\n" + summary)
+        except FileNotFoundError:
+            print(f"File not found: {file_path}")
