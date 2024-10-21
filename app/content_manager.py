@@ -106,34 +106,34 @@ class ContentManager:
         return parts[0].strip() if len(parts) > 1 else text.strip()
 
     def summarize_and_update_text(self, content_before_hashtag):
-    file_index = self.get_project_index()
-    file_path = f'content/text/{file_index}.txt'
-    
-    # Initialize the GPT-4All model
-    model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
-    
-    # Read existing file content
-    try:
-        with open(file_path, 'r') as file:
-            existing_content = file.read()
-            print(f"Existing content:\n{existing_content}")
-    except FileNotFoundError:
-        print(f"File not found: {file_path}")
-        existing_content = ""
-    
-    # Concatenate existing content with new content
-    combined_content = f"{existing_content.strip()} {content_before_hashtag.split()[0]}".strip()
-    print(f"Combined content:\n{combined_content}")
-    
-    # Generate summary
-    summary_prompt = f"Summarize this text while retaining its main idea and details: {combined_content}"
-    summary = model.generate(summary_prompt, max_tokens=50).strip()
-    print(f"Generated summary:\n{summary}")
-    
-    # Overwrite the file with the new summary
-    try:
-        with open(file_path, 'w') as file:
-            file.write(summary)
-            print(f"Updated file content with summary:\n{summary}")
-    except FileNotFoundError:
-        print(f"File not found: {file_path}")
+        file_index = self.get_project_index()
+        file_path = f'content/text/{file_index}.txt'
+        
+        # Initialize the GPT-4All model
+        model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
+        
+        # Read existing file content
+        try:
+            with open(file_path, 'r') as file:
+                existing_content = file.read()
+                print(f"Existing content:\n{existing_content}")
+        except FileNotFoundError:
+            print(f"File not found: {file_path}")
+            existing_content = ""
+        
+        # Concatenate existing content with new content
+        combined_content = f"{existing_content.strip()} {content_before_hashtag.split()[0]}".strip()
+        print(f"Combined content:\n{combined_content}")
+        
+        # Generate summary
+        summary_prompt = f"Summarize this text while retaining its main idea and details: {combined_content}"
+        summary = model.generate(summary_prompt, max_tokens=50).strip()
+        print(f"Generated summary:\n{summary}")
+        
+        # Overwrite the file with the new summary
+        try:
+            with open(file_path, 'w') as file:
+                file.write(summary)
+                print(f"Updated file content with summary:\n{summary}")
+        except FileNotFoundError:
+            print(f"File not found: {file_path}")
