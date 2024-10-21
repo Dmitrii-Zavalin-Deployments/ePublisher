@@ -80,7 +80,7 @@ def main():
     text_content = post_data['post_message']
 
     # Summarize the text and update the content file
-    content_manager.summarize_and_update_text(content_before_hashtag=text_content)
+    content_manager.summarize_and_update_text(content_before_hashtag=project_text)
 
     # Commented out block for Facebook and Twitter posting
     """
