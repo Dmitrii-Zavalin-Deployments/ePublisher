@@ -108,17 +108,28 @@ class ContentManager:
     def summarize_and_update_text(self, content_before_hashtag):
         file_index = self.get_project_index()
         file_path = f'content/text/{file_index}.txt'
-        
+
         # Initialize the GPT-4All model
         model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
-        
-        # Generate summary
-        summary_prompt = f"Summarize this text while retaining its main idea and details: {content_before_hashtag}"
-        summary = model.generate(summary_prompt, max_tokens=50).strip()
-        
-        # Update the file with the new summary
+
+        # Read existing file content
         try:
-            with open(file_path, 'a') as file:
-                file.write("\n" + summary)
+            with open(file_path, 'r') as file:
+                existing_content = file.read()
+        except FileNotFoundError:
+            print(f"File not found: {file_path}")
+            existing_content = ""
+
+        # Concatenate existing content with new content
+        combined_content = f"{existing_content} {content_before_hashtag}"
+
+        # Generate summary
+        summary_prompt = f"Summarize this text while retaining its main idea and details: {combined_content}"
+        summary = model.generate(summary_prompt, max_tokens=50).strip()
+
+        # Overwrite the file with the new summary
+        try:
+            with open(file_path, 'w') as file:
+                file.write(summary)
         except FileNotFoundError:
             print(f"File not found: {file_path}")
