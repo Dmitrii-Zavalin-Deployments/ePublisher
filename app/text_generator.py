@@ -1,12 +1,15 @@
-import gpt4all
+from gpt4all import GPT4All
+
+# Initialize the GPT-4All model with a valid model name
+model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
 
 def generate_text(prompt, length):
-    gpt = gpt4all.GPT4All(model="orca-mini-3b-gguf2-q4_0.gguf")
-    response = gpt.generate(prompt, max_length=length)
-    return response
+    paraphrase_prompt = f"Paraphrase this text: {prompt}\nParaphrased text:"
+    response = model.generate(paraphrase_prompt, max_tokens=length)
+    return response.strip()
 
 def generate_hashtags(prompt, length=5):
-    gpt = gpt4all.GPT4All(model="orca-mini-3b-gguf2-q4_0.gguf")
-    response = gpt.generate(prompt, max_length=length)
+    hashtag_prompt = f"Generate a single-word hashtag for this text: {prompt}\nHashtag:"
+    response = model.generate(hashtag_prompt, max_tokens=length)
     hashtags = response.split()
     return ' '.join([f'#{tag.strip(",. ")}' for tag in hashtags if tag.strip(",. ")])
