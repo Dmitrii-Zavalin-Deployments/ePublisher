@@ -9,6 +9,10 @@ def main():
     content_manager = ContentManager(number_of_projects=int(os.getenv('NUMBER_OF_PROJECTS')))
     epublisher_facebook_manager = EPublisherFacebookManager()
 
+    # Log file paths
+    log_file_texts = 'generated_content.log'
+    log_file_hashtags = 'generated_content.log'
+
     # Get Run Number
     run_number = str(content_manager.get_run_number())
     print(f"The current run ID is: {run_number}")
@@ -34,13 +38,13 @@ def main():
     original_text = content_manager.read_project_content()
     if original_text is not None:
         print(f"Original Project text:\n{original_text}")
-        project_text = generate_text(original_text, length=allowed_text_length)
+        project_text = generate_text(original_text, length=allowed_text_length, log_file=log_file_texts)
         print(f"New Project text:\n{project_text}")
     else:
         project_text = ""
 
     # Generate new project hashtags
-    generated_hashtags = generate_hashtags(project_text, length=5)
+    generated_hashtags = generate_hashtags(project_text, length=5, log_file=log_file_hashtags)
     print(f"Generated Project hashtags:\n{generated_hashtags}")
 
     # Read and print the project link
@@ -75,9 +79,8 @@ def main():
     image_path = post_data['project_image_path']
     text_content = post_data['post_message']
 
-    # Get the part of post before hashtag
-    content_before_hashtag = content_manager.get_text_before_hashtag(text_content)
-    print(f"Content before hashtag:\n{content_before_hashtag}")
+    # Summarize the text and update the content file
+    content_manager.summarize_and_update_text(content_before_hashtag=text_content)
 
     # Commented out block for Facebook and Twitter posting
     """
