@@ -40,6 +40,10 @@ def generate_text(prompt, length, log_file):
     response = model.generate(slogan_prompt, max_tokens=length).strip()
     print(f"Generated slogan: {response}")
 
+    # Remove the "Random Number" part from the response
+    response = response.split(f"\nRandom number: {random_number}")[0].strip()
+    print(f"Cleaned slogan: {response}")
+
     # Extract key words and hashtag them
     keywords = extract_keywords(response)
     print(f"Extracted keywords: {keywords}")
