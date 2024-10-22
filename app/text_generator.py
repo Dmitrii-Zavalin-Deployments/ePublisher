@@ -1,8 +1,10 @@
 from gpt4all import GPT4All
+from keybert import KeyBERT
 import random
 
-# Initialize the GPT-4All model with a valid model name
+# Initialize the GPT-4All model and KeyBERT
 model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
+kw_model = KeyBERT()
 
 def load_log_file(filepath):
     try:
@@ -15,11 +17,13 @@ def append_to_log_file(filepath, content):
     with open(filepath, 'a') as file:
         file.write(content + '\n')
 
+def extract_keywords(text):
+    keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 1), stop_words='english', top_n=3)
+    return [keyword[0] for keyword in keywords]
+
 def generate_text(prompt, length, log_file):
-    # Assume each word is on a new line in the text file
     words = prompt.splitlines()
     
-    # Ensure we have at least 3 words
     if len(words) == 1:
         selected_words = words * 3
     elif len(words) == 2:
@@ -29,7 +33,6 @@ def generate_text(prompt, length, log_file):
     
     print(f"Selected words: {selected_words}")
     
-    # Adding randomness to the prompt
     random_number = random.randint(1, 10000)
     slogan_prompt = f"Create a catchy slogan using these words: {', '.join(selected_words)}. Make it professional and engaging. Random number: {random_number}\nSlogan:"
     print(f"Slogan prompt: {slogan_prompt}")
@@ -37,11 +40,10 @@ def generate_text(prompt, length, log_file):
     response = model.generate(slogan_prompt, max_tokens=length).strip()
     print(f"Generated slogan: {response}")
 
-    # Follow-up query to hashtag key words
-    hashtag_prompt = f"Hashtag key words in this slogan: {response}\nHashtagged slogan:"
-    print(f"Hashtag prompt: {hashtag_prompt}")
-    
-    hashtagged_response = model.generate(hashtag_prompt, max_tokens=length).strip()
+    # Extract key words and hashtag them
+    keywords = extract_keywords(response)
+    print(f"Extracted keywords: {keywords}")
+    hashtagged_response = ' '.join([f"#{word}" if word in keywords else word for word in response.split()])
     print(f"Hashtagged slogan: {hashtagged_response}")
 
     append_to_log_file(log_file, hashtagged_response)
