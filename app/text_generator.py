@@ -16,11 +16,12 @@ def append_to_log_file(filepath, content):
         file.write(content + '\n')
 
 def generate_text(prompt, length, log_file):
-    words = prompt.split()
+    # Assume each word is on a new line in the text file
+    words = prompt.splitlines()
     selected_words = random.sample(words, 3)
     print(f"Selected words: {selected_words}")
     
-    hashtag_prompt = f"Create a catchy slogan using these words: {', '.join(selected_words)}. Make it professional and engaging. Hashtag key words in the slogan."
+    hashtag_prompt = f"Create a catchy slogan using these words: {', '.join(selected_words)}. Make it professional and engaging. Hashtag key words in the slogan:\nSlogan:"
     print(f"Hashtag prompt: {hashtag_prompt}")
     
     response = model.generate(hashtag_prompt, max_tokens=length).strip()
@@ -30,7 +31,7 @@ def generate_text(prompt, length, log_file):
     return response
 
 def generate_hashtags(prompt, length, log_file):
-    hashtag_prompt = f"Generate a single-word hashtag that effectively summarizes this text: {prompt}"
+    hashtag_prompt = f"Generate a single-word summary for this text: {prompt}\nSummary:"
     print(f"Hashtag prompt: {hashtag_prompt}")
     
     response = model.generate(hashtag_prompt, max_tokens=length).strip(",. #")
