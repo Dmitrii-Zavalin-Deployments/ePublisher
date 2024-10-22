@@ -15,7 +15,7 @@ def append_to_log_file(filepath, content):
         file.write(content + '\n')
 
 def generate_text(prompt, length, log_file):
-    paraphrase_prompt = f"Paraphrase this text with the same meaning, proper punctuation, and make it catchy and engaging: {prompt}\nParaphrased text:"
+    paraphrase_prompt = f"Make paraphrased short slogan from this text with the same meaning, proper punctuation, and make it catchy and engaging: {prompt}\nParaphrased text:"
     existing_texts = load_log_file(log_file)
     response = model.generate(paraphrase_prompt, max_tokens=length).strip()
     append_to_log_file(log_file, response)
