@@ -1,6 +1,7 @@
 from gpt4all import GPT4All
 from keybert import KeyBERT
 import random
+import string
 
 # Initialize the GPT-4All model and KeyBERT
 model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
@@ -47,7 +48,7 @@ def generate_text(prompt, length, log_file):
     # Extract key words and hashtag them
     keywords = extract_keywords(response)
     print(f"Extracted keywords: {keywords}")
-    hashtagged_response = ' '.join([f"#{word}" if word.lower() in [k.lower() for k in keywords] else word for word in response.split()])
+    hashtagged_response = ' '.join([f"#{word.strip(string.punctuation)}" if word.strip(string.punctuation).lower() in [k.lower() for k in keywords] else word for word in response.split()])
     print(f"Hashtagged slogan: {hashtagged_response}")
 
     append_to_log_file(log_file, hashtagged_response)
