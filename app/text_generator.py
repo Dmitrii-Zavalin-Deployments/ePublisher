@@ -18,17 +18,32 @@ def append_to_log_file(filepath, content):
 def generate_text(prompt, length, log_file):
     # Assume each word is on a new line in the text file
     words = prompt.splitlines()
-    selected_words = random.sample(words, 3)
+    
+    # Ensure we have at least 3 words
+    if len(words) == 1:
+        selected_words = words * 3
+    elif len(words) == 2:
+        selected_words = words + words[:1]
+    else:
+        selected_words = random.sample(words, 3)
+    
     print(f"Selected words: {selected_words}")
     
-    hashtag_prompt = f"Create a catchy slogan using these words: {', '.join(selected_words)}. Make it professional and engaging. Hashtag key words in the slogan:\nSlogan:"
-    print(f"Hashtag prompt: {hashtag_prompt}")
+    slogan_prompt = f"Create a catchy slogan using these words: {', '.join(selected_words)}. Make it professional and engaging."
+    print(f"Slogan prompt: {slogan_prompt}")
     
-    response = model.generate(hashtag_prompt, max_tokens=length).strip()
+    response = model.generate(slogan_prompt, max_tokens=length).strip()
     print(f"Generated slogan: {response}")
 
-    append_to_log_file(log_file, response)
-    return response
+    # Follow-up query to hashtag key words
+    hashtag_prompt = f"Hashtag key words in this slogan: {response}\nHashtagged slogan:"
+    print(f"Hashtag prompt: {hashtag_prompt}")
+    
+    hashtagged_response = model.generate(hashtag_prompt, max_tokens=length).strip()
+    print(f"Hashtagged slogan: {hashtagged_response}")
+
+    append_to_log_file(log_file, hashtagged_response)
+    return hashtagged_response
 
 def generate_hashtags(prompt, length, log_file):
     hashtag_prompt = f"Generate a single-word summary for this text: {prompt}\nSummary:"
