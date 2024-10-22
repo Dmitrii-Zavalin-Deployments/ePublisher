@@ -122,11 +122,11 @@ class ContentManager:
             existing_content = ""
         
         # Concatenate existing content with new content
-        combined_content = f"{existing_content.strip()} {content_before_hashtag.split()[0]}".strip()
+        combined_content = f"{existing_content.strip()} {content_before_hashtag}".strip()
         print(f"Combined content:\n{combined_content}")
         
         # Generate summary
-        summary_prompt = f"Summarize this text while retaining its main idea and details: {combined_content}"
+        summary_prompt = f"Summarize this text: {combined_content} in a short sales message"
         summary = model.generate(summary_prompt, max_tokens=50).strip()
         print(f"Generated summary:\n{summary}")
         
