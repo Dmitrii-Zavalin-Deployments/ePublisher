@@ -110,7 +110,7 @@ class ContentManager:
         file_path = f'content/text/{file_index}.txt'
         
         # Initialize the GPT-4All model
-        model = GPT4All("orca-mini-7b")
+        model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
         
         # Read existing file content
         try:
