@@ -22,7 +22,7 @@ def generate_text(prompt, length, log_file):
     return response
 
 def generate_hashtags(prompt, length, log_file):
-    hashtag_prompt = f"Generate a single-word hashtag for this text: {prompt}\nHashtag:"
+    hashtag_prompt = f"Generate a single-word summary for this text: {prompt}\nSummary:"
     existing_hashtags = load_log_file(log_file)
     response = model.generate(hashtag_prompt, max_tokens=length).strip(",. #")
     hashtag = f'#{response}'
