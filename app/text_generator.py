@@ -34,22 +34,30 @@ def generate_text(prompt, length, log_file):
     
     print(f"Selected words: {selected_words}")
     
-    random_number = random.randint(1, 10000000)
-    slogan_prompt = f"{random_number}. Create a catchy slogan using these words: {', '.join(selected_words)}. Make it professional and engaging.\nSlogan:"
+    random_number = random.randint(1, 10000)
+    slogan_prompt = f"Create a catchy slogan using these words: {', '.join(selected_words)}. Make it professional and engaging. Random number: {random_number}\nSlogan:"
     print(f"Slogan prompt: {slogan_prompt}")
     
     response = model.generate(slogan_prompt, max_tokens=length).strip()
     print(f"Generated slogan: {response}")
 
+    # Remove the "Random Number" part from the response
+    response = response.split(f"\nRandom number: {random_number}")[0].strip()
+    print(f"Cleaned slogan: {response}")
+
     # Extract key words and hashtag them
     keywords = extract_keywords(response)
     print(f"Extracted keywords: {keywords}")
     
-    hashtagged_response = ' '.join([
-        f"#{word}" if any(keyword in word.lower() for keyword in [k.lower() for k in keywords]) else word 
-        for word in response.split()
-    ])
-    
+    def hashtag_word(word):
+        stripped_word = word.strip(string.punctuation)
+        if stripped_word.lower() in [k.lower() for k in keywords]:
+            punct_before = ''.join(c for c in word if c in string.punctuation)
+            punct_after = ''.join(c for c in word[len(stripped_word):] if c in string.punctuation)
+            return f"{punct_before}#{stripped_word}{punct_after}"
+        return word
+
+    hashtagged_response = ' '.join([hashtag_word(word) for word in response.split()])
     print(f"Hashtagged slogan: {hashtagged_response}")
 
     append_to_log_file(log_file, hashtagged_response)
