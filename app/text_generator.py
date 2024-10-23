@@ -1,5 +1,6 @@
 from gpt4all import GPT4All
 from keybert import KeyBERT
+import markovify
 import random
 import string
 
@@ -53,10 +54,15 @@ def generate_text(prompt, length, log_file):
     response = response.strip('"').strip("'").strip('-')
     print(f"Cleaned slogan: {response}")
 
+    # Ensure it is a complete sentence using Markovify
+    model_text = markovify.Text(response)
+    complete_sentence = model_text.make_sentence(tries=100)
+    print(f"Complete sentence: {complete_sentence}")
+
     # Extract key words and hashtag them
-    keywords = extract_keywords(response)
+    keywords = extract_keywords(complete_sentence)
     print(f"Extracted keywords: {keywords}")
-    hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in response.split()])
+    hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in complete_sentence.split()])
     print(f"Hashtagged slogan: {hashtagged_response}")
 
     append_to_log_file(log_file, hashtagged_response)
