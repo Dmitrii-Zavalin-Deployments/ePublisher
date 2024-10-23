@@ -56,9 +56,19 @@ def generate_text(prompt, length, log_file):
 
     # Ensure it is a complete sentence using Markovify
     model_text = markovify.Text(response)
-    complete_sentence = model_text.make_sentence(tries=100)
+    complete_sentence = None
+    tries = 0
+    while complete_sentence is None and tries < 100:
+        tries += 1
+        candidate = model_text.make_sentence(tries=100)
+        print(f"Generated candidate: {candidate}")
+        if candidate and 10 <= len(candidate.split()) <= 20:  # Target sentence length between 10 and 20 words
+            complete_sentence = candidate
     if complete_sentence is None:
-        complete_sentence = response + "."  # Fallback to the original response
+        if response[-1] not in '.!?':
+            complete_sentence = response + "."
+        else:
+            complete_sentence = response
     print(f"Complete sentence: {complete_sentence}")
 
     # Extract key words and hashtag them
