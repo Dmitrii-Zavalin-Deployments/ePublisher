@@ -2,13 +2,13 @@ name: ePublisher Automation
 
 on:
   schedule:
-    - cron: '30 * * * *'  # Runs at the 30th minute of every hour
+    - cron: '30 * * * *'
   push:
     branches:
       - T-807-second-approach
 
 env:
-  NUMBER_OF_PROJECTS: 2  # Set this to the number of posts to publish or projects you have (currently 2 to run only for projects 0 and 1 from content folder)
+  NUMBER_OF_PROJECTS: 2
 
 jobs:
   deploy:

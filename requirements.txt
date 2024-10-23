@@ -3,5 +3,6 @@ python-dotenv
 gpt4all
 keybert
 keytotext
-datasets==2.1.0  # Compatible version
+datasets==2.1.0
 evaluate
+opencv-python-headless
