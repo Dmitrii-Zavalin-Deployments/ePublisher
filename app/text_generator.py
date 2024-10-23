@@ -61,13 +61,3 @@ def generate_text(prompt, length, log_file):
 
     append_to_log_file(log_file, hashtagged_response)
     return hashtagged_response
-
-def generate_hashtags(prompt, length, log_file):
-    hashtag_prompt = f"Generate a single-word summary for this text: {prompt}\nSummary:"
-    print(f"Hashtag prompt: {hashtag_prompt}")
-    
-    response = model.generate(hashtag_prompt, max_tokens=length).strip(",. #")
-    print(f"Generated hashtag: #{response}")
-    
-    append_to_log_file(log_file, f"#{response}")
-    return f"#{response}"
