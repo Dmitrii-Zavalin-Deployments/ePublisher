@@ -1,12 +1,13 @@
 from gpt4all import GPT4All
 from keybert import KeyBERT
-import markovify
+from keytotext import pipeline
 import random
 import string
 
 # Initialize the GPT-4All model and KeyBERT
 model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
 kw_model = KeyBERT()
+k2t = pipeline("mrm8488/t5-base-finetuned-common_gen")
 
 def load_log_file(filepath):
     try:
@@ -54,21 +55,8 @@ def generate_text(prompt, length, log_file):
     response = response.strip('"').strip("'").strip('-')
     print(f"Cleaned slogan: {response}")
 
-    # Ensure it is a complete sentence using Markovify
-    model_text = markovify.Text(response)
-    complete_sentence = None
-    tries = 0
-    while complete_sentence is None and tries < 100:
-        tries += 1
-        candidate = model_text.make_sentence(tries=100)
-        print(f"Generated candidate: {candidate}")
-        if candidate and 10 <= len(candidate.split()) <= 20:  # Target sentence length between 10 and 20 words
-            complete_sentence = candidate
-    if complete_sentence is None:
-        if response[-1] not in '.!?':
-            complete_sentence = response + "."
-        else:
-            complete_sentence = response
+    # Generate a complete sentence using Keytotext
+    complete_sentence = k2t.generate([response], min_length=10, max_length=20)[0]
     print(f"Complete sentence: {complete_sentence}")
 
     # Extract key words and hashtag them
