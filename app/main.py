@@ -31,7 +31,7 @@ def main():
     print(f"Length of unchangeable hashtags: {unchangeable_hashtags_length}")
 
     # Calculate allowed length for the new text
-    allowed_text_length = (40 - unchangeable_hashtags_length) // 4
+    allowed_text_length = (100 - unchangeable_hashtags_length) // 4
     print(f"Allowed length for the new text: {allowed_text_length}")
 
     # Generate new project text
