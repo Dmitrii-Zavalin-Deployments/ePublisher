@@ -43,10 +43,6 @@ def main():
     else:
         project_text = ""
 
-    # Generate new project hashtags
-    generated_hashtags = generate_hashtags(project_text, length=5, log_file=log_file_hashtags)
-    print(f"Generated Project hashtags:\n{generated_hashtags}")
-
     # Read and print the project link
     project_link = content_manager.read_project_links()
     if project_link is not None:
@@ -55,7 +51,7 @@ def main():
         project_link = ""
 
     # Combine project_text, project_link, and all_hashtags into project_content
-    project_content = f"{project_text} {project_link} {generated_hashtags} {unchangeable_hashtags}".strip()
+    project_content = f"{project_link} {project_text} {unchangeable_hashtags}".strip()
     print(f"Project content:\n{project_content}")
 
     # Get the project image path
