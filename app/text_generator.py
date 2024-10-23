@@ -3,10 +3,12 @@ from keybert import KeyBERT
 from keytotext import pipeline
 import random
 import string
+import evaluate
 
 # Initialize the GPT-4All model and KeyBERT
 model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
 kw_model = KeyBERT()
+k2t = pipeline("mrm8488/t5-base-finetuned-common_gen")
 
 def load_log_file(filepath):
     try:
@@ -49,21 +51,20 @@ def generate_text(prompt, length, log_file):
     
     response = model.generate(slogan_prompt, max_tokens=length).strip()
     print(f"Generated slogan: {response}")
-
+    
     # Remove surrounding quotes and dashes
     response = response.strip('"').strip("'").strip('-')
     print(f"Cleaned slogan: {response}")
-
-    # Ensure it is a complete sentence using Keytotext
-    keytotext_pipeline = pipeline("text-generation", model="keytotext/t5-base")
-    complete_sentence = keytotext_pipeline(response, max_length=50, num_return_sequences=1)[0]['generated_text']
+    
+    # Generate a complete sentence using Keytotext
+    complete_sentence = k2t.generate([response], min_length=10, max_length=20)[0]['generated_text']
     print(f"Complete sentence: {complete_sentence}")
-
+    
     # Extract key words and hashtag them
     keywords = extract_keywords(complete_sentence)
     print(f"Extracted keywords: {keywords}")
     hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in complete_sentence.split()])
     print(f"Hashtagged slogan: {hashtagged_response}")
-
+    
     append_to_log_file(log_file, hashtagged_response)
     return hashtagged_response
