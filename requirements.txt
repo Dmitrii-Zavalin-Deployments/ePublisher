@@ -3,3 +3,4 @@ python-dotenv
 gpt4all
 keybert
 keytotext
+evaluate
