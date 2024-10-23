@@ -3,4 +3,5 @@ python-dotenv
 gpt4all
 keybert
 keytotext
+datasets==2.1.0  # Compatible version
 evaluate

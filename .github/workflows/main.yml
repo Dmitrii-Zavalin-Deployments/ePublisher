@@ -1,7 +1,5 @@
 name: ePublisher Automation
 
-# It's important to update the schedule depending on the number of projects in the contents of this repository.
-# The NUMBER_OF_PROJECTS variable is equal to the number of files in /content/hashtags.
 on:
   schedule:
     - cron: '30 * * * *'  # Runs at the 30th minute of every hour
@@ -32,9 +30,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install --upgrade datasets
           pip install -r requirements.txt
-          pip install evaluate
         
       - name: Set repository name environment variable
         run: echo "REPO_NAME=${{ github.repository }}" >> $GITHUB_ENV

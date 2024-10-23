@@ -3,7 +3,6 @@ from keybert import KeyBERT
 from keytotext import pipeline
 import random
 import string
-import evaluate
 
 # Initialize the GPT-4All model and KeyBERT
 model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
@@ -57,7 +56,7 @@ def generate_text(prompt, length, log_file):
     print(f"Cleaned slogan: {response}")
     
     # Generate a complete sentence using Keytotext
-    complete_sentence = k2t.generate([response], min_length=10, max_length=20)[0]['generated_text']
+    complete_sentence = k2t([response], min_length=10, max_length=20)[0]
     print(f"Complete sentence: {complete_sentence}")
     
     # Extract key words and hashtag them
