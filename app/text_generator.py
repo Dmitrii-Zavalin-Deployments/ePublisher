@@ -42,7 +42,7 @@ def generate_text(prompt, length, log_file):
     
     print(f"Selected words: {selected_words}")
     
-    random_number = random.randint(1, 10000)
+    random_number = random.randint(1, 10000000)
     slogan_prompt = f"{random_number}. Create a catchy, professional, appropriate, polite, clear and engaging slogan using these words: {', '.join(selected_words)}.\nSlogan:"
     print(f"Slogan prompt: {slogan_prompt}")
     
