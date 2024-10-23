@@ -49,8 +49,8 @@ def generate_text(prompt, length, log_file):
     response = model.generate(slogan_prompt, max_tokens=length).strip()
     print(f"Generated slogan: {response}")
 
-    # Remove surrounding quotes
-    response = response.strip('"').strip("'")
+    # Remove surrounding quotes and dashes
+    response = response.strip('"').strip("'").strip('-')
     print(f"Cleaned slogan: {response}")
 
     # Extract key words and hashtag them
