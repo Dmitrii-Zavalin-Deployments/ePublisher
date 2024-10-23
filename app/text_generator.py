@@ -1,10 +1,7 @@
 from gpt4all import GPT4All
 from keybert import KeyBERT
-import nltk
 import random
 import string
-
-nltk.download('punkt')
 
 # Initialize the GPT-4All model and KeyBERT
 model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
@@ -33,44 +30,40 @@ def hashtag_word(word, keywords):
         return f"{punct_before}#{stripped_word}{punct_after}"
     return word
 
-def complete_sentence(text):
-    sentences = nltk.sent_tokenize(text)
-    if len(sentences) > 0 and sentences[-1][-1] not in '.!?':
-        sentences[-1] += '.'
-    return ' '.join(sentences)
-
 def generate_text(prompt, length, log_file):
     words = prompt.splitlines()
-    
+
     if len(words) == 1:
         selected_words = words * 3
     elif len(words) == 2:
         selected_words = words + words[:1]
     else:
         selected_words = random.sample(words, 3)
-    
+
     print(f"Selected words: {selected_words}")
-    
+
     random_number = random.randint(1, 10000000)
     slogan_prompt = f"{random_number}. Create a catchy, professional, appropriate, polite, clear and engaging complete sentence slogan using these words: {', '.join(selected_words)}.\nSlogan:"
     print(f"Slogan prompt: {slogan_prompt}")
-    
+
     response = model.generate(slogan_prompt, max_tokens=length).strip()
     print(f"Generated slogan: {response}")
-    
+
     # Remove surrounding quotes and dashes
     response = response.strip('"').strip("'").strip('-')
     print(f"Cleaned slogan: {response}")
-    
-    # Ensure it is a complete sentence using NLTK
-    complete_sentence_text = complete_sentence(response)
+
+    # Ensure it is a complete sentence using GPT-4All
+    complete_sentence_prompt = f"Ensure this is a complete sentence: {response}"
+    complete_sentence_text = model.generate(complete_sentence_prompt, max_tokens=length).strip()
     print(f"Complete sentence: {complete_sentence_text}")
-    
+
     # Extract key words and hashtag them
     keywords = extract_keywords(complete_sentence_text)
     print(f"Extracted keywords: {keywords}")
+
     hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in complete_sentence_text.split()])
     print(f"Hashtagged slogan: {hashtagged_response}")
-    
+
     append_to_log_file(log_file, hashtagged_response)
     return hashtagged_response
