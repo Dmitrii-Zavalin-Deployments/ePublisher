@@ -57,6 +57,8 @@ def generate_text(prompt, length, log_file):
     # Ensure it is a complete sentence using Markovify
     model_text = markovify.Text(response)
     complete_sentence = model_text.make_sentence(tries=100)
+    if complete_sentence is None:
+        complete_sentence = response + "."  # Fallback to the original response
     print(f"Complete sentence: {complete_sentence}")
 
     # Extract key words and hashtag them
