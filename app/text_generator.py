@@ -1,13 +1,14 @@
 from gpt4all import GPT4All
 from keybert import KeyBERT
-from keytotext import pipeline
+import nltk
 import random
 import string
+
+nltk.download('punkt')
 
 # Initialize the GPT-4All model and KeyBERT
 model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
 kw_model = KeyBERT()
-k2t = pipeline("mrm8488/t5-base-finetuned-common_gen")
 
 def load_log_file(filepath):
     try:
@@ -32,6 +33,12 @@ def hashtag_word(word, keywords):
         return f"{punct_before}#{stripped_word}{punct_after}"
     return word
 
+def complete_sentence(text):
+    sentences = nltk.sent_tokenize(text)
+    if len(sentences) > 0 and sentences[-1][-1] not in '.!?':
+        sentences[-1] += '.'
+    return ' '.join(sentences)
+
 def generate_text(prompt, length, log_file):
     words = prompt.splitlines()
     
@@ -55,14 +62,14 @@ def generate_text(prompt, length, log_file):
     response = response.strip('"').strip("'").strip('-')
     print(f"Cleaned slogan: {response}")
     
-    # Generate a complete sentence using Keytotext
-    complete_sentence = k2t([response], min_length=10, max_length=20)[0]
-    print(f"Complete sentence: {complete_sentence}")
+    # Ensure it is a complete sentence using NLTK
+    complete_sentence_text = complete_sentence(response)
+    print(f"Complete sentence: {complete_sentence_text}")
     
     # Extract key words and hashtag them
-    keywords = extract_keywords(complete_sentence)
+    keywords = extract_keywords(complete_sentence_text)
     print(f"Extracted keywords: {keywords}")
-    hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in complete_sentence.split()])
+    hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in complete_sentence_text.split()])
     print(f"Hashtagged slogan: {hashtagged_response}")
     
     append_to_log_file(log_file, hashtagged_response)
