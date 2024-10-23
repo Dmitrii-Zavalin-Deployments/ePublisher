@@ -2,7 +2,7 @@ import subprocess
 import os
 from epublisher_facebook_manager import EPublisherFacebookManager
 from content_manager import ContentManager
-from text_generator import generate_text, generate_hashtags
+from text_generator import generate_text
 
 def main():
     # Initialize managers
