@@ -22,6 +22,14 @@ def extract_keywords(text):
     keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 1), stop_words='english', top_n=3)
     return [keyword[0] for keyword in keywords]
 
+def hashtag_word(word, keywords):
+    stripped_word = word.strip(string.punctuation)
+    if stripped_word.lower() in [k.lower() for k in keywords]:
+        punct_before = ''.join(c for c in word if c in string.punctuation and word.index(c) < len(stripped_word))
+        punct_after = ''.join(c for c in word if c in string.punctuation and word.index(c) >= len(stripped_word))
+        return f"{punct_before}#{stripped_word}{punct_after}"
+    return word
+
 def generate_text(prompt, length, log_file):
     words = prompt.splitlines()
     
@@ -41,19 +49,14 @@ def generate_text(prompt, length, log_file):
     response = model.generate(slogan_prompt, max_tokens=length).strip()
     print(f"Generated slogan: {response}")
 
+    # Remove the "Random Number" part from the response
+    response = response.split(f"\nRandom number: {random_number}")[0].strip()
+    print(f"Cleaned slogan: {response}")
+
     # Extract key words and hashtag them
     keywords = extract_keywords(response)
     print(f"Extracted keywords: {keywords}")
-    
-    def hashtag_word(word):
-        stripped_word = word.strip(string.punctuation)
-        if stripped_word.lower() in [k.lower() for k in keywords]:
-            punct_before = ''.join(c for c in word if c in string.punctuation)
-            punct_after = ''.join(c for c in word[len(stripped_word):] if c in string.punctuation)
-            return f"{punct_before}#{stripped_word}{punct_after}"
-        return word
-
-    hashtagged_response = ' '.join([hashtag_word(word) for word in response.split()])
+    hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in response.split()])
     print(f"Hashtagged slogan: {hashtagged_response}")
 
     append_to_log_file(log_file, hashtagged_response)
