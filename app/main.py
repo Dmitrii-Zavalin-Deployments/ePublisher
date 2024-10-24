@@ -25,16 +25,17 @@ def main():
     # Add a unique hashtag based on the current date and time
     now = datetime.now()
     unique_hashtag = f"#{now.strftime('%Y%m%d%H%M')}"
-    print(f"Generated unique hashtag: {unique_hashtag}")
+    unique_hashtag_with_note = f"{unique_hashtag} (AI-made post. Sorry for errors)"
+    print(f"Generated unique hashtag: {unique_hashtag_with_note}")
     
     # Read unchangeable hashtags
     unchangeable_hashtags = content_manager.read_project_hashtags()
     if unchangeable_hashtags is not None:
-        unchangeable_hashtags += f" {unique_hashtag}"
+        unchangeable_hashtags += f" {unique_hashtag_with_note}"
         print(f"Unchangeable Project hashtags:\n{unchangeable_hashtags}")
         unchangeable_hashtags_length = len(unchangeable_hashtags)
     else:
-        unchangeable_hashtags = unique_hashtag
+        unchangeable_hashtags = unique_hashtag_with_note
         unchangeable_hashtags_length = len(unchangeable_hashtags)
     print(f"Length of unchangeable hashtags: {unchangeable_hashtags_length}")
     
@@ -84,21 +85,19 @@ def main():
     text_content = post_data['post_message']
     
     # Summarize the text and update the content file
-    content_manager.summarize_and_update_text(content_before_hashtag=project_text)
+    # content_manager.summarize_and_update_text(content_before_hashtag=project_text)
     
-    # Commented out block for Facebook and Twitter posting
-    """
     try:
         # New: Get and print the Facebook posts
-        facebook_posts = epublisher_facebook_manager.get_facebook_posts()
-        print(f"Facebook posts:\n{facebook_posts}")
+        # facebook_posts = epublisher_facebook_manager.get_facebook_posts()
+        # print(f"Facebook posts:\n{facebook_posts}")
         
         # Searching for posts to delete
-        message_ids = epublisher_facebook_manager.print_message_before_hashtag(facebook_posts, content_before_hashtag)
+        # message_ids = epublisher_facebook_manager.print_message_before_hashtag(facebook_posts, content_before_hashtag)
         
         # Delete post with message_ids
-        deleted_post = epublisher_facebook_manager.delete_facebook_posts(message_ids)
-        print('Repeated posts are deleted')
+        # deleted_post = epublisher_facebook_manager.delete_facebook_posts(message_ids)
+        # print('Repeated posts are deleted')
         
         # Post in Facebook
         epublisher_facebook_manager.post_to_facebook(image_path, text_content)
@@ -107,7 +106,7 @@ def main():
     
     # Call the Node.js script with the parameters to start Twitter
     subprocess.run(['node', 'js/tweet.js', image_path, text_content, content_before_hashtag], check=True)
-    """
+    
 
 if __name__ == "__main__":
     main()
