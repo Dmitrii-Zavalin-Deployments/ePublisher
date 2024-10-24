@@ -87,7 +87,7 @@ def main():
     # Summarize the text and update the content file
     # content_manager.summarize_and_update_text(content_before_hashtag=project_text)
     
-    try:
+    # try:
         # New: Get and print the Facebook posts
         # facebook_posts = epublisher_facebook_manager.get_facebook_posts()
         # print(f"Facebook posts:\n{facebook_posts}")
@@ -101,8 +101,8 @@ def main():
         
         # Post in Facebook
         # epublisher_facebook_manager.post_to_facebook(image_path, text_content)
-    except Exception as e:
-        print("Failed to post on Facebook: ", e)
+    # except Exception as e:
+        # print("Failed to post on Facebook: ", e)
     
     # Call the Node.js script with the parameters to start Twitter
     # subprocess.run(['node', 'js/tweet.js', image_path, text_content, project_link], check=True)
