@@ -2,3 +2,4 @@ requests
 python-dotenv
 gpt4all
 keybert
+transformers==4.30.0
