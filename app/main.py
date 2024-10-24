@@ -40,7 +40,7 @@ def main():
     print(f"Length of unchangeable hashtags: {unchangeable_hashtags_length}")
     
     # Calculate allowed length for the new text
-    allowed_text_length = (100 - unchangeable_hashtags_length) // 4
+    allowed_text_length = (132 - unchangeable_hashtags_length) // 4
     print(f"Allowed length for the new text: {allowed_text_length}")
     
     # Generate new project text
@@ -105,7 +105,7 @@ def main():
         print("Failed to post on Facebook: ", e)
     
     # Call the Node.js script with the parameters to start Twitter
-    subprocess.run(['node', 'js/tweet.js', image_path, text_content, content_before_hashtag], check=True)
+    subprocess.run(['node', 'js/tweet.js', image_path, text_content, project_link], check=True)
     
 
 if __name__ == "__main__":
