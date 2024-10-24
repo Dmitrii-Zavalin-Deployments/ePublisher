@@ -54,7 +54,7 @@ def generate_text(prompt, length, log_file):
     print(f"Cleaned slogan: {response}")
 
     # Ensure it is a complete sentence using GPT-4All
-    complete_sentence_prompt = f"Proofread this text to make a sentence: {response}"
+    complete_sentence_prompt = f"Proofread this text to make a sentence: {response} \nSentence:"
     complete_sentence_text = model.generate(complete_sentence_prompt, max_tokens=length).strip()
     print(f"Complete sentence: {complete_sentence_text}")
 
