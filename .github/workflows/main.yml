@@ -2,24 +2,23 @@ name: ePublisher Automation
 
 # It's important to update the schedule depending on the number of projects in the contents of this repository.
 # The NUMBER_OF_PROJECTS variable is equal to the number of files in /content/hashtags.
-on: 
+on:
   schedule:
     - cron: '30 * * * *'  # Runs at the 30th minute of every hour
   push:
     branches:
       - T-807-filter-inappropriate-content
 
-env: 
+env:
   NUMBER_OF_PROJECTS: 2  # Set this to the number of posts to publish or projects you have (currently 2 to run only for projects 0 and 1 from content folder)
 
-jobs: 
+jobs:
   deploy:
     runs-on: ubuntu-latest
-
-    steps: 
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -47,7 +46,7 @@ jobs:
         run: npm install
 
       - name: Run script
-        env: 
+        env:
           FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
           FACEBOOK_APP_SECRET: ${{ secrets.FACEBOOK_APP_SECRET }}
           FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}

@@ -30,55 +30,40 @@ def hashtag_word(word, keywords):
         return f"{punct_before}#{stripped_word}{punct_after}"
     return word
 
-def is_forbidden_topic(complete_sentence_text):
-    forbidden_topics = {'violence', 'profanity'}
-    topic_check_prompt = f"Is the main topic of the following text any of the following: {', '.join(forbidden_topics)}? Answer yes or no: {complete_sentence_text}"
-    response = model.generate(topic_check_prompt).strip().lower()
-    
-    # Detailed logs
-    print(f"Complete sentence: {complete_sentence_text}")
-    print(f"Forbidden topics: {forbidden_topics}")
-    print(f"Topic check prompt: {topic_check_prompt}")
-    print(f"GPT-4All response: {response}")
-    
-    return "yes" in response
-
 def generate_text(prompt, length, log_file):
-    while True:
-        words = prompt.splitlines()
-        if len(words) == 1:
-            selected_words = words * 3
-        elif len(words) == 2:
-            selected_words = words + words[:1]
-        else:
-            selected_words = random.sample(words, 3)
-        
-        print(f"Selected words: {selected_words}")
-        random_number = random.randint(1, 10000000)
-        slogan_prompt = f"{random_number}. Create a catchy, professional, appropriate, polite, clear and engaging complete sentence slogan using these words: {', '.join(selected_words)}.\nSlogan:"
-        print(f"Slogan prompt: {slogan_prompt}")
-        response = model.generate(slogan_prompt, max_tokens=length).strip()
-        print(f"Generated slogan: {response}")
+    words = prompt.splitlines()
 
-        # Remove surrounding quotes and dashes
-        response = response.strip('"').strip("'").strip('-')
-        print(f"Cleaned slogan: {response}")
+    if len(words) == 1:
+        selected_words = words * 3
+    elif len(words) == 2:
+        selected_words = words + words[:1]
+    else:
+        selected_words = random.sample(words, 3)
 
-        # Ensure it is a complete sentence using GPT-4All
-        complete_sentence_prompt = f"Proofread this text to make a sentence: {response} \nSentence:"
-        complete_sentence_text = model.generate(complete_sentence_prompt, max_tokens=length).strip()
-        print(f"Complete sentence: {complete_sentence_text}")
+    print(f"Selected words: {selected_words}")
 
-        # Check if the topic is appropriate
-        if not is_forbidden_topic(complete_sentence_text):
-            break
-        else:
-            print("Inappropriate topic detected, generating a new slogan...")
+    random_number = random.randint(1, 10000000)
+    slogan_prompt = f"{random_number}. Create a catchy, professional, appropriate, polite, clear and engaging complete sentence slogan using these words: {', '.join(selected_words)}.\nSlogan:"
+    print(f"Slogan prompt: {slogan_prompt}")
+
+    response = model.generate(slogan_prompt, max_tokens=length).strip()
+    print(f"Generated slogan: {response}")
+
+    # Remove surrounding quotes and dashes
+    response = response.strip('"').strip("'").strip('-')
+    print(f"Cleaned slogan: {response}")
+
+    # Ensure it is a complete sentence using GPT-4All
+    complete_sentence_prompt = f"Proofread this text to make a sentence: {response} \nSentence:"
+    complete_sentence_text = model.generate(complete_sentence_prompt, max_tokens=length).strip()
+    print(f"Complete sentence: {complete_sentence_text}")
 
     # Extract key words and hashtag them
     keywords = extract_keywords(complete_sentence_text)
     print(f"Extracted keywords: {keywords}")
+
     hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in complete_sentence_text.split()])
     print(f"Hashtagged slogan: {hashtagged_response}")
+
     append_to_log_file(log_file, hashtagged_response)
     return hashtagged_response
