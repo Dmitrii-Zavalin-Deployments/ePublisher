@@ -1,7 +1,5 @@
 name: ePublisher Automation
 
-# It's important to update the schedule depending on the number of projects in the contents of this repository.
-# The NUMBER_OF_PROJECTS variable is equal to the number of files in /content/hashtags.
 on: 
   schedule:
     - cron: '30 * * * *'  # Runs at the 30th minute of every hour
