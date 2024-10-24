@@ -100,12 +100,12 @@ def main():
         # print('Repeated posts are deleted')
         
         # Post in Facebook
-        epublisher_facebook_manager.post_to_facebook(image_path, text_content)
+        # epublisher_facebook_manager.post_to_facebook(image_path, text_content)
     except Exception as e:
         print("Failed to post on Facebook: ", e)
     
     # Call the Node.js script with the parameters to start Twitter
-    subprocess.run(['node', 'js/tweet.js', image_path, text_content, project_link], check=True)
+    # subprocess.run(['node', 'js/tweet.js', image_path, text_content, project_link], check=True)
     
 
 if __name__ == "__main__":
