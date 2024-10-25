@@ -32,7 +32,7 @@ def extract_keywords(text):
 
 def hashtag_word(word, keywords):
     stripped_word = word.strip(string.punctuation)
-    if stripped_word.lower() in [k.lower() for k in keywords]:
+    if any(keyword in stripped_word.lower() for keyword in [k.lower() for k in keywords]):
         punct_before = ''.join(c for c in word if c in string.punctuation and word.index(c) < len(stripped_word))
         punct_after = ''.join(c for c in word if c in string.punctuation and word.index(c) >= len(stripped_word))
         return f"{punct_before}#{stripped_word}{punct_after}"
@@ -80,7 +80,7 @@ def generate_text(prompt, length, log_file):
         # If no proper complete sentence is formed after 10 attempts
         keywords = extract_keywords(response)
         print(f"Extracted keywords after 10 attempts: {keywords}")
-        hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in response.split()])
+        hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in keywords])
     
     print(f"Hashtagged slogan: {hashtagged_response}")
     append_to_log_file(log_file, hashtagged_response)
