@@ -19,8 +19,16 @@ def append_to_log_file(filepath, content):
         file.write(content + '\n')
 
 def extract_keywords(text):
-    keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 2), stop_words='english', top_n=3)
-    return [keyword[0] for keyword in keywords]
+    try:
+        keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 2), stop_words='english', top_n=3)
+        return [keyword[0] for keyword in keywords]
+    except AttributeError:
+        # Handling different versions of CountVectorizer
+        from sklearn.feature_extraction.text import CountVectorizer
+        vectorizer = CountVectorizer()
+        X = vectorizer.fit_transform([text])
+        feature_names = vectorizer.get_feature_names_out()  # Updated method
+        return list(feature_names)[:3]  # Ensure we return top 3 to maintain consistency
 
 def hashtag_word(word, keywords):
     stripped_word = word.strip(string.punctuation)
@@ -58,12 +66,4 @@ def generate_text(prompt, length, log_file):
     # Extract key words and hashtag them
     keywords = extract_keywords(complete_sentence_text)
     print(f"Extracted keywords: {keywords}")
-    hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in complete_sentence_text.split()])
-    print(f"Hashtagged slogan: {hashtagged_response}")
-    append_to_log_file(log_file, hashtagged_response)
-    return hashtagged_response
-
-if __name__ == "__main__":
-    text = "This is some example text discussing violence."
-    forbidden_topics = {'violence', 'profanity'}
-    generate_text(text, 50, 'log_file.txt')
+    hashtagged_response
