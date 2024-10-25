@@ -38,6 +38,12 @@ def hashtag_word(word, keywords):
         return f"{punct_before}#{stripped_word}{punct_after}"
     return word
 
+def is_appropriate_topic(text):
+    query = f"Is the topic of the following text political, offensive, insulting, violent, or abusive? Answer yes or no: {text}"
+    response = model.generate(query).strip().lower()
+    print(f"GPT-4All censorship check response: {response}")
+    return "no" in response
+
 def generate_text(prompt, length, log_file):
     words = prompt.splitlines()
     if len(words) == 1:
@@ -63,8 +69,8 @@ def generate_text(prompt, length, log_file):
         complete_sentence_text = model.generate(complete_sentence_prompt, max_tokens=length).strip()
         print(f"Attempt {attempt + 1}: Complete sentence: {complete_sentence_text}")
         
-        # Check if the complete sentence ends with proper punctuation
-        if complete_sentence_text[-1] in '.!?':
+        # Check if the complete sentence ends with proper punctuation and is appropriate
+        if complete_sentence_text[-1] in '.!?' and is_appropriate_topic(complete_sentence_text):
             # Extract key words and hashtag them
             keywords = extract_keywords(complete_sentence_text)
             print(f"Extracted keywords: {keywords}")
