@@ -19,8 +19,16 @@ def append_to_log_file(filepath, content):
         file.write(content + '\n')
 
 def extract_keywords(text):
-    keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 1), stop_words='english', top_n=3)
-    return [keyword[0] for keyword in keywords]
+    try:
+        keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 1), stop_words='english', top_n=3)
+        return [keyword[0] for keyword in keywords]
+    except AttributeError:
+        # Handling different versions of CountVectorizer
+        from sklearn.feature_extraction.text import CountVectorizer
+        vectorizer = CountVectorizer()
+        X = vectorizer.fit_transform([text])
+        feature_names = vectorizer.get_feature_names_out()  # Updated method
+        return list(feature_names)
 
 def hashtag_word(word, keywords):
     stripped_word = word.strip(string.punctuation)
@@ -32,20 +40,17 @@ def hashtag_word(word, keywords):
 
 def generate_text(prompt, length, log_file):
     words = prompt.splitlines()
-
     if len(words) == 1:
         selected_words = words * 3
     elif len(words) == 2:
         selected_words = words + words[:1]
     else:
         selected_words = random.sample(words, 3)
-
+    
     print(f"Selected words: {selected_words}")
-
     random_number = random.randint(1, 10000000)
     slogan_prompt = f"{random_number}. Create a catchy, professional, appropriate, polite, clear and engaging complete sentence slogan using these words: {', '.join(selected_words)}.\nSlogan:"
     print(f"Slogan prompt: {slogan_prompt}")
-
     response = model.generate(slogan_prompt, max_tokens=length).strip()
     print(f"Generated slogan: {response}")
 
@@ -61,9 +66,7 @@ def generate_text(prompt, length, log_file):
     # Extract key words and hashtag them
     keywords = extract_keywords(complete_sentence_text)
     print(f"Extracted keywords: {keywords}")
-
     hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in complete_sentence_text.split()])
     print(f"Hashtagged slogan: {hashtagged_response}")
-
     append_to_log_file(log_file, hashtagged_response)
     return hashtagged_response
