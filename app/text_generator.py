@@ -66,4 +66,7 @@ def generate_text(prompt, length, log_file):
     # Extract key words and hashtag them
     keywords = extract_keywords(complete_sentence_text)
     print(f"Extracted keywords: {keywords}")
-    hashtagged_response
+    hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in complete_sentence_text.split()])
+    print(f"Hashtagged slogan: {hashtagged_response}")
+    append_to_log_file(log_file, hashtagged_response)
+    return hashtagged_response
