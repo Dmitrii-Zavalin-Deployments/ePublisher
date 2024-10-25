@@ -58,15 +58,24 @@ def generate_text(prompt, length, log_file):
     response = response.strip('"').strip("'").strip('-')
     print(f"Cleaned slogan: {response}")
 
-    # Ensure it is a complete sentence using GPT-4All
-    complete_sentence_prompt = f"Proofread this text to make a sentence: {response} \nSentence:"
-    complete_sentence_text = model.generate(complete_sentence_prompt, max_tokens=length).strip()
-    print(f"Complete sentence: {complete_sentence_text}")
-
-    # Extract key words and hashtag them
-    keywords = extract_keywords(complete_sentence_text)
-    print(f"Extracted keywords: {keywords}")
-    hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in complete_sentence_text.split()])
+    for attempt in range(10):
+        complete_sentence_prompt = f"Proofread this text to make a sentence: {response} \nSentence:"
+        complete_sentence_text = model.generate(complete_sentence_prompt, max_tokens=length).strip()
+        print(f"Attempt {attempt + 1}: Complete sentence: {complete_sentence_text}")
+        
+        # Check if the complete sentence ends with proper punctuation
+        if complete_sentence_text[-1] in '.!?':
+            # Extract key words and hashtag them
+            keywords = extract_keywords(complete_sentence_text)
+            print(f"Extracted keywords: {keywords}")
+            hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in complete_sentence_text.split()])
+            break
+    else:
+        # If no proper complete sentence is formed after 10 attempts
+        keywords = extract_keywords(response)
+        print(f"Extracted keywords after 10 attempts: {keywords}")
+        hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in response.split()])
+    
     print(f"Hashtagged slogan: {hashtagged_response}")
     append_to_log_file(log_file, hashtagged_response)
     return hashtagged_response
