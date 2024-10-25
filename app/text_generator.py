@@ -70,8 +70,7 @@ def generate_text(prompt, length, log_file):
         print(f"Attempt {attempt + 1}: Complete sentence: {complete_sentence_text}")
         
         # Check if the complete sentence ends with proper punctuation and is appropriate
-        # if complete_sentence_text[-1] in '.!?' and is_appropriate_topic(complete_sentence_text):
-        if is_appropriate_topic(complete_sentence_text):
+        if complete_sentence_text[-1] in '.!?' and is_appropriate_topic(complete_sentence_text):
             # Extract key words and hashtag them
             keywords = extract_keywords(complete_sentence_text)
             print(f"Extracted keywords: {keywords}")
