@@ -3,4 +3,4 @@ python-dotenv
 gpt4all
 keybert
 transformers==4.30.0
-huggingface_hub==0.12.1  # Use a version that includes cached_download
+huggingface_hub>=0.14.1,<1.0
