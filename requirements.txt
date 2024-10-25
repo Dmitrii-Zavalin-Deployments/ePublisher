@@ -1,4 +1,4 @@
-requests
-python-dotenv
-gpt4all
+requests==2.31.0
+python-dotenv==1.0.0
+gpt4all==0.1.0
 keybert==0.5.1
