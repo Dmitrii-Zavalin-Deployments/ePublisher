@@ -20,7 +20,7 @@ def append_to_log_file(filepath, content):
 
 def extract_keywords(text):
     try:
-        keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 2), stop_words='english', top_n=3)
+        keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 2), stop_words='english', top_n=5)
         return [keyword[0] for keyword in keywords]
     except AttributeError:
         # Handling different versions of CountVectorizer
@@ -71,6 +71,11 @@ def generate_text(prompt, length, log_file):
         
         # Check if the complete sentence ends with proper punctuation and is appropriate
         if complete_sentence_text[-1] in '.!?' and is_appropriate_topic(complete_sentence_text):
+            # Log before capitalization
+            print(f"Complete sentence before capitalization: {complete_sentence_text}")
+            # Capitalize only the first letter of the first word
+            complete_sentence_text = complete_sentence_text[0].capitalize() + complete_sentence_text[1:]
+            print(f"Complete sentence after capitalization: {complete_sentence_text}")
             # Extract key words and hashtag them
             keywords = extract_keywords(complete_sentence_text)
             print(f"Extracted keywords: {keywords}")
@@ -85,3 +90,5 @@ def generate_text(prompt, length, log_file):
     print(f"Hashtagged slogan: {hashtagged_response}")
     append_to_log_file(log_file, hashtagged_response)
     return hashtagged_response
+
+
