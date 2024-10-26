@@ -88,7 +88,7 @@ let textContent = process.argv[3];
 
 // Filter out long hashtags from the text content
 textContent = filterLongHashtags(textContent);
-
+/*
 // Add a unique hashtag based on the current date and time
 const now = new Date();
 const year = now.getFullYear();
@@ -98,7 +98,7 @@ const hour = String(now.getHours()).padStart(2, '0');
 const minute = String(now.getMinutes()).padStart(2, '0');
 const uniqueHashtag = `#${year}${month}${day}${hour}${minute}`;
 textContent += ` ${uniqueHashtag}`;
-
+*/
 // First, delete matching tweets (commented out)
 // deleteMatchingTweets(textContent)
 //   .then(() => {

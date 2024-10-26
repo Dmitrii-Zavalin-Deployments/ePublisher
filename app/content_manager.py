@@ -1,6 +1,7 @@
 import os
 import re
 import string
+from gpt4all import GPT4All
 
 class ContentManager:
     def __init__(self, number_of_projects):
@@ -29,6 +30,16 @@ class ContentManager:
         try:
             with open(file_path, 'r') as file:
                 return ' '.join([line.strip() for line in file.readlines()])
+        except FileNotFoundError:
+            print(f"File not found: {file_path}")
+            return None
+
+    def read_project_links(self):
+        file_index = self.get_project_index()
+        file_path = f'content/links/{file_index}.txt'
+        try:
+            with open(file_path, 'r') as file:
+                return file.read()
         except FileNotFoundError:
             print(f"File not found: {file_path}")
             return None
@@ -93,3 +104,36 @@ class ContentManager:
         parts = text.split('#', 1)
         # Return the part before the hashtag, or the entire text if no hashtag is found
         return parts[0].strip() if len(parts) > 1 else text.strip()
+
+    def summarize_and_update_text(self, content_before_hashtag):
+        file_index = self.get_project_index()
+        file_path = f'content/text/{file_index}.txt'
+        
+        # Initialize the GPT-4All model
+        model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
+        
+        # Read existing file content
+        try:
+            with open(file_path, 'r') as file:
+                existing_content = file.read()
+                print(f"Existing content:\n{existing_content}")
+        except FileNotFoundError:
+            print(f"File not found: {file_path}")
+            existing_content = ""
+        
+        # Concatenate existing content with new content
+        combined_content = f"{existing_content.strip()} {content_before_hashtag}".strip()
+        print(f"Combined content:\n{combined_content}")
+        
+        # Generate summary
+        summary_prompt = f"Summarize this text: {combined_content} in a short sales message"
+        summary = model.generate(summary_prompt, max_tokens=50).strip()
+        print(f"Generated summary:\n{summary}")
+        
+        # Overwrite the file with the new summary
+        try:
+            with open(file_path, 'w') as file:
+                file.write(summary)
+                print(f"Updated file content with summary:\n{summary}")
+        except FileNotFoundError:
+            print(f"File not found: {file_path}")
