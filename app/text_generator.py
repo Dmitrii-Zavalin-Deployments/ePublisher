@@ -28,7 +28,7 @@ def extract_keywords(text):
         vectorizer = CountVectorizer()
         X = vectorizer.fit_transform([text])
         feature_names = vectorizer.get_feature_names_out()  # Updated method
-        return list(feature_names)[:3]  # Ensure we return top 3 to maintain consistency
+        return list(feature_names)[:5]  # Ensure we return top 5 to maintain consistency
 
 def hashtag_word(word, keywords):
     stripped_word = word.strip(string.punctuation)
@@ -39,7 +39,7 @@ def hashtag_word(word, keywords):
     return word
 
 def is_appropriate_topic(text):
-    query = f"Is the topic of the following text political, offensive, insulting, violent, abusive, negative, unclear, irrelevant, inappropriate? Answer with yes or no only: {text}?\nResponse:"
+    query = f"Is the topic of the following text political, offensive, insulting, violent, abusive, negative, unclear, irrelevant, or inappropriate? Answer only with 'yes' or 'no': {text}?\nResponse:"
     response = model.generate(query).strip().lower()
     print(f"GPT-4All censorship check response: {response}")
     return "no" in response
