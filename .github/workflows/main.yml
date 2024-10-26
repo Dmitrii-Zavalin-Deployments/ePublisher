@@ -7,7 +7,7 @@ on:
     - cron: '30 * * * *'  # Runs at the 30th minute of every hour
   push:
     branches:
-      - T-807-second-approach
+      - T-807-filter-inappropriate-content
 
 env:
   NUMBER_OF_PROJECTS: 2  # Set this to the number of posts to publish or projects you have (currently 2 to run only for projects 0 and 1 from content folder)
