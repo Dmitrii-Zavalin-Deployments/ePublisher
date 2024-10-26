@@ -86,7 +86,7 @@ def main():
     
     # Summarize the text and update the content file
     # content_manager.summarize_and_update_text(content_before_hashtag=project_text)
-    
+    '''
     try:
         # New: Get and print the Facebook posts
         # facebook_posts = epublisher_facebook_manager.get_facebook_posts()
@@ -106,7 +106,7 @@ def main():
     
     # Call the Node.js script with the parameters to start Twitter
     subprocess.run(['node', 'js/tweet.js', image_path, text_content, project_link], check=True)
-    
+    '''
 
 if __name__ == "__main__":
     main()
