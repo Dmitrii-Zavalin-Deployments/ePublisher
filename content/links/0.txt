@@ -1,1 +1,1 @@
-Start now: https://dmitrii-zavalin-deployments.github.io/GrantsScanner/start.html
+Read #grants with #GrantsScanner! Quick #NLP search. Try it: https://dmitrii-zavalin-deployments.github.io/GrantsScanner/start.html
