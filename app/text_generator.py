@@ -40,21 +40,21 @@ def hashtag_word(word, keywords):
 
 def is_appropriate_topic(text, link_sentence):
     # Get the topic of the text
-    query = f"What is the topic of the following text? Answer with a brief statement: {text}\nResponse:"
+    query = f"What is the topic of the following text? Answer in one word: {text}\nResponse:"
     print(f"Topic extraction query for text: {query}")
     text_topic = model.generate(query).strip().lower()
     text_topic_labeled = f"1. {text_topic}"
     print(f"Extracted topic for text: {text_topic_labeled}")
 
     # Get the topic of the link sentence
-    query = f"What is the topic of the following text? Answer with a brief statement: {link_sentence}\nResponse:"
+    query = f"What is the topic of the following text? Answer in one word: {link_sentence}\nResponse:"
     print(f"Topic extraction query for link sentence: {query}")
     link_sentence_topic = model.generate(query).strip().lower()
     link_sentence_topic_labeled = f"2. {link_sentence_topic}"
     print(f"Extracted topic for link sentence: {link_sentence_topic_labeled}")
 
     # Compare the topics for alignment
-    query = f"Are the topics in the following statements the same? Answer only with 'yes' or 'no': {text_topic_labeled} {link_sentence_topic_labeled}\nResponse:"
+    query = f"Are the topics of statements 1 and 2 the same? Answer only with 'yes' or 'no': {text_topic_labeled} {link_sentence_topic_labeled}\nResponse:"
     print(f"First censorship query: {query}")
     first_response = model.generate(query).strip().lower()
     print(f"GPT-4All censorship first check response: {first_response}")
