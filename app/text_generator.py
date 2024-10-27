@@ -44,14 +44,14 @@ def is_appropriate_topic(text, link_sentence):
     first_response = model.generate(query).strip().lower()
     print(f"GPT-4All censorship first check response: {first_response}")
     
-    first_words = first_response.split()
-    if "no" in first_words:
+    first_word = first_response.split()[0] if first_response else ""
+    if first_word == "no":
         print("Calling the second censorship check.")
         query = f"Is the topic of the following text political, offensive, insulting, violent, abusive, negative, unclear, irrelevant, inappropriate, misleading, boastful, self-promotional, or confusing? Answer only with 'yes' or 'no': {text}?\nResponse:"
         second_response = model.generate(query).strip().lower()
         print(f"GPT-4All censorship check response: {second_response}")
-        second_words = second_response.split()
-        return "no" in second_words
+        second_word = second_response.split()[0] if second_response else ""
+        return second_word == "no"
     else:
         return False
 
