@@ -45,7 +45,7 @@ def is_appropriate_topic(text, link_sentence):
     first_response = model.generate(query).strip().lower()
     print(f"GPT-4All censorship first check response: {first_response}")
     
-    first_word = first_response.split()[0] if first_response else ""
+    first_word = first_response.split()[0].strip(string.punctuation) if first_response else ""
     print(f"First word: {first_word}")
     
     if first_word == "yes":
@@ -54,7 +54,7 @@ def is_appropriate_topic(text, link_sentence):
         print(f"Second censorship query: {query}")
         second_response = model.generate(query).strip().lower()
         print(f"GPT-4All censorship check response: {second_response}")
-        second_word = second_response.split()[0] if second_response else ""
+        second_word = second_response.split()[0].strip(string.punctuation) if second_response else ""
         print(f"Second word: {second_word}")
         return second_word == "no"
     else:
