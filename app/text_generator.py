@@ -47,7 +47,7 @@ def is_appropriate_topic(text, link_sentence):
     print(f"Extracted topic for text: {text_topic_labeled}")
 
     # Get the topic of the link sentence
-    query = f"What is the topic of the following text? Answer in one word: {link_sentence}\nResponse:"
+    query = f"What is the topic of the following text? Describe briefly: {link_sentence}\nResponse:"
     print(f"Topic extraction query for link sentence: {query}")
     link_sentence_topic = model.generate(query).strip().lower()
     link_sentence_topic_labeled = f"2. {link_sentence_topic}"
