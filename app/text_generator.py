@@ -38,13 +38,22 @@ def hashtag_word(word, keywords):
         return f"{punct_before}#{stripped_word}{punct_after}"
     return word
 
-def is_appropriate_topic(text):
-    query = f"Is the topic of the following text political, offensive, insulting, violent, abusive, negative, unclear, irrelevant, inappropriate, misleading, nonsensical, boastful, self-promotional, or confusing? Answer only with 'yes' or 'no': {text}?\nResponse:"
+def is_appropriate_topic(text, link_sentence):
+    text_to_refine = link_sentence + " " + text
+    query = f"Is the topic of the following text nonsensical, misleading, or confusing? Answer only with 'yes' or 'no': {text_to_refine}?\nResponse:"
     response = model.generate(query).strip().lower()
-    print(f"GPT-4All censorship check response: {response}")
-    return "no" in response
+    print(f"GPT-4All censorship first check response: {response}")
+    
+    if "no" in response:
+        print("Calling the second censorship check.")
+        query = f"Is the topic of the following text political, offensive, insulting, violent, abusive, negative, unclear, irrelevant, inappropriate, misleading, nonsensical, boastful, self-promotional, or confusing? Answer only with 'yes' or 'no': {text}?\nResponse:"
+        response = model.generate(query).strip().lower()
+        print(f"GPT-4All censorship check response: {response}")
+        return "no" in response
+    else:
+        return False
 
-def generate_text(prompt, length, log_file):
+def generate_text(prompt, length, log_file, link_sentence):
     words = prompt.splitlines()
     if len(words) == 1:
         selected_words = words * 3
@@ -52,11 +61,13 @@ def generate_text(prompt, length, log_file):
         selected_words = words + words[:1]
     else:
         selected_words = random.sample(words, 3)
-    
+  
     print(f"Selected words: {selected_words}")
+
     random_number = random.randint(1, 10000000)
     slogan_prompt = f"{random_number}. Create a catchy, professional, appropriate, polite, clear and engaging complete sentence slogan using these words: {', '.join(selected_words)}.\nSlogan:"
     print(f"Slogan prompt: {slogan_prompt}")
+
     response = model.generate(slogan_prompt, max_tokens=length).strip()
     print(f"Generated slogan: {response}")
 
@@ -68,9 +79,9 @@ def generate_text(prompt, length, log_file):
         complete_sentence_prompt = f"Proofread this text to make a sentence: {response} \nSentence:"
         complete_sentence_text = model.generate(complete_sentence_prompt, max_tokens=length).strip()
         print(f"Attempt {attempt + 1}: Complete sentence: {complete_sentence_text}")
-        
+
         # Check if the complete sentence ends with proper punctuation and is appropriate
-        if complete_sentence_text[-1] in '.!?' and is_appropriate_topic(complete_sentence_text):
+        if complete_sentence_text[-1] in '.!?' and is_appropriate_topic(complete_sentence_text, link_sentence):
             # Log before capitalization
             print(f"Complete sentence before capitalization: {complete_sentence_text}")
             # Capitalize only the first letter of the first word
@@ -86,7 +97,7 @@ def generate_text(prompt, length, log_file):
         keywords = extract_keywords(response)
         print(f"Extracted keywords after 10 attempts: {keywords}")
         hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in keywords])
-    
+        
     print(f"Hashtagged slogan: {hashtagged_response}")
     append_to_log_file(log_file, hashtagged_response)
     return hashtagged_response
