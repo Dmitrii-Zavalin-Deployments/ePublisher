@@ -39,7 +39,7 @@ def hashtag_word(word, keywords):
     return word
 
 def is_appropriate_topic(text):
-    query = f"Is the topic of the following text political, offensive, insulting, violent, abusive, negative, unclear, irrelevant, inappropriate, misleading, boastful, self-promotional, or confusing? Answer only with 'yes' or 'no': {text}?\nResponse:"
+    query = f"Is the topic of the following text political, offensive, insulting, violent, abusive, negative, unclear, irrelevant, inappropriate, misleading, nonsensical, boastful, self-promotional, or confusing? Answer only with 'yes' or 'no': {text}?\nResponse:"
     response = model.generate(query).strip().lower()
     print(f"GPT-4All censorship check response: {response}")
     return "no" in response
