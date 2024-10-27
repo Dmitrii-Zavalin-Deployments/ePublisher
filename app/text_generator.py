@@ -39,8 +39,22 @@ def hashtag_word(word, keywords):
     return word
 
 def is_appropriate_topic(text, link_sentence):
-    text_to_refine = link_sentence + " " + text
-    query = f"Are the topic in '{text}' and the topic in '{link_sentence}' different? Answer only with 'yes' or 'no'.\nResponse:"
+    # Get the topic of the text
+    query = f"What is the topic of the following text? Answer with a brief statement: {text}\nResponse:"
+    print(f"Topic extraction query for text: {query}")
+    text_topic = model.generate(query).strip().lower()
+    text_topic_labeled = f"1. {text_topic}"
+    print(f"Extracted topic for text: {text_topic_labeled}")
+
+    # Get the topic of the link sentence
+    query = f"What is the topic of the following text? Answer with a brief statement: {link_sentence}\nResponse:"
+    print(f"Topic extraction query for link sentence: {query}")
+    link_sentence_topic = model.generate(query).strip().lower()
+    link_sentence_topic_labeled = f"2. {link_sentence_topic}"
+    print(f"Extracted topic for link sentence: {link_sentence_topic_labeled}")
+
+    # Compare the topics for alignment
+    query = f"Are the topics in the following statements the same? Answer only with 'yes' or 'no': {text_topic_labeled} {link_sentence_topic_labeled}\nResponse:"
     print(f"First censorship query: {query}")
     first_response = model.generate(query).strip().lower()
     print(f"GPT-4All censorship first check response: {first_response}")
@@ -48,7 +62,7 @@ def is_appropriate_topic(text, link_sentence):
     first_word = first_response.split()[0].strip(string.punctuation) if first_response else ""
     print(f"First word: {first_word}")
     
-    if first_word == "no":
+    if first_word == "yes":
         print("Calling the second censorship check.")
         query = f"Is the topic of the following text political, offensive, insulting, violent, abusive, negative, unclear, irrelevant, nonsensical, inappropriate, misleading, boastful, self-promotional, or confusing? Answer only with 'yes' or 'no': {text}?\nResponse:"
         print(f"Second censorship query: {query}")
