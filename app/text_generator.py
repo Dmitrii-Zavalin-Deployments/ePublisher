@@ -41,15 +41,17 @@ def hashtag_word(word, keywords):
 def is_appropriate_topic(text, link_sentence):
     text_to_refine = link_sentence + " " + text
     query = f"Is the topic of the following text nonsensical, misleading, or confusing? Answer only with 'yes' or 'no': {text_to_refine}?\nResponse:"
-    response = model.generate(query).strip().lower()
-    print(f"GPT-4All censorship first check response: {response}")
+    first_response = model.generate(query).strip().lower()
+    print(f"GPT-4All censorship first check response: {first_response}")
     
-    if "no" in response:
+    first_words = first_response.split()
+    if "no" in first_words:
         print("Calling the second censorship check.")
-        query = f"Is the topic of the following text political, offensive, insulting, violent, abusive, negative, unclear, irrelevant, inappropriate, misleading, nonsensical, boastful, self-promotional, or confusing? Answer only with 'yes' or 'no': {text}?\nResponse:"
-        response = model.generate(query).strip().lower()
-        print(f"GPT-4All censorship check response: {response}")
-        return "no" in response
+        query = f"Is the topic of the following text political, offensive, insulting, violent, abusive, negative, unclear, irrelevant, inappropriate, misleading, boastful, self-promotional, or confusing? Answer only with 'yes' or 'no': {text}?\nResponse:"
+        second_response = model.generate(query).strip().lower()
+        print(f"GPT-4All censorship check response: {second_response}")
+        second_words = second_response.split()
+        return "no" in second_words
     else:
         return False
 
