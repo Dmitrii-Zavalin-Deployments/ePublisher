@@ -1,5 +1,6 @@
 from gpt4all import GPT4All
 from keybert import KeyBERT
+from nltk.corpus import wordnet as wn
 import random
 import string
 
@@ -38,37 +39,31 @@ def hashtag_word(word, keywords):
         return f"{punct_before}#{stripped_word}{punct_after}"
     return word
 
-from keybert import KeyBERT
+def extract_topic(text):
+    query = f"What is the topic of the following text? Answer in one word (without any links or URLs): {text}\nResponse:"
+    print(f"Topic extraction query: {query}")
+    topic = model.generate(query).strip().lower()
+    return topic
 
-# Initialize KeyBERT
-kw_model = KeyBERT()
-
-def extract_keywords(text):
-    try:
-        keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 2), stop_words='english', top_n=5)
-        return [keyword[0] for keyword in keywords]
-    except AttributeError:
-        # Handling different versions of CountVectorizer
-        from sklearn.feature_extraction.text import CountVectorizer
-        vectorizer = CountVectorizer()
-        X = vectorizer.fit_transform([text])
-        feature_names = vectorizer.get_feature_names_out()  # Updated method
-        return list(feature_names)[:5]  # Ensure we return top 5 to maintain consistency
+def are_topics_similar(topic1, topic2):
+    synonyms_topic1 = set(wn.synsets(topic1))
+    synonyms_topic2 = set(wn.synsets(topic2))
+    common_synonyms = synonyms_topic1.intersection(synonyms_topic2)
+    return bool(common_synonyms)
 
 def is_appropriate_topic(text, link_sentence):
-    # Extract keywords for both texts
-    text_keywords = extract_keywords(text)
-    link_sentence_keywords = extract_keywords(link_sentence)
-    
-    print(f"Extracted keywords for text: {text_keywords}")
-    print(f"Extracted keywords for link sentence: {link_sentence_keywords}")
-    
-    # Compare the keywords for alignment
-    common_keywords = set(text_keywords).intersection(set(link_sentence_keywords))
-    print(f"Common keywords: {common_keywords}")
-    
-    # Determine if topics are aligned
-    if common_keywords:
+    text_topic = extract_topic(text)
+    text_topic_labeled = f"1. {text_topic}"
+    print(f"Extracted topic for text: {text_topic_labeled}")
+
+    link_sentence_topic = extract_topic(link_sentence)
+    link_sentence_topic_labeled = f"2. {link_sentence_topic}"
+    print(f"Extracted topic for link sentence: {link_sentence_topic_labeled}")
+
+    topics_similar = are_topics_similar(text_topic, link_sentence_topic)
+    print(f"Topics similar: {topics_similar}")
+
+    if topics_similar:
         print("Calling the second censorship check.")
         query = f"Is the topic of the following text political, offensive, insulting, violent, abusive, negative, unclear, irrelevant, nonsensical, inappropriate, misleading, boastful, self-promotional, or confusing? Answer only with 'yes' or 'no': {text}?\nResponse:"
         print(f"Second censorship query: {query}")
@@ -77,8 +72,6 @@ def is_appropriate_topic(text, link_sentence):
         second_word = second_response.split()[0].strip(string.punctuation) if second_response else ""
         print(f"Second word: {second_word}")
         return second_word == "no"
-    else:
-        return False
 
 def generate_text(prompt, length, log_file, link_sentence):
     words = prompt.splitlines()

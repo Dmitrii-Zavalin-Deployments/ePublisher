@@ -3,3 +3,4 @@ python-dotenv==1.0.0
 gpt4all==2.8.2
 keybert==0.5.1
 scikit-learn==1.2.2  # Specific version to ensure compatibility
+nltk==3.8.1  # Add NLTK for WordNet
