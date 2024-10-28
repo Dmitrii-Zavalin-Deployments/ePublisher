@@ -43,21 +43,21 @@ def main():
     allowed_text_length = (140 - unchangeable_hashtags_length) // 4
     print(f"Allowed length for the new text: {allowed_text_length}")
 
-    # Generate new project text
-    original_text = content_manager.read_project_content()
-    if original_text is not None:
-        print(f"Original Project text:\n{original_text}")
-        project_text = generate_text(original_text, length=allowed_text_length, log_file=log_file_texts)
-        print(f"New Project text:\n{project_text}")
-    else:
-        project_text = ""
-
     # Read and print the project link
     project_link = content_manager.read_project_links()
     if project_link is not None:
         print(f"Project link:\n{project_link}")
     else:
         project_link = ""
+
+    # Generate new project text
+    original_text = content_manager.read_project_content()
+    if original_text is not None:
+        print(f"Original Project text:\n{original_text}")
+        project_text = generate_text(original_text, length=allowed_text_length, log_file=log_file_texts, link_sentence=project_link)
+        print(f"New Project text:\n{project_text}")
+    else:
+        project_text = ""
 
     # Combine project_text, project_link, and all_hashtags into project_content
     project_content = f"{project_link} {project_text} {unchangeable_hashtags}".strip()
