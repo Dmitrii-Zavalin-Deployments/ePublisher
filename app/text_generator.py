@@ -20,7 +20,7 @@ def append_to_log_file(filepath, content):
 
 def extract_keywords(text):
     try:
-        keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 2), stop_words='english', top_n=5)
+        keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 2), stop_words='english', top_n=3)
         return [keyword[0] for keyword in keywords]
     except AttributeError:
         # Handling different versions of CountVectorizer
@@ -28,7 +28,7 @@ def extract_keywords(text):
         vectorizer = CountVectorizer()
         X = vectorizer.fit_transform([text])
         feature_names = vectorizer.get_feature_names_out()  # Updated method
-        return list(feature_names)[:5]  # Ensure we return top 5 to maintain consistency
+        return list(feature_names)[:3]  # Ensure we return top 3 to maintain consistency
 
 def hashtag_word(word, keywords):
     stripped_word = word.strip(string.punctuation)
