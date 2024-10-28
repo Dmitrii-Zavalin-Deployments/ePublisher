@@ -1,6 +1,5 @@
 from gpt4all import GPT4All
 from keybert import KeyBERT
-from nltk.corpus import wordnet as wn
 import random
 import string
 
@@ -39,31 +38,31 @@ def hashtag_word(word, keywords):
         return f"{punct_before}#{stripped_word}{punct_after}"
     return word
 
-def extract_topic(text):
-    query = f"What is the topic of the following text? Answer in one word (without any links or URLs): {text}\nResponse:"
-    print(f"Topic extraction query: {query}")
-    topic = model.generate(query).strip().lower()
-    return topic
-
-def are_topics_similar(topic1, topic2):
-    synonyms_topic1 = set(wn.synsets(topic1))
-    synonyms_topic2 = set(wn.synsets(topic2))
-    common_synonyms = synonyms_topic1.intersection(synonyms_topic2)
-    return bool(common_synonyms)
-
 def is_appropriate_topic(text, link_sentence):
-    text_topic = extract_topic(text)
+    # Get the topic of the text
+    query = f"What is the topic of the following text? Answer in one word: {text}\nResponse:"
+    print(f"Topic extraction query for text: {query}")
+    text_topic = model.generate(query).strip().lower()
     text_topic_labeled = f"1. {text_topic}"
     print(f"Extracted topic for text: {text_topic_labeled}")
 
-    link_sentence_topic = extract_topic(link_sentence)
+    # Get the topic of the link sentence
+    query = f"What is the topic of the following text? Describe briefly: {link_sentence}\nResponse:"
+    print(f"Topic extraction query for link sentence: {query}")
+    link_sentence_topic = model.generate(query).strip().lower()
     link_sentence_topic_labeled = f"2. {link_sentence_topic}"
     print(f"Extracted topic for link sentence: {link_sentence_topic_labeled}")
 
-    topics_similar = are_topics_similar(text_topic, link_sentence_topic)
-    print(f"Topics similar: {topics_similar}")
-
-    if topics_similar:
+    # Compare the topics for alignment
+    query = f"Are the topics of statements 1 and 2 the same? Answer only with 'yes' or 'no': {text_topic_labeled} {link_sentence_topic_labeled}\nResponse:"
+    print(f"First censorship query: {query}")
+    first_response = model.generate(query).strip().lower()
+    print(f"GPT-4All censorship first check response: {first_response}")
+    
+    first_word = first_response.split()[0].strip(string.punctuation) if first_response else ""
+    print(f"First word: {first_word}")
+    
+    if first_word == "yes":
         print("Calling the second censorship check.")
         query = f"Is the topic of the following text political, offensive, insulting, violent, abusive, negative, unclear, irrelevant, nonsensical, inappropriate, misleading, boastful, self-promotional, or confusing? Answer only with 'yes' or 'no': {text}?\nResponse:"
         print(f"Second censorship query: {query}")
@@ -72,6 +71,8 @@ def is_appropriate_topic(text, link_sentence):
         second_word = second_response.split()[0].strip(string.punctuation) if second_response else ""
         print(f"Second word: {second_word}")
         return second_word == "no"
+    else:
+        return False
 
 def generate_text(prompt, length, log_file, link_sentence):
     words = prompt.splitlines()
