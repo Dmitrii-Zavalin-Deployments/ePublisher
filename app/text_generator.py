@@ -38,27 +38,37 @@ def hashtag_word(word, keywords):
         return f"{punct_before}#{stripped_word}{punct_after}"
     return word
 
+from keybert import KeyBERT
+
+# Initialize KeyBERT
+kw_model = KeyBERT()
+
+def extract_keywords(text):
+    try:
+        keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 2), stop_words='english', top_n=5)
+        return [keyword[0] for keyword in keywords]
+    except AttributeError:
+        # Handling different versions of CountVectorizer
+        from sklearn.feature_extraction.text import CountVectorizer
+        vectorizer = CountVectorizer()
+        X = vectorizer.fit_transform([text])
+        feature_names = vectorizer.get_feature_names_out()  # Updated method
+        return list(feature_names)[:5]  # Ensure we return top 5 to maintain consistency
+
 def is_appropriate_topic(text, link_sentence):
-    # Get the topic of the text
-    query = f"What is the topic of the following text? Answer in one word: {text}\nResponse:"
-    print(f"Topic extraction query for text: {query}")
-    text_topic = model.generate(query).strip().lower()
-    text_topic_labeled = f"1. {text_topic}"
-    print(f"Extracted topic for text: {text_topic_labeled}")
-
-    link_sentence_topic_labeled = f"2. {link_sentence}"
-    print(f"Extracted topic for link sentence: {link_sentence_topic_labeled}")
-
-    # Compare the topics for alignment
-    query = f"Are the topics of statements 1 and 2 the same? Answer only with 'yes' or 'no': {text_topic_labeled} {link_sentence_topic_labeled}\nResponse:"
-    print(f"First censorship query: {query}")
-    first_response = model.generate(query).strip().lower()
-    print(f"GPT-4All censorship first check response: {first_response}")
+    # Extract keywords for both texts
+    text_keywords = extract_keywords(text)
+    link_sentence_keywords = extract_keywords(link_sentence)
     
-    first_word = first_response.split()[0].strip(string.punctuation) if first_response else ""
-    print(f"First word: {first_word}")
+    print(f"Extracted keywords for text: {text_keywords}")
+    print(f"Extracted keywords for link sentence: {link_sentence_keywords}")
     
-    if first_word == "yes":
+    # Compare the keywords for alignment
+    common_keywords = set(text_keywords).intersection(set(link_sentence_keywords))
+    print(f"Common keywords: {common_keywords}")
+    
+    # Determine if topics are aligned
+    if common_keywords:
         print("Calling the second censorship check.")
         query = f"Is the topic of the following text political, offensive, insulting, violent, abusive, negative, unclear, irrelevant, nonsensical, inappropriate, misleading, boastful, self-promotional, or confusing? Answer only with 'yes' or 'no': {text}?\nResponse:"
         print(f"Second censorship query: {query}")
