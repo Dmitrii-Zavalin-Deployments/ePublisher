@@ -2,6 +2,7 @@ from gpt4all import GPT4All
 from keybert import KeyBERT
 import random
 import string
+import re
 
 # Initialize the GPT-4All model and KeyBERT
 model = GPT4All("orca-mini-3b-gguf2-q4_0.gguf")
@@ -38,7 +39,13 @@ def hashtag_word(word, keywords):
         return f"{punct_before}#{stripped_word}{punct_after}"
     return word
 
+def remove_links(text):
+    return re.sub(r'http\S+', '', text)
+
 def is_appropriate_topic(text, link_sentence):
+    # Remove links from link_sentence
+    link_sentence_without_links = remove_links(link_sentence)
+    
     # Get the topic of the text
     query = f"What is the topic of the following text? Answer in one word: {text}\nResponse:"
     print(f"Topic extraction query for text: {query}")
@@ -47,7 +54,7 @@ def is_appropriate_topic(text, link_sentence):
     print(f"Extracted topic for text: {text_topic_labeled}")
 
     # Get the topic of the link sentence
-    query = f"What is the topic of the following text? Describe briefly: {link_sentence}\nResponse:"
+    query = f"What is the topic of the following text? Describe briefly: {link_sentence_without_links}\nResponse:"
     print(f"Topic extraction query for link sentence: {query}")
     link_sentence_topic = model.generate(query).strip().lower()
     link_sentence_topic_labeled = f"2. {link_sentence_topic}"
