@@ -86,31 +86,24 @@ def main():
 
     # Summarize the text and update the content file
     # content_manager.summarize_and_update_text(content_before_hashtag=project_text)
-
+'''
     try:
-        # New: Get and print the Facebook posts
-        # facebook_posts = epublisher_facebook_manager.get_facebook_posts()
-        # print(f"Facebook posts:\n{facebook_posts}")
-
-        # Searching for posts to delete
-        # message_ids = epublisher_facebook_manager.print_message_before_hashtag(facebook_posts, content_before_hashtag)
-
-        # Delete post with message_ids
-        # deleted_post = epublisher_facebook_manager.delete_facebook_posts(message_ids)
-        # print('Repeated posts are deleted')
-
         # Post to Facebook
         epublisher_facebook_manager.post_to_facebook(image_path, text_content)
     except Exception as e:
         print("Failed to post on Facebook: ", e)
-
+'''
+    try:
+        # Post to Instagram
+        epublisher_facebook_manager.post_to_instagram(image_path, text_content)
+    except Exception as e:
+        print("Failed to post on Instagram: ", e)
+'''
     try:
         # Call the Node.js script with the parameters to start Twitter
         subprocess.run(['node', 'js/tweet.js', image_path, text_content, project_link], check=True)
     except Exception as e:
         print("Failed to post on Twitter: ", e)
-
+'''
 if __name__ == "__main__":
     main()
-
-
