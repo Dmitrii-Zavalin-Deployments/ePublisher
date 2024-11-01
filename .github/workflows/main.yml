@@ -7,7 +7,7 @@ on:
     - cron: '30 * * * *'  # Runs at the 30th minute of every hour
   push:
     branches:
-      - T-826
+      - T-831
 
 env:
   NUMBER_OF_PROJECTS: 3  # Set this to the number of posts to publish or projects you have (currently 3 to run only for projects 0, 1 and 2 from content folder)
@@ -15,6 +15,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -56,6 +57,7 @@ jobs:
           TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
           TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
           TWITTER_USER_ID: ${{ secrets.TWITTER_USER_ID }}
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
         run: python3 app/main.py
 
