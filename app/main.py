@@ -93,13 +93,12 @@ def main():
     except Exception as e:
         print("Failed to post on Instagram: ", e)
 
-    '''
     try:
         # Post to Facebook
-        epublisher_facebook_manager.post_to_facebook(image_path, text_content)
+        # epublisher_facebook_manager.post_to_facebook(image_path, text_content)
+        print("Posting to Facebook is currently commented out. Please reconnect the business page to the app first.")
     except Exception as e:
         print("Failed to post on Facebook: ", e)
-    '''
 
     try:
         # Call the Node.js script with the parameters to start Twitter
