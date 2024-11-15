@@ -92,13 +92,13 @@ def main():
         epublisher_facebook_manager.post_to_instagram(image_path, text_content)
     except Exception as e:
         print("Failed to post on Instagram: ", e)
-
+'''
     try:
         # Post to Facebook
         epublisher_facebook_manager.post_to_facebook(image_path, text_content)
     except Exception as e:
         print("Failed to post on Facebook: ", e)
-
+'''
     try:
         # Call the Node.js script with the parameters to start Twitter
         subprocess.run(['node', 'js/tweet.js', image_path, text_content, project_link], check=True)
