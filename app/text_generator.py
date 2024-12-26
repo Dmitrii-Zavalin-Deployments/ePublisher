@@ -118,7 +118,7 @@ def generate_text(prompt, length, log_file, link_sentence):
             # Extract key words and hashtag them
             keywords = extract_keywords(complete_sentence_text)
             print(f"Extracted keywords: {keywords}")
-            hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in complete_sentence_text.split()])
+            hashtagged_response = ' '.join([hashtag_word(word, keywords) for word in keywords])
             break
     else:
         # If no proper complete sentence is formed after 10 attempts

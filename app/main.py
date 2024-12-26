@@ -25,7 +25,7 @@ def main():
     # Add a unique hashtag based on the current date and time
     now = datetime.now()
     unique_hashtag = f"#{now.strftime('%Y%m%d%H%M')}"
-    unique_hashtag_with_note = f"{unique_hashtag} (AI-generated post)"
+    unique_hashtag_with_note = f"{unique_hashtag}"
     print(f"Generated unique hashtag: {unique_hashtag_with_note}")
 
     # Read unchangeable hashtags
@@ -83,7 +83,7 @@ def main():
     # Extract image path and text content from post_data
     image_path = post_data['project_image_path']
     text_content = post_data['post_message']
-
+'''
     # Summarize the text and update the content file
     # content_manager.summarize_and_update_text(content_before_hashtag=project_text)
 
@@ -105,6 +105,6 @@ def main():
         subprocess.run(['node', 'js/tweet.js', image_path, text_content, project_link], check=True)
     except Exception as e:
         print("Failed to post on Twitter: ", e)
-
+'''
 if __name__ == "__main__":
     main()
