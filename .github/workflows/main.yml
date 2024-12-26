@@ -7,7 +7,7 @@ on:
     - cron: '30 * * * *'  # Runs at the 30th minute of every hour
   push:
     branches:
-      - T-926
+      - T-1069
 
 env:
   NUMBER_OF_PROJECTS: 3  # Set this to the number of posts to publish or projects you have (currently 3 to run only for projects 0, 1 and 2 from content folder)
