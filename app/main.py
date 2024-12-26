@@ -25,7 +25,7 @@ def main():
     # Add a unique hashtag based on the current date and time
     now = datetime.now()
     unique_hashtag = f"#{now.strftime('%Y%m%d%H%M')}"
-    unique_hashtag_with_note = f"{unique_hashtag} (AI-generated post)"
+    unique_hashtag_with_note = f"{unique_hashtag}"
     print(f"Generated unique hashtag: {unique_hashtag_with_note}")
 
     # Read unchangeable hashtags
