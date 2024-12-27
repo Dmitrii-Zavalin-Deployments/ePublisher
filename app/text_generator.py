@@ -93,7 +93,7 @@ def generate_text(prompt, length, log_file, link_sentence):
     print(f"Selected words: {selected_words}")
 
     random_number = random.randint(1, 10000000)
-    slogan_prompt = f"{random_number}. Create a catchy, professional, appropriate, polite, clear and engaging complete sentence slogan using these words: {', '.join(selected_words)}.\nSlogan:"
+    slogan_prompt = f"Summarize: {', '.join(selected_words)} in one sentence, {random_number}.\nSlogan:"
     print(f"Slogan prompt: {slogan_prompt}")
 
     response = model.generate(slogan_prompt, max_tokens=length).strip()
