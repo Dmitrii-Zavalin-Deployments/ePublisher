@@ -89,7 +89,8 @@ def main():
 
     try:
         # Post to Instagram
-        epublisher_facebook_manager.post_to_instagram(image_path, text_content)
+        # epublisher_facebook_manager.post_to_instagram(image_path, text_content)
+        print("Posting to Instagram is currently commented out. Please reconnect the business page to the app first.")
     except Exception as e:
         print("Failed to post on Instagram: ", e)
 
