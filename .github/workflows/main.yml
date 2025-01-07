@@ -4,7 +4,8 @@ name: ePublisher Automation
 # The NUMBER_OF_PROJECTS variable is equal to the number of files in /content/hashtags.
 on:
   schedule:
-    - cron: '30 * * * *'  # Runs at the 30th minute of every hour
+    - cron: '0 0-23/3 * * *'   # Runs at 00:00, 03:00, 06:00, 09:00, 12:00, 15:00, 18:00, 21:00
+    - cron: '30 1-23/3 * * *'  # Runs at 01:30, 04:30, 07:30, 10:30, 13:30, 16:30, 19:30, 22:30
   push:
     branches:
       - T-1373
@@ -72,4 +73,5 @@ jobs:
           else
             git commit -m "Store generated content, tweet response data, and updated content files"
             git push
-          fi
+
+
