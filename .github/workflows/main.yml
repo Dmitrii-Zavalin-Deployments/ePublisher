@@ -73,5 +73,3 @@ jobs:
           else
             git commit -m "Store generated content, tweet response data, and updated content files"
             git push
-
-
