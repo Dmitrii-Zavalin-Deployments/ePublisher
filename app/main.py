@@ -4,11 +4,13 @@ from datetime import datetime
 from epublisher_facebook_manager import EPublisherFacebookManager
 from content_manager import ContentManager
 from text_generator import generate_text
+from epublisher_linkedin_manager import EPublisherLinkedInManager  # Import the LinkedIn manager module
 
 def main():
     # Initialize managers
     content_manager = ContentManager(number_of_projects=int(os.getenv('NUMBER_OF_PROJECTS')))
     epublisher_facebook_manager = EPublisherFacebookManager()
+    epublisher_linkedin_manager = EPublisherLinkedInManager()  # Initialize LinkedIn manager
 
     # Log file paths
     log_file_texts = 'generated_content.log'
@@ -110,8 +112,8 @@ def main():
 
     try:
         # Post to LinkedIn
-        # epublisher_linkedin_manager.post_to_linkedin(text_content)
-        print("Posting to LinkedIn is currently commented out.")
+        epublisher_linkedin_manager.post_to_linkedin(text_content)
+        print("Successfully posted on LinkedIn.")
     except Exception as e:
         print("Failed to post on LinkedIn: ", e)
 
