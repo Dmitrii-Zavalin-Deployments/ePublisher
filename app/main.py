@@ -89,23 +89,31 @@ def main():
 
     try:
         # Post to Instagram
-        epublisher_facebook_manager.post_to_instagram(image_path, text_content)
-        # print("Posting to Instagram is currently commented out. Please reconnect the business page to the app first.")
+        # epublisher_facebook_manager.post_to_instagram(image_path, text_content)
+        print("Posting to Instagram is currently commented out.")
     except Exception as e:
         print("Failed to post on Instagram: ", e)
 
     try:
         # Post to Facebook
-        epublisher_facebook_manager.post_to_facebook(image_path, text_content)
-        # print("Posting to Facebook is currently commented out. Please reconnect the business page to the app first.")
+        # epublisher_facebook_manager.post_to_facebook(image_path, text_content)
+        print("Posting to Facebook is currently commented out.")
     except Exception as e:
         print("Failed to post on Facebook: ", e)
 
     try:
         # Call the Node.js script with the parameters to start Twitter
-        subprocess.run(['node', 'js/tweet.js', image_path, text_content, project_link], check=True)
+        # subprocess.run(['node', 'js/tweet.js', image_path, text_content, project_link], check=True)
+        print("Posting to Twitter is currently commented out.")
     except Exception as e:
         print("Failed to post on Twitter: ", e)
+
+		try:
+    		# Post to LinkedIn
+    		# epublisher_linkedin_manager.post_to_linkedin(text_content)
+    		print("Posting to LinkedIn is currently commented out.")
+		except Exception as e:
+    		print("Failed to post on LinkedIn: ", e)
 
 if __name__ == "__main__":
     main()
