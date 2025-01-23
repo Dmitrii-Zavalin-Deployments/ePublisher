@@ -18,10 +18,14 @@ echo "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_
 
 # Step 4: Start a simple HTTP server to capture the authorization code
 echo "Starting local server to capture authorization code..."
-python3 -m http.server 8000 &
+python3 -m http.server 8000 & SERVER_PID=$!
 
-# Step 5: Prompt the user to manually copy the authorization code from the browser
-read -p "Once you authorize the application, copy the authorization code from the URL and paste it here: " AUTH_CODE
+# Step 5: Wait for the user to authorize and capture the authorization code
+echo "Once you authorize the application, LinkedIn will redirect you to http://localhost:8000/callback?code=AUTH_CODE"
+echo "Please copy the 'code' parameter from the redirected URL and paste it below."
+
+# Manually extract the code parameter
+read -p "Enter the authorization code provided by LinkedIn: " AUTH_CODE
 
 # Step 6: Exchange authorization code for access token
 response=$(curl -X POST \
@@ -39,6 +43,6 @@ ACCESS_TOKEN=$(echo $response | jq -r '.access_token')
 echo "Your access token: $ACCESS_TOKEN"
 
 # Cleanup: Kill the local server
-kill $!
+kill $SERVER_PID
 
 
