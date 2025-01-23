@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Function to handle script exit and clean up
+cleanup() {
+    echo "Cleaning up..."
+    pkill -f "python3 -m http.server 8000"
+}
+trap cleanup EXIT
+
 # Step 1: Provide instructions to the user
 echo "To get your Client ID and Client Secret, visit the LinkedIn Developer Portal here:"
 echo "https://www.linkedin.com/developers/apps/YOUR_APP_ID/auth"
@@ -18,14 +25,10 @@ echo "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_
 
 # Step 4: Start a simple HTTP server to capture the authorization code
 echo "Starting local server to capture authorization code..."
-python3 -m http.server 8000 & SERVER_PID=$!
+python3 -m http.server 8000 &
 
-# Step 5: Wait for the user to authorize and capture the authorization code
-echo "Once you authorize the application, LinkedIn will redirect you to http://localhost:8000/callback?code=AUTH_CODE"
-echo "Please copy the 'code' parameter from the redirected URL and paste it below."
-
-# Manually extract the code parameter
-read -p "Enter the authorization code provided by LinkedIn: " AUTH_CODE
+# Step 5: Prompt the user to manually copy the authorization code from the browser
+read -p "Once you authorize the application, copy the authorization code from the URL and paste it here: " AUTH_CODE
 
 # Step 6: Exchange authorization code for access token
 response=$(curl -X POST \
@@ -42,7 +45,6 @@ ACCESS_TOKEN=$(echo $response | jq -r '.access_token')
 # Step 8: Output the access token
 echo "Your access token: $ACCESS_TOKEN"
 
-# Cleanup: Kill the local server
-kill $SERVER_PID
+# Cleanup: This will be handled by the trap command
 
 
