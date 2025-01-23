@@ -108,12 +108,12 @@ def main():
     except Exception as e:
         print("Failed to post on Twitter: ", e)
 
-		try:
-    		# Post to LinkedIn
-    		# epublisher_linkedin_manager.post_to_linkedin(text_content)
-    		print("Posting to LinkedIn is currently commented out.")
-		except Exception as e:
-    		print("Failed to post on LinkedIn: ", e)
+    try:
+        # Post to LinkedIn
+        # epublisher_linkedin_manager.post_to_linkedin(text_content)
+        print("Posting to LinkedIn is currently commented out.")
+    except Exception as e:
+        print("Failed to post on LinkedIn: ", e)
 
 if __name__ == "__main__":
     main()
