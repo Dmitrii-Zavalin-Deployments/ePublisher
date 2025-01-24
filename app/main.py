@@ -113,7 +113,7 @@ def main():
     try:
         # Post to LinkedIn
         epublisher_linkedin_manager.post_to_linkedin(text_content)
-        print("Successfully posted on LinkedIn.")
+        # print("Posting to Linkedin is currently commented out.")
     except Exception as e:
         print("Failed to post on LinkedIn: ", e)
 
