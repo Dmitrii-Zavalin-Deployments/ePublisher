@@ -60,6 +60,7 @@ jobs:
           TWITTER_USER_ID: ${{ secrets.TWITTER_USER_ID }}
           INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
           LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}  # LinkedIn access token
+          LINKEDIN_PERSON_ID: ${{ secrets.LINKEDIN_PERSON_ID }}  # LinkedIn person ID
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
         run: python3 app/main.py
 
