@@ -4,7 +4,7 @@ import os
 class EPublisherLinkedInManager:
     def __init__(self):
         self.access_token = os.getenv('LINKEDIN_ACCESS_TOKEN')  # Get LinkedIn access token from environment variables
-        self.person_id = 'dmitrii-zavalin'  # Use constant person ID
+        self.person_id = os.getenv('LINKEDIN_PERSON_ID')  # Get LinkedIn person ID from environment variables
 
     def post_to_linkedin(self, text_content):
         if not self.person_id:
@@ -20,7 +20,7 @@ class EPublisherLinkedInManager:
         }
 
         payload = {
-            "author": f"urn:li:person:{self.person_id}",
+            "author": f"urn:li:member:{self.person_id}",
             "lifecycleState": "PUBLISHED",
             "specificContent": {
                 "com.linkedin.ugc.ShareContent": {
