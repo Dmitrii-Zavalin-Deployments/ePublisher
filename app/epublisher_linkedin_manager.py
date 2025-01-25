@@ -20,7 +20,7 @@ class EPublisherLinkedInManager:
         }
 
         payload = {
-            "author": f"urn:li:member:{self.person_id}",
+            "author": f"urn:li:person:{self.person_id}",
             "lifecycleState": "PUBLISHED",
             "specificContent": {
                 "com.linkedin.ugc.ShareContent": {
