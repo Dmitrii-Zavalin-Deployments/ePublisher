@@ -35,7 +35,14 @@ class EPublisherLinkedInManager:
             }
         }
 
+        # Print the headers and payload for debugging
+        print("Headers: ", headers)
+        print("Payload: ", payload)
+        print("LinkedIn Person ID: ", self.person_id)
+
         response = requests.post(url, headers=headers, json=payload)
+        print("Response: ", response.json())  # Print the response
+
         if response.status_code == 201:
             print("Successfully posted on LinkedIn.")
         else:
