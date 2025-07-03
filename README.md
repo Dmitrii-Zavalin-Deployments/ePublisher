@@ -30,7 +30,7 @@
 - **FACEBOOK_LONG_LIVED_ACCESS_TOKEN**  
   - Needs to be regenerated **every 2 months** and extended.  
   - Steps:  
-    1. Use this link to generate the token: [https://developers.facebook.com/tools/explorer/](https://developers.facebook.com/tools/).  
+    1. Use this link to generate the token: [https://developers.facebook.com/tools/explorer/](https://developers.facebook.com/tools/explorer/).  
     2. Copy the token from step 1, then use this link to extend the access token: [https://developers.facebook.com/tools/debug/accesstoken/](https://developers.facebook.com/tools/debug/accesstoken/).  
     3. Add the new token as the environment secret `FACEBOOK_LONG_LIVED_ACCESS_TOKEN` for GitHub Actions.
 
