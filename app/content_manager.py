@@ -47,7 +47,7 @@ class ContentManager:
     def get_project_image_path(self):
         file_index = self.get_project_index()
         # Updated to point to a .png file instead of .txt
-        file_path = f'https://github.com/Dmitrii-Zavalin-Deployments/ePublisher/blob/main/content/images/{file_index}.png?raw=true'
+        file_path = f'https://raw.githubusercontent.com/Dmitrii-Zavalin-Deployments/ePublisher/refs/heads/main/content/images/{file_index}.png'
         return file_path
 
     def get_run_division(self):
