@@ -93,7 +93,7 @@ def main():
         # print("Posting to Instagram is currently commented out. Please reconnect the business page to the app first.")
     except Exception as e:
         print("Failed to post on Instagram: ", e)
-'''
+
     try:
         # Post to Facebook
         epublisher_facebook_manager.post_to_facebook(image_path, text_content)
@@ -106,6 +106,6 @@ def main():
         subprocess.run(['node', 'js/tweet.js', image_path, text_content, project_link], check=True)
     except Exception as e:
         print("Failed to post on Twitter: ", e)
-'''
+
 if __name__ == "__main__":
     main()
