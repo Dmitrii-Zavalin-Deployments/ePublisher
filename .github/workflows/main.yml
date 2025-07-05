@@ -11,7 +11,7 @@ on:
       - T-1398
 
 env:
-  NUMBER_OF_PROJECTS: 4  # Set this to the number of posts to publish or projects you have (currently 4 to run only for projects 0, 1, 2 and 3 from content folder)
+  NUMBER_OF_PROJECTS: 6  # Set this to the number of posts to publish or projects you have (currently 4 to run only for projects 0, 1, 2 and 3 from content folder)
 
 jobs:
   deploy:
